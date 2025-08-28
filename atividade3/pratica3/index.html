@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ptBR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prática 2</title>
+</head>
+<body>
+    <form method="POST" action="cadastro.php">
+        <fieldset>
+            <ul>
+                <li>
+                    <input type="text" name="nome" id="nome" maxlength="100">
+                </li>
+                <li>
+                    <input type="text" name="sobrenome" id="sobrenome" maxlength="100">
+                </li>
+                <li>
+                    <input type="email" name="email" id="email">
+                </li>
+                <li>
+                    <input type="date" name="dataNascimento" id="dataNascimento" min="1920-01-01" max="2024-01-01">
+                </li>
+                <li>
+                    <select name="genero" id="genero">
+                        <option value="1">Mascliino</option>
+                        <option value="2">Feminino</option>
+                    </select>
+                </li>
+                <li>
+                    <input type="text" name="cep" id="cep" maxlength="10">
+                </li>
+                <li>
+                    <input type="color" name="corFavorita" id="corFavorita">
+                </li>
+                <li>
+                    <select name="estado" id="estado">
+                        <option value="1">SC</option>
+                    </select>
+                </li>
+                <div>
+                    <input type="submit" name="submit" id="submit">
+                    <input type="reset" name="reset" id="reset">
+                </div>
+            </ul>
+        </fieldset>
+    </form>
+</body>
+</html>
