@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ptBR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="index.css">
+    <title>Prática 2</title>
+</head>
+<body>
+    <fieldset>
+        <legend>Cadastro da Pessoa</legend>
+        <div class="divLightBlue">
+            <div>
+                <label for="nome">Nome:</label>
+                <input type="text" name="nome" id="nome" maxlength="100">
+            </div>
+            <div>
+                <label for="sobrenome">Sobrenome:</label>
+                <input type="text" name="sobrenome" id="sobrenome" maxlength="100">
+            </div>
+            <div>
+                <label for="email">E-Mail:</label>
+                <input type="email" name="email" id="email">
+            </div>
+        </div>
+        <div class="divGray">
+            <div>
+                <label for="dataNascimento">Data de nascimento:</label>
+                <input type="date" name="dataNascimento" id="dataNascimento" min="1920-01-01" max="2024-01-01">
+            <div>
+                <select name="genero" id="genero">
+                    <option value="1">Masculino</option>
+                    <option value="2">Feminino</option>
+                </select>
+            </div>
+        </div>
+        <div class="divGray">
+            <div>
+                <label for="endereco">Endereço:</label>
+                <input type="text" name="endereco" id="endereco">
+            </div>
+            <div>
+                <label for="cep">CEP:</label>
+                <input type="text" name="cep" id="cep" maxlength="10">
+            </div>
+            <div>
+                <select name="estado" id="estado">
+                    <option value="1">SC</option>
+                </select>
+            </div>
+        </div>
+    </fieldset>
+</body>
+</html>
