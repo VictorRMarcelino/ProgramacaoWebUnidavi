@@ -1,7 +1,20 @@
 var TabelaNotas = {
 
+    /**
+     * Comportamento executado ao carregar a tela da tabela de notas
+     */
+    onload: function() {
+        let tabelaNotas = document.getElementById('tabelaNotas');
+        let conteudoOriginal = tabelaNotas.innerHTML;
+        tabelaNotas.setAttribute('conteudoOriginal', conteudoOriginal);
+    },
+
+    /**
+     * Calcula a média das notas
+     */
     calculaMediaNotas: function () {
         let tabelaNotas = document.getElementById('tabelaNotas');
+        tabelaNotas.innerHTML = tabelaNotas.getAttribute('conteudoOriginal');
         let itemLinhaMediaNotas = document.createElement('tr');
         let itemTituloMediaNotas = document.createElement('td');
         itemTituloMediaNotas.classList.add('mediaNota');
@@ -9,12 +22,15 @@ var TabelaNotas = {
         itemLinhaMediaNotas.appendChild(itemTituloMediaNotas);
 
         let linhasNotasAlunos = document.getElementsByTagName('tr');
+        let quantidadeLinhas = linhasNotasAlunos.length;
+        let indicePrimeiraLinhaAlunos = 2;
+        let quantidadeColunas = linhasNotasAlunos[indicePrimeiraLinhaAlunos].cells.length;
 
-        for (let i = 1; i < 10; i++) {
+        for (let i = 1; i < quantidadeColunas; i++) {
             let quantidadeNotas = 0;
             let mediaNota = 0;
 
-            for (let j = 2; j < 7; j++) {
+            for (let j = 2; j < quantidadeLinhas; j++) {
                 let nota = linhasNotasAlunos[j].cells[i].textContent;
 
                 if (nota == '') {
@@ -28,7 +44,6 @@ var TabelaNotas = {
             let itemMedia = document.createElement('td');
 
             if (quantidadeNotas > 0) {
-                debugger
                 mediaNota = (mediaNota / (quantidadeNotas));
                 mediaNota = Math.round(mediaNota * 100) / 100;
                 itemMedia.textContent = mediaNota;
@@ -44,11 +59,17 @@ var TabelaNotas = {
      * Calcula a média dos alunos
      */
     calculaMediaAlunos: function () {
-        debugger
+        let tabelaNotas = document.getElementById('tabelaNotas');
+        tabelaNotas.innerHTML = tabelaNotas.getAttribute('conteudoOriginal');
         let linhasNotasAlunos = document.getElementsByTagName('tr');
-        let tituloMediaAluno = document.createElement('td');
+        
+        let tituloNotaFinal = document.createElement('th');
+        tituloNotaFinal.textContent = 'Nota Final';
+        tituloNotaFinal.classList.add('titulo-semestre');
+        linhasNotasAlunos[0].appendChild(tituloNotaFinal);
+
+        let tituloMediaAluno = document.createElement('th');
         tituloMediaAluno.textContent = 'Média Aluno';
-        tituloMediaAluno.classList.add('mediaAluno');
         linhasNotasAlunos[1].appendChild(tituloMediaAluno);
 
         for (let i = 2; i < linhasNotasAlunos.length; i++) {
