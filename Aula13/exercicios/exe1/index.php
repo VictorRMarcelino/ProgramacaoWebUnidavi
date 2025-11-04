@@ -1,8 +1,12 @@
 <?php
 
-use Aula13\Exe1\Contato;
-use Aula13\Exe1\Endereco;
-use Aula13\Exe1\Pessoa;
+require_once '../pessoa.php';
+require_once '../endereco.php';
+require_once '../contato.php';
+
+use Aula13\Exercicios\Pessoa;
+use Aula13\Exercicios\Endereco;
+use Aula13\Exercicios\Contato;
 
 $pessoa = new Pessoa();
 $pessoa->setNome('Victor');

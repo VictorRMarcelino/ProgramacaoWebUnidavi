@@ -1,6 +1,6 @@
 <?php
 
-namespace Aula13\Exe1;
+namespace Aula13\Exercicios;
 
 use DateTime;
 
@@ -15,7 +15,6 @@ class Pessoa {
     public function __construct() {
         $this->tipo = 1;
     }
-
 
     /**
      * Get the value of nome
@@ -114,7 +113,9 @@ class Pessoa {
         return date_diff($dateTimeAtual, $dateTimeNascimento);
     }
 
-    public function inicializaClasse() {
+    public function inicializaClasse() {}
 
+    public function toJson() {
+        return json_encode(get_object_vars($this));
     }
 }

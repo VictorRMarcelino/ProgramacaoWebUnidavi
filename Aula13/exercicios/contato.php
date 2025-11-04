@@ -1,6 +1,6 @@
 <?php
 
-namespace Aula13\Exe1;
+namespace Aula13\Exercicios;
 
 class Contato {
 

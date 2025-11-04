@@ -102,18 +102,20 @@ $pessoa->setEndereco($endereco);
 
 $familia[] = $pessoa;
 
-$dadosPessoa = '';
+$dadosPessoas = '';
 
-if (file_exists('familia.txt')) {
+if (file_exists('familia.json')) {
     foreach ($familia as $pessoaFamilia) {
-        if ($dadosPessoa != '') {
-            $dadosPessoa .= '\\n';
+        if ($dadosPessoas != '') {
+            $dadosPessoas .= ', ';
         }
 
-        $dadosPessoa .= serialize($pessoaFamilia);
+        $dadosPessoas .= $pessoaFamilia->toJson();
     }
 
-    if (file_put_contents('familia.txt', $dadosPessoa)) {
+    $dadosPessoas = '[' . $dadosPessoas . ']';
+
+    if (file_put_contents('familia.json', $dadosPessoas)) {
         echo "Dados Salvos com sucesso!";
     } else{
         echo "Erro ao salvar os dados no arquivo";

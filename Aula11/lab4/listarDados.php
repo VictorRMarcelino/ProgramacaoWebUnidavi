@@ -1,6 +1,13 @@
 <?php
 
-require_once 'Connection.php';
+require_once '../Connection.php';
+
+$pesquisar = '<form method="get" action="">';
+$pesquisar .= '<input name="usuario" id="usuario" type="text" placeholder="usuário...">';
+$pesquisar .= '<input type="submit">';
+$pesquisar .= '</form>';
+
+echo $pesquisar;
 
 $table = '<table>';
 $table .= '<thead>';
@@ -16,7 +23,15 @@ $table .= '<tbody>';
 
 echo $table;
 
-$result = Connection::query('SELECT * FROM TBPESSOA');
+$nomeUsuario = isset($_GET['usuario']) ? $_GET['usuario'] : '';
+$sql = 'SELECT * FROM TBPESSOA';
+
+if ($nomeUsuario != '') {
+    $nomeUsuario = strtolower(filter_var($nomeUsuario, FILTER_SANITIZE_STRING));
+    $sql .= 'WHERE lower(pesnome) = \'' . $nomeUsuario . '\'';
+}
+
+$result = Connection::query($sql);
 
 if ($result) {
     while ($row = pg_fetch_assoc($result)) {
