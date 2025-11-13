@@ -1,0 +1,102 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.app {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+header {
+    width: 100%;
+    height: 10%;
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    overflow: hidden;
+}
+
+.areaAvaliacao{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    height: 100%;
+    max-width: 15%;
+    border-radius: 10px;
+    cursor: pointer;
+    column-gap: 1vw;
+    transition: transform 0.5s ease, background-color 0.5s ease;
+}
+
+.areaAvaliacao:hover {
+    background-color: #4e9af1;
+}
+
+.areaAvaliacao:hover .tituloAvaliacao {
+    opacity: 1;
+    transition: opacity 0.3s;
+}
+
+.tituloAvaliacao{
+    opacity: 0;
+    color: white;
+    font-size: 1rem;
+    word-break: break-all;
+}
+
+.imgAvaliacao {
+    width: auto;
+    max-height: 100%;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: start;
+    width: 30vw;
+    height: 80%;
+    border: 1px solid black;
+    border-radius: 10px;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
+    padding: 2vw;
+    flex-wrap: wrap;
+    white-space: nowrap;
+    overflow: auto;
+}
+
+.tituloLogin{
+    font-family: 'Inter', sans-serif;
+    color: #5C748C;
+    font-weight: 600;
+    font-size: 1.5vw;
+    flex: 0 1;
+}
+
+main input{
+    width: 100%;
+    height: 15%;
+}
+
+footer {
+    height: 10%;
+}

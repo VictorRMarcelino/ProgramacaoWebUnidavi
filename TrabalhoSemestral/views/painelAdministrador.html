@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ptBR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link href="/ProgramacaoWeb/TrabalhoSemestral/public/css/painelAdministrador.css" rel="stylesheet">
+    <script src="/ProgramacaoWeb/TrabalhoSemestral/public/js/jquery.js"></script>
+    <script src="/ProgramacaoWeb/TrabalhoSemestral/public/js/message.js"></script>
+    <script src="/ProgramacaoWeb/TrabalhoSemestral/public/js/ajax.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <title>Voting</title>
+</head>
+<body>
+    <div class="app" id="app" name="app">
+        <header>
+            <div class="areaAvaliacao" id="areaAvaliacao" name="areaAvaliacao">
+                <h3 class="tituloAvaliacao">Avaliação</h3>
+                <img class="imgAvaliacao" src="/ProgramacaoWeb/TrabalhoSemestral/public/img/avaliacao.png" alt="iconeAvaliacao">
+            </div>
+        </header>
+        <main>
+            <div class="menu">
+                <span class="menuOption" id="menuOptionSetores" name="menuOptionSetores">Setores</span>
+                <span class="menuOption" id="menuOptionPerguntas" name="menuOptionPerguntas">Perguntas</span>
+            </div>
+            <div class="menuItens">
+                <div class="setores" id="setores" name="setores">
+                    <div class="menuSetores">
+                        <button class="btn btn-success" id="btnIncluirSetor" name="btnIncluirSetor">Incluir</button>
+                    </div>
+                    <table id="tebelaSetores" name="tebelaSetores">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nome</th>
+                                <th>Alterar</th>
+                                <th>Excluir</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                    <div class="totalizadorSetores">
+
+                    </div>
+                </div>
+                <div class="perguntas" id="perguntas" name="perguntas">
+                    <div class="filtrosPerguntas">
+                        <span>Setor:</span>
+                        <select class="listaSetores" name="listaSetores" id="listaSetores"></select>
+                        <button class="btn btn-primary" id="btnCarregarPerguntas" name="btnCarregarPerguntas">Pesquisar</button>
+                        <button class="btn btn-success" id="btnIncluirPergunta" name="btnIncluirPergunta">Incluir</button>
+                    </div>
+                    <table id="tebelaPerguntas" name="tebelaPerguntas">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Setor</th>
+                                <th>Pergunta</th>
+                                <th>Alterar</th>
+                                <th>Excluir</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+                <div class="menuItensAguarde" name="menuItensAguarde" id="menuItensAguarde">
+                    <div class="spinner"></div>
+                    <span>Aguarde...</span>
+                </div>
+            </div>
+        </main>
+        <footer></footer>
+    </div>
+    <div class="areaModal" id="areaModal" name="areaModal">
+        <div class="modalSetor" id="modalSetor" name="modalSetor">
+            <div class="modalSetorHeader">
+                <div>
+                    <span class="modalSetorTitulo" id="modalSetorTitulo" name="modalSetorTitulo"></span>
+                </div>
+                <div class="modalSetorHeaderBotoes">
+                    <button class="btn btn-danger" name="modalSetorBotaoFechar" id="modalSetorBotaoFechar">X</button>
+                </div>
+            </div>
+            <div class="modalSetorCampos">
+                <input type="text" class="form-control modalSetorIdSetor" name="modalSetorIdSetor" id="modalSetorIdSetor" readonly>
+                <input type="text" class="form-control modalSetorNomeSetor" name="modalSetorNomeSetor" id="modalSetorNomeSetor" placeholder="Nome do Setor...">
+            </div>
+            <div class="modalSetorFooter">
+                <button class="btn btn-primary" name="modalSetorBotaoConfirmar" id="modalSetorBotaoConfirmar">Confirmar</button>
+            </div>
+        </div>
+        <div class="modalPergunta" id="modalPergunta" name="modalPergunta">
+            <div class="modalPerguntaHeader">
+                <div>
+                    <span class="modalPerguntaTitulo" id="modalPerguntaTitulo" name="modalPerguntaTitulo"></span>
+                </div>
+                <div class="modalPerguntaHeaderBotoes">
+                    <button class="btn btn-danger" name="modalPerguntaBotaoFechar" id="modalPerguntaBotaoFechar">X</button>
+                </div>
+            </div>
+            <div class="modalPerguntaCampos">
+                <input type="text" class="form-control modalPerguntaId" name="modalPerguntaId" id="modalPerguntaId" readonly>
+                <select class="modalPerguntaSetor" name="modalPerguntaSetor" id="modalPerguntaSetor"></select>
+                <input type="text" class="form-control modalPerguntaQuestao" name="modalPerguntaQuestao" id="modalPerguntaQuestao" placeholder="Informe a pergunta...">
+            </div>
+            <div class="modalPerguntaFooter">
+                <button class="btn btn-primary" name="modalPerguntaBotaoConfirmar" id="modalPerguntaBotaoConfirmar">Confirmar</button>
+            </div>
+        </div>
+    </div>
+    <script src="/ProgramacaoWeb/TrabalhoSemestral/public/js/painelAdministrador.js"></script>
+</body>
+</html>
