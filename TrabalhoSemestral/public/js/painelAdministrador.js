@@ -20,6 +20,8 @@ var PainelAdministrador = {
     },
 
     onClickOpcaoMenuSetores: function() {
+        $('#totalSetores')[0].innerHTML = '';
+        $('#totalPerguntas')[0].innerHTML = '';
         PainelAdministrador.carregaSetores();
     },
 
@@ -47,6 +49,7 @@ var PainelAdministrador = {
                 });
             }
 
+            $('#totalSetores')[0].innerHTML = 'Total: ' + setores.length; 
             $('#menuItensAguarde').css('display', 'none'); 
             $('#setores').css('display', 'flex'); 
         }
@@ -63,6 +66,8 @@ var PainelAdministrador = {
     },
 
     onClickOpcaoMenuPerguntas: function() {
+        $('#totalSetores')[0].innerHTML = '';
+        $('#totalPerguntas')[0].innerHTML = '';
         $('#setores').css('display', 'none'); 
         $('#menuItensAguarde').css('display', 'flex'); 
         PainelAdministrador.carregaMenuPerguntas();
@@ -116,6 +121,7 @@ var PainelAdministrador = {
                     </tr>
                 `;
 
+                $('#totalPerguntas')[0].innerHTML = 'Total: ' + perguntas.length; 
                 $('#tebelaPerguntas > tbody').append(novaLinhaSetor);
                 $(`#tabelaPerguntaBotaoAlterar${perguntas[i]['id']}`).on('click', function() {
                     PainelAdministrador.modalPerguntaAbrir.apply(PainelAdministrador, [perguntas[i]]);
@@ -126,6 +132,7 @@ var PainelAdministrador = {
             }
         }
 
+        $('#totalPerguntas')[0].innerHTML = ''; 
         Ajax.loadAjax({
             url: 'http://localhost/ProgramacaoWeb/TrabalhoSemestral/public/painelAdministrador/perguntas',
             method: 'get',

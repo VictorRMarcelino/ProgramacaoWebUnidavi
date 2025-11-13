@@ -171,6 +171,12 @@ main {
     column-gap: 5rem;
 }
 
+.totalizadorSetores {
+    display: flex;
+    justify-content: end;
+    padding: 0.5rem;
+}
+
 .perguntas {
     display: none;
     flex-direction: column;
@@ -185,6 +191,12 @@ main {
 
 .listaSetores{
     border-radius: 5px;
+}
+
+.totalizadorPerguntas {
+    display: flex;
+    justify-content: end;
+    padding: 0.5rem;
 }
 
 .form-select.auto-width {
