@@ -113,6 +113,10 @@ main {
     text-align: center;
 }
 
+.textQuestion {
+    font-weight: bold;
+}
+
 .buttons{
     display: flex;
     flex-direction: row;
@@ -122,13 +126,17 @@ main {
 }
 
 .button {
-    color: white;
-    font-size: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: black;
     border: none;
-    width: 3vw;
+    width: 5vw;
     height: 100%;
-    border-radius: 10px;
-    font-size: 2.5vw;
+    border-radius: 8px;
+    font-size: 3vw;
+    aspect-ratio: 1 / 1;
+    cursor: pointer;
 }
 
 .button:hover {
@@ -213,4 +221,11 @@ footer {
     height: 10vh;
     text-align: center;
     font-family: 'Inter', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+footer h4 {
+    font-size: 1.2vw;
 }
