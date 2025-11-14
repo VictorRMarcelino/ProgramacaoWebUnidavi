@@ -7,10 +7,16 @@ var Login = {
 
     /** Carrega os comportamentos iniciais dos componentes */
     loadScripts: function() {
-        $('#btnAcessar').on('click', Login.onClickBotaoAcessar);
         $('#areaAtualizar').on('click', Login.onClickBotaoAvalicao);
+        $('#btnAcessar').on('click', Login.onClickBotaoAcessar);
     },
 
+    /** Comportamento chamado ao clicar no atalho para a página da avalição */
+    onClickBotaoAvalicao: function() {
+        $(location).attr('href', 'http://localhost/ProgramacaoWeb/TrabalhoSemestral/public/avaliacao');
+    },
+
+    /** Comportamento chamado ao clicar no botão "Acessar" */
     onClickBotaoAcessar: function() {
         let usuario = $('#usuario').val();
         let senha = $('#senha').val();
@@ -37,10 +43,6 @@ var Login = {
             data: {usuario: usuario, senha: senha},
             fnSucess: fnVerificaLogin
         });
-    },
-
-    onClickBotaoAvalicao: function() {
-        $(location).attr('href', 'http://localhost/ProgramacaoWeb/TrabalhoSemestral/public/avaliacao');
     }
 }
 

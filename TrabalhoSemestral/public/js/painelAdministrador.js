@@ -7,27 +7,38 @@ var PainelAdministrador = {
 
     /** Carrega os comportamentos iniciais dos componentes */
     loadScripts: function() {
-        $('#menuOptionSetores').on('click', PainelAdministrador.onClickOpcaoMenuSetores);
-        $('#menuOptionPerguntas').on('click', PainelAdministrador.onClickOpcaoMenuPerguntas);
-        $('#btnCarregarPerguntas').on('click', PainelAdministrador.onClickBtnCarregarPerguntas);
         $('#areaAvaliacao').on('click', PainelAdministrador.onClickBotaoAvalicao);
-        $('#btnIncluirSetor').on('click', PainelAdministrador.onClickBotaoIncluirSetor);
-        $('#modalSetorBotaoFechar').on('click', PainelAdministrador.modalSetorBotaoFechar);
-        $('#modalSetorBotaoConfirmar').on('click', PainelAdministrador.modalSetorBotaoConfirmar);
-        $('#btnIncluirPergunta').on('click', PainelAdministrador.modalPerguntaAbrir);
-        $('#modalPerguntaBotaoFechar').on('click', PainelAdministrador.modalPerguntaFechar);
-        $('#modalPerguntaBotaoConfirmar').on('click', PainelAdministrador.modalPerguntaConfirmar);
+        $('#menuOptionSetores').on('click', PainelAdministrador.onClickOpcaoMenuSetores);
+        $('#btnIncluirSetor').on('click', PainelAdministrador.menuSetoresOnClickBotaoIncluirSetor);
+        $('#modalSetorBotaoFechar').on('click', PainelAdministrador.modalSetorOnClicaoBotaoFechar);
+        $('#menuOptionPerguntas').on('click', PainelAdministrador.onClickOpcaoMenuPerguntas);
+        $('#btnCarregarPerguntas').on('click', PainelAdministrador.menuPerguntasonClickBotaoPesquisar);
+        $('#btnIncluirPergunta').on('click', PainelAdministrador.menuPerguntasOnClickBotaoIncluirPergunta);
+        $('#modalPerguntaBotaoFechar').on('click', PainelAdministrador.modalPerguntaOnClicaoBotaoFechar);
     },
 
+    /** Comportamento chamado ao clicar no atalho para a página de avaliação */
+    onClickBotaoAvalicao: function() {
+        $(location).attr('href', 'http://localhost/ProgramacaoWeb/TrabalhoSemestral/public/avaliacao');
+    },
+
+    /**
+     * ================================================================================================================================ 
+     * ============================================================ SETORES =========================================================== 
+     * ================================================================================================================================ 
+     */
+
+    /** Comportamento chamado ao clicar no item "Setores" do menu */
     onClickOpcaoMenuSetores: function() {
-        $('#totalSetores')[0].innerHTML = '';
-        $('#totalPerguntas')[0].innerHTML = '';
-        PainelAdministrador.carregaSetores();
+        PainelAdministrador.menuSetoresLimpaMenu();
+        PainelAdministrador.menuPerguntasLimparMenu();
+        PainelAdministrador.menuSetoresCarregaTabelaSetores();
     },
 
-    carregaSetores: function() {
+    /** Realiza o carregamento da tabela de setores */
+    menuSetoresCarregaTabelaSetores: function() {
+        PainelAdministrador.menuSetoresLimpaMenu();
         let fnCarregaTabelaSetores = function(response) {
-            $('#tebelaSetores > tbody').empty();
             let setores = Object.values(JSON.parse(response));
 
             for (let i = 0; i < setores.length; i++) {
@@ -42,10 +53,10 @@ var PainelAdministrador = {
 
                 $('#tebelaSetores > tbody').append(novaLinhaSetor);
                 $(`#modalSetorBotaoAlterar${setores[i]['id']}`).on('click', function() {
-                    PainelAdministrador.onClickBotaoIncluirSetor.apply(PainelAdministrador, [setores[i]]);
+                    PainelAdministrador.menuSetoresOnClickBotaoAlterarSetor.apply(PainelAdministrador, [setores[i]]);
                 });
                 $(`#modalSetorBotaoExcluir${setores[i]['id']}`).on('click', function() {
-                    PainelAdministrador.modalSetorOnClickBotaoDeletar.apply(PainelAdministrador, [setores[i]['id']]);
+                    PainelAdministrador.menuSetoresOnClickBotaoExcluirSetor.apply(PainelAdministrador, [setores[i]['id']]);
                 });
             }
 
@@ -65,15 +76,71 @@ var PainelAdministrador = {
         });
     },
 
-    onClickOpcaoMenuPerguntas: function() {
+    /** Comportamento chamado ao clicar no botão para incluir um novo setor */
+    menuSetoresOnClickBotaoIncluirSetor: function(registro) {
+        $('#modalSetorTitulo')[0].innerHTML = 'Incluir Setor';
+        $('#app').css('opacity', '0.1');
+        $('#modalSetorBotaoConfirmar').off('click');
+        $('#modalSetorBotaoConfirmar').on('click', PainelAdministrador.modalSetorOnClickBotaoConfirmarInclusao);
+        $('#areaModal').css('display', 'flex');
+        $('#modalSetor').css('display', 'flex');
+    },
+
+    /** 
+     * Comportamento chamado ao clicar no botão para alterar um setor
+     * @param {object} registro 
+     */
+    menuSetoresOnClickBotaoAlterarSetor: function(registro) {
+        $('#modalSetorIdSetor')[0].value = registro['id'];
+        $('#modalSetorNomeSetor')[0].value = registro['nome'];
+        $('#modalSetorTitulo')[0].innerHTML = 'Alterar Setor';
+        $('#app').css('opacity', '0.1');
+        $('#modalSetorBotaoConfirmar').off('click');
+        $('#modalSetorBotaoConfirmar').on('click', PainelAdministrador.modalSetorOnClickBotaoConfirmarAlteracao);
+        $('#areaModal').css('display', 'flex');
+        $('#modalSetor').css('display', 'flex');
+    },
+
+    /** 
+     * Comportamento chamado ao clicar para excluir um setor 
+     * @param {int} idSetor 
+     */
+    menuSetoresOnClickBotaoExcluirSetor: function(idSetor) {
+        let fnAfterClickBotaoDeletar = function() {
+            Message.success('Sucesso!', 'Setor removido com sucesso!', function() {
+                PainelAdministrador.menuSetoresCarregaTabelaSetores();
+            });
+        }
+
+        Ajax.loadAjax({
+            url: 'http://localhost/ProgramacaoWeb/TrabalhoSemestral/public/painelAdministrador/setor/deletar',
+            method: 'delete',
+            data: {idSetor: idSetor},
+            fnSucess: fnAfterClickBotaoDeletar
+        });
+    },
+
+    /** Realiza a limpeza dos componetes do menu dos setores */
+    menuSetoresLimpaMenu: function() {
         $('#totalSetores')[0].innerHTML = '';
-        $('#totalPerguntas')[0].innerHTML = '';
-        $('#setores').css('display', 'none'); 
-        $('#menuItensAguarde').css('display', 'flex'); 
-        PainelAdministrador.carregaMenuPerguntas();
+        $('#tebelaSetores > tbody').empty();
+    },
+
+    /**
+     * ================================================================================================================================ 
+     * =========================================================== PERGUNTAS ========================================================== 
+     * ================================================================================================================================ 
+     */
+
+    /** Comportamento chamado ao clicar no item "Perguntas" do menu */
+    onClickOpcaoMenuPerguntas: function() {
+        PainelAdministrador.menuSetoresLimpaMenu();
+        PainelAdministrador.menuPerguntasLimparMenu();
+        PainelAdministrador.menuPerguntasCarregaMenuPerguntas();
     },
     
-    carregaMenuPerguntas: function() {
+    /** Realiza o carregamento inicial do menu das perguntas */
+    menuPerguntasCarregaMenuPerguntas: function() {
         let fnCarregaFiltroSetores = function(response) {
             $('#tebelaPerguntas > tbody').empty();
             let setores = Object.values(JSON.parse(response));
@@ -89,6 +156,9 @@ var PainelAdministrador = {
             $('#setores').css('display', 'none'); 
         }
 
+        $('#setores').css('display', 'none'); 
+        $('#perguntas').css('display', 'none');
+        $('#menuItensAguarde').css('display', 'flex');
         Ajax.loadAjax({
             url: 'http://localhost/ProgramacaoWeb/TrabalhoSemestral/public/painelAdministrador/setores',
             method: 'get',
@@ -97,7 +167,8 @@ var PainelAdministrador = {
         });
     },
 
-    onClickBtnCarregarPerguntas: function() {
+    /** Comportamento chamado ao clicar no botão para pesquisar as perguntas de um setor */
+    menuPerguntasonClickBotaoPesquisar: function() {
         let setor = $('#listaSetores').val();
         
         if (parseInt(setor) == 0) {
@@ -105,7 +176,7 @@ var PainelAdministrador = {
             return;
         }
 
-        $('#tebelaPerguntas > tbody').empty();
+        PainelAdministrador.menuPerguntasLimparMenu();
 
         let fnCarregaTabelaPerguntas = function(response) {
             let perguntas = JSON.parse(response);
@@ -124,15 +195,14 @@ var PainelAdministrador = {
                 $('#totalPerguntas')[0].innerHTML = 'Total: ' + perguntas.length; 
                 $('#tebelaPerguntas > tbody').append(novaLinhaSetor);
                 $(`#tabelaPerguntaBotaoAlterar${perguntas[i]['id']}`).on('click', function() {
-                    PainelAdministrador.modalPerguntaAbrir.apply(PainelAdministrador, [perguntas[i]]);
+                    PainelAdministrador.menuPerguntasOnClickBotaoAlterarPergunta.apply(PainelAdministrador, [perguntas[i]]);
                 });
                 $(`#tabelaPerguntaBotaoExcluir${perguntas[i]['id']}`).on('click', function() {
-                    PainelAdministrador.tabelaPerguntaOnClickBotaoDeletar.apply(PainelAdministrador, [perguntas[i]['id']]);
+                    PainelAdministrador.menuPerguntasOnClickBotaoDeletar.apply(PainelAdministrador, [perguntas[i]['id']]);
                 });
             }
         }
 
-        $('#totalPerguntas')[0].innerHTML = ''; 
         Ajax.loadAjax({
             url: 'http://localhost/ProgramacaoWeb/TrabalhoSemestral/public/painelAdministrador/perguntas',
             method: 'get',
@@ -141,85 +211,8 @@ var PainelAdministrador = {
         });
     },
 
-    onClickBotaoAvalicao: function() {
-        $(location).attr('href', 'http://localhost/ProgramacaoWeb/TrabalhoSemestral/public/avaliacao');
-    },
-
-    onClickBotaoIncluirSetor: function(registro) {
-        if (registro['id'] != undefined && registro['id'] != '') {
-            $('#modalSetorIdSetor')[0].value = registro['id'];
-            $('#modalSetorNomeSetor')[0].value = registro['nome'];
-            $('#modalSetorTitulo')[0].innerHTML = 'Alterar Setor';
-        } else {
-            $('#modalSetorTitulo')[0].innerHTML = 'Incluir Setor';
-        }
-
-        $('#app').css('opacity', '0.1');
-        $('#areaModal').css('display', 'flex');
-        $('#modalSetor').css('display', 'flex'); 
-    },
-
-    modalSetorBotaoFechar: function() {
-        $('#app').css('opacity', '1');
-        $('#areaModal').css('display', 'none'); 
-        $('#modalSetor').css('display', 'none'); 
-        $('#modalSetorNomeSetor')[0].value = ''; 
-    },
-
-    modalSetorBotaoConfirmar: function() {
-        let idSetor = $('#modalSetorIdSetor').val();
-        let nomeSetor = $('#modalSetorNomeSetor').val();
-
-        if (nomeSetor == '') {
-            Message.warn('Alerta', 'O nome do setor não pode ficar em branco!');
-            return;
-        }
-
-        let url = 'http://localhost/ProgramacaoWeb/TrabalhoSemestral/public/painelAdministrador/setor/incluir';
-        let method = 'post';
-
-        let fnAfterClickBotaoConfirmar = function() {
-            Message.success('Sucesso!', 'Setor inserido com sucesso!', function() {
-                PainelAdministrador.modalSetorBotaoFechar();
-                PainelAdministrador.carregaSetores();
-            });
-        }
-
-        if (idSetor != '') {
-            url = 'http://localhost/ProgramacaoWeb/TrabalhoSemestral/public/painelAdministrador/setor/alterar';
-            method = 'put';
-            fnAfterClickBotaoConfirmar = function() {
-                Message.success('Sucesso!', 'Setor alterado com sucesso!', function() {
-                    PainelAdministrador.modalSetorBotaoFechar();
-                    PainelAdministrador.carregaSetores();
-                });
-            }
-        }
-
-        Ajax.loadAjax({
-            url: url,
-            method: method,
-            data: {idSetor: idSetor, nome: nomeSetor},
-            fnSucess: fnAfterClickBotaoConfirmar
-        });
-    },
-
-    modalSetorOnClickBotaoDeletar: function(idSetor) {
-        let fnAfterClickBotaoDeletar = function() {
-            Message.success('Sucesso!', 'Setor removido com sucesso!', function() {
-                PainelAdministrador.carregaSetores();
-            });
-        }
-
-        Ajax.loadAjax({
-            url: 'http://localhost/ProgramacaoWeb/TrabalhoSemestral/public/painelAdministrador/setor/deletar',
-            method: 'delete',
-            data: {idSetor: idSetor},
-            fnSucess: fnAfterClickBotaoDeletar
-        });
-    },
-
-    modalPerguntaAbrir: function(registro) {
+    /** Comportamento chamado ao clicar para alterar uma pergunta */
+    menuPerguntasOnClickBotaoIncluirPergunta: function() {
         let fnModalPerguntaCarregaSetores = function(response) {
             $('#modalPerguntaSetor').empty();
             let setores = Object.values(JSON.parse(response));
@@ -230,15 +223,43 @@ var PainelAdministrador = {
                 $('#modalPerguntaSetor').append(novaOpcaoSetor);
             }
 
-            if (registro['id'] != undefined && registro['id'] != '') {
-                $('#modalPerguntaId')[0].value = registro['id'];
-                $('#modalPerguntaSetor')[0].value = registro['id_setor'];
-                $('#modalPerguntaQuestao')[0].value = registro['pergunta'];
-                $('#modalPerguntaTitulo')[0].innerHTML = 'Alterar Pergunta';
-            } else {
-                $('#modalPerguntaTitulo')[0].innerHTML = 'Incluir Pergunta';
+            $('#modalPerguntaTitulo')[0].innerHTML = 'Incluir Pergunta';
+            $('#app').css('opacity', '0.1');
+            $('#modalPerguntaBotaoConfirmar').off('click');
+            $('#modalPerguntaBotaoConfirmar').on('click', PainelAdministrador.modalPerguntaOnClickBotaoConfirmarInclusao);
+            $('#areaModal').css('display', 'flex'); 
+            $('#modalPergunta').css('display', 'flex'); 
+        }
+
+        Ajax.loadAjax({
+            url: 'http://localhost/ProgramacaoWeb/TrabalhoSemestral/public/painelAdministrador/setores',
+            method: 'get',
+            async: false,
+            fnSucess: fnModalPerguntaCarregaSetores
+        });
+    },
+
+    /** 
+     * Comportamento chamado ao clicar para alterar uma pergunta 
+     * @param {object} registro 
+     */
+    menuPerguntasOnClickBotaoAlterarPergunta: function(registro) {
+        let fnModalPerguntaCarregaSetores = function(response) {
+            $('#modalPerguntaSetor').empty();
+            let setores = Object.values(JSON.parse(response));
+            $('#modalPerguntaSetor').append('<option value="0">Selecione o setor...</option>');
+
+            for (let i = 0; i < setores.length; i++) {
+                let novaOpcaoSetor = `<option value="${setores[i]['id']}">${setores[i]['nome']}</option>`;
+                $('#modalPerguntaSetor').append(novaOpcaoSetor);
             }
 
+            $('#modalPerguntaId')[0].value = registro['id'];
+            $('#modalPerguntaSetor')[0].value = registro['id_setor'];
+            $('#modalPerguntaQuestao')[0].value = registro['pergunta'];
+            $('#modalPerguntaTitulo')[0].innerHTML = 'Alterar Pergunta';
+            $('#modalPerguntaBotaoConfirmar').off('click');
+            $('#modalPerguntaBotaoConfirmar').on('click', PainelAdministrador.modalPerguntaOnClickBotaoConfirmarInclusao);
             $('#app').css('opacity', '0.1');
             $('#areaModal').css('display', 'flex'); 
             $('#modalPergunta').css('display', 'flex'); 
@@ -252,52 +273,14 @@ var PainelAdministrador = {
         });
     },
 
-    modalPerguntaFechar: function() {
-        $('#app').css('opacity', '1');
-        $('#areaModal').css('display', 'none'); 
-        $('#modalPergunta').css('display', 'none'); 
-        $('#modalPerguntaTitulo')[0].value = ''; 
-    },
-
-    modalPerguntaConfirmar: function() {
-        let idPergunta = $('#modalPerguntaId').val();
-        let idSetor = $('#modalPerguntaSetor').val();
-        let questao = $('#modalPerguntaQuestao').val();
-
-        let url = 'http://localhost/ProgramacaoWeb/TrabalhoSemestral/public/painelAdministrador/pergunta/incluir';
-        let method = 'post';
-
-        let fnAfterClickBotaoConfirmar = function() {
-            Message.success('Sucesso!', 'Pergunta inserida com sucesso!', function() {
-                PainelAdministrador.modalPerguntaFechar();
-                PainelAdministrador.onClickBtnCarregarPerguntas();
-            });
-        }
-
-        if (idPergunta != '') {
-            url = 'http://localhost/ProgramacaoWeb/TrabalhoSemestral/public/painelAdministrador/pergunta/alterar';
-            method = 'put';
-            fnAfterClickBotaoConfirmar = function() {
-                Message.success('Sucesso!', 'Pergunta alterada com sucesso!', function() {
-                    PainelAdministrador.modalPerguntaFechar();
-                    PainelAdministrador.onClickBtnCarregarPerguntas();
-                });
-            }
-        }
-
-        Ajax.loadAjax({
-            url: url,
-            method: method,
-            data: {idPergunta: idPergunta, idSetor: idSetor, pergunta: questao},
-            async: false,
-            fnSucess: fnAfterClickBotaoConfirmar
-        });
-    },
-
-    tabelaPerguntaOnClickBotaoDeletar: function(idPergunta) {
+    /**
+     * Comportamento chamado ao clicar no botão para deletar uma pergunta
+     * @param {int} idPergunta 
+     */
+    menuPerguntasOnClickBotaoDeletar: function(idPergunta) {
         let fnAfterClickBotaoDeletar = function() {
             Message.success('Sucesso!', 'Pergunta removida com sucesso!', function() {
-                PainelAdministrador.onClickBtnCarregarPerguntas();
+                PainelAdministrador.menuPerguntasonClickBotaoPesquisar();
             });
         }
 
@@ -308,6 +291,134 @@ var PainelAdministrador = {
             fnSucess: fnAfterClickBotaoDeletar
         });
     },
+
+    /** Limpa os componetes do menu de perguntas */
+    menuPerguntasLimparMenu: function() {
+        $('#totalPerguntas')[0].innerHTML = '';
+        $('#tebelaPerguntas > tbody').empty();
+    },
+
+    /**
+     * ================================================================================================================================ 
+     * ========================================================== MODAL SETOR ========================================================= 
+     * ================================================================================================================================ 
+     */
+
+    /** Comportamento chamado ao clicar no botão para fechar o modal do setor */
+    modalSetorOnClicaoBotaoFechar: function() {
+        $('#app').css('opacity', '1');
+        $('#areaModal').css('display', 'none'); 
+        $('#modalSetor').css('display', 'none'); 
+        $('#modalSetorIdSetor')[0].value = '';
+        $('#modalSetorNomeSetor')[0].value = '';
+    },
+
+    /** Comportamento chamado ao clicar no botão de confirmar inclusão de um setor */
+    modalSetorOnClickBotaoConfirmarInclusao: function() {
+        let nomeSetor = $('#modalSetorNomeSetor').val();
+
+        if (nomeSetor == '') {
+            Message.warn('Alerta', 'O nome do setor não pode ficar em branco!');
+            return;
+        }
+
+        let fnAfterClickBotaoConfirmar = function() {
+            Message.success('Sucesso!', 'Setor inserido com sucesso!', function() {
+                PainelAdministrador.modalSetorOnClicaoBotaoFechar();
+                PainelAdministrador.menuSetoresCarregaTabelaSetores();
+            });
+        }
+
+        Ajax.loadAjax({
+            url: 'http://localhost/ProgramacaoWeb/TrabalhoSemestral/public/painelAdministrador/setor/incluir',
+            method: 'post',
+            data: {nome: nomeSetor},
+            fnSucess: fnAfterClickBotaoConfirmar
+        });
+    },
+
+    /** Comportamento chamado ao clicar no botão de confirmar alteração de um setor */
+    modalSetorOnClickBotaoConfirmarAlteracao: function() {
+        let idSetor = $('#modalSetorIdSetor').val();
+        let nomeSetor = $('#modalSetorNomeSetor').val();
+
+        if (nomeSetor == '') {
+            Message.warn('Alerta', 'O nome do setor não pode ficar em branco!');
+            return;
+        }
+
+        fnAfterClickBotaoConfirmar = function() {
+            Message.success('Sucesso!', 'Setor alterado com sucesso!', function() {
+                PainelAdministrador.modalSetorOnClicaoBotaoFechar();
+                PainelAdministrador.menuSetoresCarregaTabelaSetores();
+            });
+        }
+
+        Ajax.loadAjax({
+            url: 'http://localhost/ProgramacaoWeb/TrabalhoSemestral/public/painelAdministrador/setor/alterar',
+            method: 'put',
+            data: {idSetor: idSetor, nome: nomeSetor},
+            fnSucess: fnAfterClickBotaoConfirmar
+        });
+    },
+
+    /**
+     * ================================================================================================================================ 
+     * ========================================================= MODAL PERGUNTA ======================================================= 
+     * ================================================================================================================================ 
+     */
+
+    /** Comportamento chamado ao apertar para fechar o modal de pergunta */
+    modalPerguntaOnClicaoBotaoFechar: function() {
+        $('#app').css('opacity', '1');
+        $('#areaModal').css('display', 'none'); 
+        $('#modalPergunta').css('display', 'none');
+        $('#modalPerguntaId')[0].value = '';
+        $('#modalPerguntaSetor')[0].value = '';
+        $('#modalPerguntaQuestao')[0].value = '';
+        $('#modalPerguntaTitulo')[0].value = ''; 
+    },
+
+    /** Comportamento chamado ao confirmar a inclusão da pergunta */
+    modalPerguntaOnClickBotaoConfirmarInclusao: function() {
+        let idSetor = $('#modalPerguntaSetor').val();
+        let questao = $('#modalPerguntaQuestao').val();
+        let fnAfterClickBotaoConfirmar = function() {
+            Message.success('Sucesso!', 'Pergunta inserida com sucesso!', function() {
+                PainelAdministrador.modalPerguntaOnClicaoBotaoFechar();
+                PainelAdministrador.menuPerguntasonClickBotaoPesquisar();
+            });
+        }
+
+        Ajax.loadAjax({
+            url: 'http://localhost/ProgramacaoWeb/TrabalhoSemestral/public/painelAdministrador/pergunta/incluir',
+            method: 'post',
+            data: {idSetor: idSetor, pergunta: questao},
+            async: false,
+            fnSucess: fnAfterClickBotaoConfirmar
+        });
+    },
+
+    /** Comportamento chamado ao confirmar a alteração da pergunta */
+    modalPerguntaOnClickBotaoConfirmarAlteracao: function() {
+        let idPergunta = $('#modalPerguntaId').val();
+        let idSetor = $('#modalPerguntaSetor').val();
+        let questao = $('#modalPerguntaQuestao').val();
+        fnAfterClickBotaoConfirmar = function() {
+            Message.success('Sucesso!', 'Pergunta alterada com sucesso!', function() {
+                PainelAdministrador.modalPerguntaOnClicaoBotaoFechar();
+                PainelAdministrador.menuPerguntasonClickBotaoPesquisar();
+            });
+        }
+
+        Ajax.loadAjax({
+            url: 'http://localhost/ProgramacaoWeb/TrabalhoSemestral/public/painelAdministrador/pergunta/alterar',
+            method: 'put',
+            data: {idPergunta: idPergunta, idSetor: idSetor, pergunta: questao},
+            async: false,
+            fnSucess: fnAfterClickBotaoConfirmar
+        });
+    }
 }
 
 PainelAdministrador.onLoadPainelAdministrador();

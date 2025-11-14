@@ -95,6 +95,7 @@ main {
     flex-wrap: wrap;
     white-space: nowrap;
     overflow: auto;
+    padding: 0.5rem;
 }
 
 .menuOption {
@@ -181,7 +182,7 @@ main {
     display: none;
     flex-direction: column;
     max-height: 100%;
-    overflow-y: auto;
+    overflow-y: hidden;
 }
 
 .filtrosPerguntas {
@@ -193,15 +194,28 @@ main {
     border-radius: 5px;
 }
 
+.tabelaPerguntas{
+    display: block;
+    overflow-y: auto;
+}
+
 .totalizadorPerguntas {
     display: flex;
     justify-content: end;
     padding: 0.5rem;
+    border-top: 1px solid black;
 }
 
 .form-select.auto-width {
   width: auto;
   min-width: fit-content;
+}
+
+.avaliacoes {
+    display: none;
+    flex-direction: column;
+    max-height: 100%;
+    overflow-y: auto;
 }
 
 .areaModal {
@@ -284,8 +298,8 @@ main {
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    width: 50%;
-    height: 70%;
+    width: 40vw;
+    height: 40vh;
     flex-wrap: wrap;
     white-space: nowrap;
     overflow: auto;

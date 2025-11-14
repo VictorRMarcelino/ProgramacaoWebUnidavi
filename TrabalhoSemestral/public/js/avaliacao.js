@@ -10,7 +10,7 @@ var Avaliacao = {
         let dispositivo = Cookies.get('dispositivo');
 
         if (dispositivo == undefined) {
-            Avaliacao.carregaSetores();
+            Avaliacao.carregaDispositivos();
         } else {
             Avaliacao.carregaPerguntas(dispositivo)
         }
@@ -25,12 +25,24 @@ var Avaliacao = {
         $('#areaPainelAdm').on('click', Avaliacao.onClickBotaoPainelAdministrador);
     },
 
+    onClickBotaoPainelAdministrador: function() {
+        $(location).attr('href', 'http://localhost/ProgramacaoWeb/TrabalhoSemestral/public/painelAdministrador');
+    },
+
+    /**
+     * ================================================================================================================================ 
+     * =====================================================  DEFINIÇÃO DO SETOR ====================================================== 
+     * ================================================================================================================================ 
+     */
+
+    /** Comportamento chamado ao clicar no botão "Definir Setor" */
     onClickBotaoDefinirDispositivo: function() {
         let dispositivo = $('#listaDispositivos').val();
         Cookies.set('dispositivo', dispositivo, { expires: 1});
         Avaliacao.carregaPerguntas(dispositivo);
     },
 
+    /** Realiza o carregamento dos setores disponíveis */
     carregaDispositivos: function() {
         let fnCarregaFiltroDispositivos = function(response) {
             let dispositivos = Object.values(JSON.parse(response));
@@ -70,12 +82,20 @@ var Avaliacao = {
         });
     },
 
+    /**
+     * ================================================================================================================================ 
+     * ==========================================================  AVALIAÇÃO ========================================================== 
+     * ================================================================================================================================ 
+     */
+
+    /** Comportamento chamado ao clicar no botão para iniciar a avaliação */
     onClickStartQuiz: function() {
         Avaliacao.carregaProximaPergunta();
         $('#startQuiz').css('display', 'none'); 
         $('#questionnaire').css('display', 'flex'); 
     },
 
+    /** Realiza o carregamento da próxima pergunta */
     carregaProximaPergunta: function() {
         $("#question").fadeOut(400, function() {
             $(this).html(Avaliacao.questoes[Avaliacao.perguntaAtual]);
@@ -83,6 +103,7 @@ var Avaliacao = {
         });
     },
 
+    /** Comportamento chamado ao responder uma pergunta da avaliação */
     onClickButtonAnswer: function() {        
         Avaliacao.respostas[Avaliacao.perguntaAtual] = this.value;
         
@@ -94,11 +115,13 @@ var Avaliacao = {
         }
     },
 
+    /** Exibe a área para o usuário deixar seu feedback final */
     exibeFeedback: function() {
         $('#questionnaire').css('display', 'none');
         $('#feedback').css('display', 'flex'); 
     },
 
+    /** Salva a avaliação */
     salvaQuestionario: function() {
         Avaliacao.respostas['feedback'] = $('#textoFeedback')[0].value;
         Avaliacao.respostas['setor'] = Cookies.get('setor');
@@ -119,15 +142,12 @@ var Avaliacao = {
         });
     },
 
+    /** Reinicia a avaliação */
     reiniciaQuestionario: function() {
         Avaliacao.perguntaAtual = parseInt(Object.keys(Avaliacao.questoes)[0]);
         $('#feedback').css('display', 'none'); 
         $('#questionnaire').css('display', 'none'); 
         $('#startQuiz').css('display', 'flex'); 
-    },
-
-    onClickBotaoPainelAdministrador: function() {
-        $(location).attr('href', 'http://localhost/ProgramacaoWeb/TrabalhoSemestral/public/painelAdministrador');
     }
 }
 

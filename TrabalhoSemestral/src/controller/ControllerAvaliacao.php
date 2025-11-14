@@ -26,7 +26,7 @@ class ControllerAvaliacao extends Controller {
      */
     public function getDispositivos() {
         $dispositivos = [];
-        $result = Query::select('dispositivos', ['*']);
+        $result = Query::select('dispositivo', ['*']);
 
         if ($result) {
             while ($dispositivo = pg_fetch_assoc($result)) {

@@ -102,21 +102,34 @@ class Query {
      * @param string $tabela
      * @param array $colunasUpdate
      * @param array $condicoes
+     * @param array $valores
      */
-    public static function update(string $tabela, array $colunasUpdate, array $condicoes) {
+    public static function update(string $tabela, array $colunasUpdate, array $condicoes, array $valores) {
+        $connection = Conexao::getConnection();
         $sql = 'UPDATE ' . $tabela . ' SET ' . implode(', ', $colunasUpdate) . ' WHERE ' . implode(' AND ', $condicoes) . '';
-        self::query($sql);
+        
+        $result = pg_query_params($sql, $valores);
+    
+        if (!$result) {
+            throw new \Exception(pg_last_error($connection));
+        }
     }
 
     /**
      * Executa um delete no banco de dados
      * @param string $tabela
      * @param array $condicoes
-     * @return void
+     * @param array $valores
      */
-    public static function delete(string $tabela, array $condicoes) {
+    public static function delete(string $tabela, array $condicoes, array $valores) {
+        $connection = Conexao::getConnection();
         $sql = 'DELETE FROM ' . $tabela . ' WHERE ' . implode(' AND ', $condicoes) . '';
-        self::query($sql);
+
+        $result = pg_query_params($sql, $valores);
+    
+        if (!$result) {
+            throw new \Exception(pg_last_error($connection));
+        }
     }
 
     /** Inicia uma nova transação no banco */

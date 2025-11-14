@@ -71,7 +71,7 @@ class ControllerPainelAdministrador extends Controller {
         parse_str(file_get_contents("php://input"), $_PUT);
         $idSetor = $_PUT['idSetor'];
         $nomeSetor = $_PUT['nome'];
-        Query::update('setor', ["nome = '$nomeSetor'"], ["id = $idSetor"]);
+        Query::update('setor', ["nome = $1"], ["id = $2"], [$nomeSetor, $idSetor]);
     }
 
     /**
@@ -87,7 +87,7 @@ class ControllerPainelAdministrador extends Controller {
             throw new Exception("Não é possível excluir o setor $idSetor pois o mesmo possui perguntas cadastradas.");
         }
 
-        Query::delete('setor', ["id = $idSetor"]);
+        Query::delete('setor', ["id = $1"], [$idSetor]);
     }
 
     /**
@@ -121,13 +121,13 @@ class ControllerPainelAdministrador extends Controller {
         $idPergunta = $_PUT['idPergunta'];
         $idSetor = $_PUT['idSetor'];
         $questao = $_PUT['pergunta'];
-        Query::update('pergunta', ["id_setor = $idSetor, pergunta = '$questao'"], ["id = $idPergunta"]);
+        Query::update('pergunta', ["id_setor = $1, pergunta = $2"], ["id = $3"], [$idSetor, $questao, $idPergunta]);
     }
 
     /** Realiza a exclusão de uma pergunta */
     public function excluirPergunta() {
         parse_str(file_get_contents("php://input"), $_DELETE);
         $idPergunta = $_DELETE['idPergunta'];
-        Query::delete('pergunta', ["id = $idPergunta"]);
+        Query::delete('pergunta', ["id = $1"], [$idPergunta]);
     }
 }
