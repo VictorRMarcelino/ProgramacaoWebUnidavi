@@ -7,49 +7,49 @@ var Avaliacao = {
     /** Comportamento realizado ao carregar a tela */
     onLoadAvaliacao: function() {
         Avaliacao.loadScripts();
-        let setor = Cookies.get('setor');
+        let dispositivo = Cookies.get('dispositivo');
 
-        if (setor == undefined) {
+        if (dispositivo == undefined) {
             Avaliacao.carregaSetores();
         } else {
-            Avaliacao.carregaPerguntas(setor)
+            Avaliacao.carregaPerguntas(dispositivo)
         }
     },
 
     /** Carrega os comportamentos iniciais dos componentes */
     loadScripts: function() {
+        $('#btnDefinirDispositivo').on('click', Avaliacao.onClickBotaoDefinirDispositivo);
         $('#btnStartQuiz').on('click', Avaliacao.onClickStartQuiz);
         $('.button').on('click', Avaliacao.onClickButtonAnswer);
         $('#btnFinalizarAvaliacao').on('click', Avaliacao.salvaQuestionario);
         $('#areaPainelAdm').on('click', Avaliacao.onClickBotaoPainelAdministrador);
-        $('#btnDefinirSetor').on('click', Avaliacao.onClickBotaoDefinirSetor);
     },
 
-    carregaSetores: function() {
-        let fnCarregaFiltroSetores = function(response) {
-            let setores = Object.values(JSON.parse(response));
-            $('#listaSetores').append('<option value="0">Selecione...</option>');
+    onClickBotaoDefinirDispositivo: function() {
+        let dispositivo = $('#listaDispositivos').val();
+        Cookies.set('dispositivo', dispositivo, { expires: 1});
+        Avaliacao.carregaPerguntas(dispositivo);
+    },
 
-            for (let i = 0; i < setores.length; i++) {
-                let novaOpcaoSetor = `<option value="${setores[i]['id']}">${setores[i]['nome']}</option>`;
-                $('#listaSetores').append(novaOpcaoSetor);
+    carregaDispositivos: function() {
+        let fnCarregaFiltroDispositivos = function(response) {
+            let dispositivos = Object.values(JSON.parse(response));
+            $('#listaDispositivos').append('<option value="0">Selecione...</option>');
+
+            for (let i = 0; i < dispositivos.length; i++) {
+                let novaOpcaoDispositivo = `<option value="${dispositivos[i]['id']}">${dispositivos[i]['nome']}</option>`;
+                $('#listaDispositivos').append(novaOpcaoDispositivo);
             }
 
-            $('#definirSetor').css('display', 'flex');
+            $('#definirDispositivo').css('display', 'flex');
         }
 
         Ajax.loadAjax({
-            url: 'http://localhost/ProgramacaoWeb/TrabalhoSemestral/public/avaliacao/setores',
+            url: 'http://localhost/ProgramacaoWeb/TrabalhoSemestral/public/avaliacao/dispositivos',
             method: 'get',
             async: false,
-            fnSucess: fnCarregaFiltroSetores
+            fnSucess: fnCarregaFiltroDispositivos
         });
-    },
-
-    onClickBotaoDefinirSetor: function() {
-        let setor = $('#listaSetores').val();
-        Cookies.set('setor', setor, { expires: 7});
-        Avaliacao.carregaPerguntas(setor);
     },
 
     /** Carrega as perguntas do formulário */

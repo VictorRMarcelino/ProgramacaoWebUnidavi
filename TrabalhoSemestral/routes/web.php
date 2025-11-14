@@ -4,6 +4,7 @@ use routes\Router;
 
 $router = Router::getInstance();
 $router->get('/avaliacao', '\src\controller\ControllerAvaliacao@getView');
+$router->get('/avaliacao/dispositivos', '\src\controller\ControllerAvaliacao@getDispositivos');
 $router->get('/avaliacao/setores', '\src\controller\ControllerAvaliacao@getSetores');
 $router->get('/avaliacao/perguntas', '\src\controller\ControllerAvaliacao@getPerguntas');
 $router->post('/avaliacao/salvar', '\src\controller\ControllerAvaliacao@salvarAvaliacao');

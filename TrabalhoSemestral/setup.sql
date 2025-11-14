@@ -54,13 +54,19 @@ CREATE TABLE administrador (
 	PRIMARY KEY (ID)
 );
 
-
 INSERT INTO setor (nome) VALUES 
 ('Atendimento Acadêmico / Secretaria'),
 ('Corpo Docente / Professores'),
 ('Limpeza e Conservação'),
 ('Infraestrutura e Tecnologia'),
 ('Coordenação e Gestão Institucional');
+
+INSERT INTO dispositivo (nome, ativa, id_setor) VALUES 
+('01 - Atendimento Acadêmico / Secretaria', 1, 1),
+('01 - Corpo Docente / Professores', 1, 1),
+('01 - Limpeza e Conservação', 1, 1),
+('01 - Infraestrutura e Tecnologia', 1, 1),
+('01 - Coordenação e Gestão Institucional', 1, 1);
 
 INSERT INTO pergunta (pergunta, ativa, id_setor) VALUES
 ('O atendimento foi prestado com cordialidade e respeito?', 1, 1),

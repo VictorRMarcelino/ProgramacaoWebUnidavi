@@ -21,11 +21,28 @@ class ControllerAvaliacao extends Controller {
     }
 
     /**
+     * Retorna todos os dipositivos disponíveis
+     * @return Response
+     */
+    public function getDispositivos() {
+        $dispositivos = [];
+        $result = Query::select('dispositivos', ['*']);
+
+        if ($result) {
+            while ($dispositivo = pg_fetch_assoc($result)) {
+                $dispositivos[] = $dispositivo;
+            }
+        }
+
+
+        return new Response(json_encode($dispositivos));
+    }
+
+    /**
      * Retorna todos os setores
      * @return Response
      */
     public function getSetores() {
-        $sql = 'SELECT * FROM setor';
         $setores = [];
         $result = Query::select('setor', ['*']);
 
