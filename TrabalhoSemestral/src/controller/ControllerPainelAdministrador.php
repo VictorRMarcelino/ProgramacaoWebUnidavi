@@ -96,7 +96,6 @@ class ControllerPainelAdministrador extends Controller {
      * @return bool
      */
     private function validaSetorPossuiPerguntasCadastradas(int $setor) {
-        $sql = 'SELECT * FROM pergunta where id_setor = ' . $setor;
         $result = Query::select('pergunta', ['*'], ['id_setor = $1'], [$setor]);
 
         if ($result) {
@@ -119,15 +118,36 @@ class ControllerPainelAdministrador extends Controller {
     public function alterarPergunta() {
         parse_str(file_get_contents("php://input"), $_PUT);
         $idPergunta = $_PUT['idPergunta'];
-        $idSetor = $_PUT['idSetor'];
         $questao = $_PUT['pergunta'];
-        Query::update('pergunta', ["id_setor = $1, pergunta = $2"], ["id = $3"], [$idSetor, $questao, $idPergunta]);
+        Query::update('pergunta', ["pergunta = $1"], ["id = $2"], [$questao, $idPergunta]);
     }
 
     /** Realiza a exclusão de uma pergunta */
     public function excluirPergunta() {
         parse_str(file_get_contents("php://input"), $_DELETE);
         $idPergunta = $_DELETE['idPergunta'];
+
+        if ($this->validaAvaliacaoRespondeuPergunta($idPergunta)) {
+            throw new Exception('Não é possível remover esta pergunta pois a mesma já foi respondida em uma avaliação.');
+        }
+
         Query::delete('pergunta', ["id = $1"], [$idPergunta]);
+    }
+
+    /**
+     * Verifica se alguma avaliação já respondeu uma pergunta
+     * @param int $idPergunta
+     * @return bool
+     */
+    private function validaAvaliacaoRespondeuPergunta(int $idPergunta) {
+        $result = Query::select('respostas', ['1'], ['id_pergunta = $1'], [$idPergunta]);
+
+        if ($result) {
+            if (pg_fetch_assoc($result)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

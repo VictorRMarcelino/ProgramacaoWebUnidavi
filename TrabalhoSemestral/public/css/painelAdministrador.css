@@ -84,17 +84,17 @@ main {
 
 .menu {
     border-right: 1px solid black;
-    width: 20%;
+    min-width: 15vw;
     height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: start;
     align-items: center;
     background-color: #87ceeb;
-    border-radius: 10px;
+    border-radius: 10px 0px 0px 10px;
     flex-wrap: wrap;
     white-space: nowrap;
-    overflow: auto;
+    overflow: hidden;
     padding: 0.5rem;
 }
 
@@ -102,10 +102,12 @@ main {
     color: white;
     width: 100%;
     height: 5vh;
-    text-align: center;
     transition: background-color 0.3s ease;
     cursor: pointer;
     border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .menuOption:hover {
@@ -120,7 +122,7 @@ main {
 
 .menuItens table {
   width: 100%;
-  height: 100%;
+  height: 90%;
   border-collapse: collapse;
 }
 
@@ -163,8 +165,8 @@ main {
 .setores {
     display: none;
     flex-direction: column;
-    max-height: 100%;
     overflow-y: auto;
+    height: 100%;
 }
 
 .menuSetores {
@@ -181,8 +183,9 @@ main {
 .perguntas {
     display: none;
     flex-direction: column;
-    max-height: 100%;
+    justify-content: space-between;
     overflow-y: hidden;
+    height: 100%;
 }
 
 .filtrosPerguntas {
@@ -190,12 +193,16 @@ main {
     column-gap: 5rem;
 }
 
-.listaSetores{
+.filtrosPerguntaslistaSetores{
     border-radius: 5px;
 }
 
-.tabelaPerguntas{
-    display: block;
+.acoesPerguntas {
+    padding: 0.5rem;
+    column-gap: 5rem;
+}
+
+.tabelaPerguntas {
     overflow-y: auto;
 }
 
@@ -204,6 +211,7 @@ main {
     justify-content: end;
     padding: 0.5rem;
     border-top: 1px solid black;
+    height: 100%;
 }
 
 .form-select.auto-width {
@@ -298,7 +306,7 @@ main {
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    width: 40vw;
+    min-width: 60%;
     height: 40vh;
     flex-wrap: wrap;
     white-space: nowrap;

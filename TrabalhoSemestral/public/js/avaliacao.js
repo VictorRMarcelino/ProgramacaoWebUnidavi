@@ -26,7 +26,7 @@ var Avaliacao = {
     },
 
     onClickBotaoPainelAdministrador: function() {
-        $(location).attr('href', 'http://localhost/ProgramacaoWeb/TrabalhoSemestral/public/painelAdministrador');
+        $(location).attr('href', 'http://localhost/ProgramacaoWebUnidavi/TrabalhoSemestral/public/painelAdministrador');
     },
 
     /**
@@ -57,7 +57,7 @@ var Avaliacao = {
         }
 
         Ajax.loadAjax({
-            url: 'http://localhost/ProgramacaoWeb/TrabalhoSemestral/public/avaliacao/dispositivos',
+            url: 'http://localhost/ProgramacaoWebUnidavi/TrabalhoSemestral/public/avaliacao/dispositivos',
             method: 'get',
             async: false,
             fnSucess: fnCarregaFiltroDispositivos
@@ -75,7 +75,7 @@ var Avaliacao = {
         }
 
         Ajax.loadAjax({
-            url: 'http://localhost/ProgramacaoWeb/TrabalhoSemestral/public/avaliacao/perguntas',
+            url: 'http://localhost/ProgramacaoWebUnidavi/TrabalhoSemestral/public/avaliacao/perguntas',
             method: 'get',
             data: {setor: setor},
             fnSucess: fnSalvarPerguntas
@@ -135,7 +135,7 @@ var Avaliacao = {
         }
 
         Ajax.loadAjax({
-            url: 'http://localhost/ProgramacaoWeb/TrabalhoSemestral/public/avaliacao/salvar',
+            url: 'http://localhost/ProgramacaoWebUnidavi/TrabalhoSemestral/public/avaliacao/salvar',
             method: 'post',
             data: Avaliacao.respostas,
             fnSucess: fnExibirMensagemSucesso

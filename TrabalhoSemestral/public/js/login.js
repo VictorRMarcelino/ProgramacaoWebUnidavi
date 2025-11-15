@@ -13,7 +13,7 @@ var Login = {
 
     /** Comportamento chamado ao clicar no atalho para a página da avalição */
     onClickBotaoAvalicao: function() {
-        $(location).attr('href', 'http://localhost/ProgramacaoWeb/TrabalhoSemestral/public/avaliacao');
+        $(location).attr('href', 'http://localhost/ProgramacaoWebUnidavi/TrabalhoSemestral/public/avaliacao');
     },
 
     /** Comportamento chamado ao clicar no botão "Acessar" */
@@ -30,7 +30,7 @@ var Login = {
             let retorno = JSON.parse(response);
 
             if (retorno.logado) {
-                $(location).attr('href', 'http://localhost/ProgramacaoWeb/TrabalhoSemestral/public/painelAdministrador');
+                $(location).attr('href', 'http://localhost/ProgramacaoWebUnidavi/TrabalhoSemestral/public/painelAdministrador');
                 return;
             }
 
@@ -38,7 +38,7 @@ var Login = {
         }
 
         Ajax.loadAjax({
-            url: 'http://localhost/ProgramacaoWeb/TrabalhoSemestral/public/login/verificar',
+            url: 'http://localhost/ProgramacaoWebUnidavi/TrabalhoSemestral/public/login/verificar',
             method: 'get',
             data: {usuario: usuario, senha: senha},
             fnSucess: fnVerificaLogin

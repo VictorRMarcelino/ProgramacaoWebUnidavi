@@ -12,14 +12,14 @@ var PainelAdministrador = {
         $('#btnIncluirSetor').on('click', PainelAdministrador.menuSetoresOnClickBotaoIncluirSetor);
         $('#modalSetorBotaoFechar').on('click', PainelAdministrador.modalSetorOnClicaoBotaoFechar);
         $('#menuOptionPerguntas').on('click', PainelAdministrador.onClickOpcaoMenuPerguntas);
-        $('#btnCarregarPerguntas').on('click', PainelAdministrador.menuPerguntasonClickBotaoPesquisar);
+        $('#btnCarregarPerguntas').on('click', PainelAdministrador.menuPerguntasOnClickBotaoPesquisar);
         $('#btnIncluirPergunta').on('click', PainelAdministrador.menuPerguntasOnClickBotaoIncluirPergunta);
         $('#modalPerguntaBotaoFechar').on('click', PainelAdministrador.modalPerguntaOnClicaoBotaoFechar);
     },
 
     /** Comportamento chamado ao clicar no atalho para a página de avaliação */
     onClickBotaoAvalicao: function() {
-        $(location).attr('href', 'http://localhost/ProgramacaoWeb/TrabalhoSemestral/public/avaliacao');
+        $(location).attr('href', 'http://localhost/ProgramacaoWebUnidavi/TrabalhoSemestral/public/avaliacao');
     },
 
     /**
@@ -69,7 +69,7 @@ var PainelAdministrador = {
         $('#perguntas').css('display', 'none'); 
         $('#menuItensAguarde').css('display', 'flex'); 
         Ajax.loadAjax({
-            url: 'http://localhost/ProgramacaoWeb/TrabalhoSemestral/public/painelAdministrador/setores',
+            url: 'http://localhost/ProgramacaoWebUnidavi/TrabalhoSemestral/public/painelAdministrador/setores',
             method: 'get',
             async: false,
             fnSucess: fnCarregaTabelaSetores
@@ -113,7 +113,7 @@ var PainelAdministrador = {
         }
 
         Ajax.loadAjax({
-            url: 'http://localhost/ProgramacaoWeb/TrabalhoSemestral/public/painelAdministrador/setor/deletar',
+            url: 'http://localhost/ProgramacaoWebUnidavi/TrabalhoSemestral/public/painelAdministrador/setor/deletar',
             method: 'delete',
             data: {idSetor: idSetor},
             fnSucess: fnAfterClickBotaoDeletar
@@ -142,13 +142,12 @@ var PainelAdministrador = {
     /** Realiza o carregamento inicial do menu das perguntas */
     menuPerguntasCarregaMenuPerguntas: function() {
         let fnCarregaFiltroSetores = function(response) {
-            $('#tebelaPerguntas > tbody').empty();
             let setores = Object.values(JSON.parse(response));
-            $('#listaSetores').append('<option value="0">Selecione...</option>');
+            $('#filtrosPerguntaslistaSetores').append('<option value="0">Selecione...</option>');
 
             for (let i = 0; i < setores.length; i++) {
                 let novaOpcaoSetor = `<option value="${setores[i]['id']}">${setores[i]['nome']}</option>`;
-                $('#listaSetores').append(novaOpcaoSetor);
+                $('#filtrosPerguntaslistaSetores').append(novaOpcaoSetor);
             }
 
             $('#menuItensAguarde').css('display', 'none'); 
@@ -160,7 +159,7 @@ var PainelAdministrador = {
         $('#perguntas').css('display', 'none');
         $('#menuItensAguarde').css('display', 'flex');
         Ajax.loadAjax({
-            url: 'http://localhost/ProgramacaoWeb/TrabalhoSemestral/public/painelAdministrador/setores',
+            url: 'http://localhost/ProgramacaoWebUnidavi/TrabalhoSemestral/public/painelAdministrador/setores',
             method: 'get',
             async: false,
             fnSucess: fnCarregaFiltroSetores
@@ -168,8 +167,8 @@ var PainelAdministrador = {
     },
 
     /** Comportamento chamado ao clicar no botão para pesquisar as perguntas de um setor */
-    menuPerguntasonClickBotaoPesquisar: function() {
-        let setor = $('#listaSetores').val();
+    menuPerguntasOnClickBotaoPesquisar: function() {
+        let setor = $('#filtrosPerguntaslistaSetores').val();
         
         if (parseInt(setor) == 0) {
             Message.warn('Alerta', 'Selecione um setor para consultar as perguntas.');
@@ -194,6 +193,7 @@ var PainelAdministrador = {
 
                 $('#totalPerguntas')[0].innerHTML = 'Total: ' + perguntas.length; 
                 $('#tebelaPerguntas > tbody').append(novaLinhaSetor);
+                $('#tebelaPerguntas').css('display', 'table');
                 $(`#tabelaPerguntaBotaoAlterar${perguntas[i]['id']}`).on('click', function() {
                     PainelAdministrador.menuPerguntasOnClickBotaoAlterarPergunta.apply(PainelAdministrador, [perguntas[i]]);
                 });
@@ -204,7 +204,7 @@ var PainelAdministrador = {
         }
 
         Ajax.loadAjax({
-            url: 'http://localhost/ProgramacaoWeb/TrabalhoSemestral/public/painelAdministrador/perguntas',
+            url: 'http://localhost/ProgramacaoWebUnidavi/TrabalhoSemestral/public/painelAdministrador/perguntas',
             method: 'get',
             data: {idSetor: setor},
             fnSucess: fnCarregaTabelaPerguntas
@@ -232,7 +232,7 @@ var PainelAdministrador = {
         }
 
         Ajax.loadAjax({
-            url: 'http://localhost/ProgramacaoWeb/TrabalhoSemestral/public/painelAdministrador/setores',
+            url: 'http://localhost/ProgramacaoWebUnidavi/TrabalhoSemestral/public/painelAdministrador/setores',
             method: 'get',
             async: false,
             fnSucess: fnModalPerguntaCarregaSetores
@@ -258,6 +258,7 @@ var PainelAdministrador = {
             $('#modalPerguntaSetor')[0].value = registro['id_setor'];
             $('#modalPerguntaQuestao')[0].value = registro['pergunta'];
             $('#modalPerguntaTitulo')[0].innerHTML = 'Alterar Pergunta';
+            $('#modalPerguntaSetor').attr('readonly', true);
             $('#modalPerguntaBotaoConfirmar').off('click');
             $('#modalPerguntaBotaoConfirmar').on('click', PainelAdministrador.modalPerguntaOnClickBotaoConfirmarInclusao);
             $('#app').css('opacity', '0.1');
@@ -266,7 +267,7 @@ var PainelAdministrador = {
         }
 
         Ajax.loadAjax({
-            url: 'http://localhost/ProgramacaoWeb/TrabalhoSemestral/public/painelAdministrador/setores',
+            url: 'http://localhost/ProgramacaoWebUnidavi/TrabalhoSemestral/public/painelAdministrador/setores',
             method: 'get',
             async: false,
             fnSucess: fnModalPerguntaCarregaSetores
@@ -280,12 +281,12 @@ var PainelAdministrador = {
     menuPerguntasOnClickBotaoDeletar: function(idPergunta) {
         let fnAfterClickBotaoDeletar = function() {
             Message.success('Sucesso!', 'Pergunta removida com sucesso!', function() {
-                PainelAdministrador.menuPerguntasonClickBotaoPesquisar();
+                PainelAdministrador.menuPerguntasOnClickBotaoPesquisar();
             });
         }
 
         Ajax.loadAjax({
-            url: 'http://localhost/ProgramacaoWeb/TrabalhoSemestral/public/painelAdministrador/pergunta/deletar',
+            url: 'http://localhost/ProgramacaoWebUnidavi/TrabalhoSemestral/public/painelAdministrador/pergunta/deletar',
             method: 'delete',
             data: {idPergunta: idPergunta},
             fnSucess: fnAfterClickBotaoDeletar
@@ -296,6 +297,7 @@ var PainelAdministrador = {
     menuPerguntasLimparMenu: function() {
         $('#totalPerguntas')[0].innerHTML = '';
         $('#tebelaPerguntas > tbody').empty();
+        $('#tebelaPerguntas').css('display', 'none');
     },
 
     /**
@@ -330,7 +332,7 @@ var PainelAdministrador = {
         }
 
         Ajax.loadAjax({
-            url: 'http://localhost/ProgramacaoWeb/TrabalhoSemestral/public/painelAdministrador/setor/incluir',
+            url: 'http://localhost/ProgramacaoWebUnidavi/TrabalhoSemestral/public/painelAdministrador/setor/incluir',
             method: 'post',
             data: {nome: nomeSetor},
             fnSucess: fnAfterClickBotaoConfirmar
@@ -355,7 +357,7 @@ var PainelAdministrador = {
         }
 
         Ajax.loadAjax({
-            url: 'http://localhost/ProgramacaoWeb/TrabalhoSemestral/public/painelAdministrador/setor/alterar',
+            url: 'http://localhost/ProgramacaoWebUnidavi/TrabalhoSemestral/public/painelAdministrador/setor/alterar',
             method: 'put',
             data: {idSetor: idSetor, nome: nomeSetor},
             fnSucess: fnAfterClickBotaoConfirmar
@@ -386,12 +388,12 @@ var PainelAdministrador = {
         let fnAfterClickBotaoConfirmar = function() {
             Message.success('Sucesso!', 'Pergunta inserida com sucesso!', function() {
                 PainelAdministrador.modalPerguntaOnClicaoBotaoFechar();
-                PainelAdministrador.menuPerguntasonClickBotaoPesquisar();
+                PainelAdministrador.menuPerguntasOnClickBotaoPesquisar();
             });
         }
 
         Ajax.loadAjax({
-            url: 'http://localhost/ProgramacaoWeb/TrabalhoSemestral/public/painelAdministrador/pergunta/incluir',
+            url: 'http://localhost/ProgramacaoWebUnidavi/TrabalhoSemestral/public/painelAdministrador/pergunta/incluir',
             method: 'post',
             data: {idSetor: idSetor, pergunta: questao},
             async: false,
@@ -402,19 +404,18 @@ var PainelAdministrador = {
     /** Comportamento chamado ao confirmar a alteração da pergunta */
     modalPerguntaOnClickBotaoConfirmarAlteracao: function() {
         let idPergunta = $('#modalPerguntaId').val();
-        let idSetor = $('#modalPerguntaSetor').val();
         let questao = $('#modalPerguntaQuestao').val();
         fnAfterClickBotaoConfirmar = function() {
             Message.success('Sucesso!', 'Pergunta alterada com sucesso!', function() {
                 PainelAdministrador.modalPerguntaOnClicaoBotaoFechar();
-                PainelAdministrador.menuPerguntasonClickBotaoPesquisar();
+                PainelAdministrador.menuPerguntasOnClickBotaoPesquisar();
             });
         }
 
         Ajax.loadAjax({
-            url: 'http://localhost/ProgramacaoWeb/TrabalhoSemestral/public/painelAdministrador/pergunta/alterar',
+            url: 'http://localhost/ProgramacaoWebUnidavi/TrabalhoSemestral/public/painelAdministrador/pergunta/alterar',
             method: 'put',
-            data: {idPergunta: idPergunta, idSetor: idSetor, pergunta: questao},
+            data: {idPergunta: idPergunta, pergunta: questao},
             async: false,
             fnSucess: fnAfterClickBotaoConfirmar
         });
