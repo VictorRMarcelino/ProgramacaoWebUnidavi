@@ -11,7 +11,7 @@ var Ajax = {
                     let resposta = JSON.parse(response);
         
                     if (resposta['error'] != undefined) {
-                        Message.error('Erro', resposta['error']);
+                        Message.error(resposta['error']);
                         return;
                     }
                 }

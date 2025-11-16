@@ -9,20 +9,10 @@ html, body {
   margin: 0;
 }
 
-body {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
-
 .app {
-  flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  height: 100%;
+  height: 100vh;
 }
 
 header {
@@ -34,46 +24,55 @@ header {
     overflow: hidden;
 }
 
-.areaAvaliacao{
+.atalhoAvaliacao{
     display: flex;
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
     height: 100%;
     max-width: 15%;
-    border-radius: 10px;
+    border-radius: 10px 0px 0px 10px;
     cursor: pointer;
     column-gap: 1vw;
     transition: transform 0.5s ease, background-color 0.5s ease;
+    padding: 0.5rem;
 }
 
-.areaAvaliacao:hover {
+.atalhoAvaliacao:hover {
     background-color: #4e9af1;
 }
 
-.areaAvaliacao:hover .tituloAvaliacao {
+.atalhoAvaliacao:hover .atalhoAvaliacaoTitulo {
     opacity: 1;
     transition: opacity 0.3s;
 }
 
-.tituloAvaliacao{
+.atalhoAvaliacaoTitulo{
     opacity: 0;
     color: white;
     font-size: 1rem;
     word-break: break-all;
 }
 
-.imgAvaliacao {
+.atalhoAvaliacaoImagem {
     width: auto;
     max-height: 100%;
 }
 
 main {
+    width: 100%;
+    height: 90%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: start;
-    width: 30vw;
+    width: 50%;
     height: 80%;
     border: 1px solid black;
     border-radius: 10px;
@@ -88,7 +87,6 @@ main {
     font-family: 'Inter', sans-serif;
     color: #5C748C;
     font-weight: 600;
-    font-size: 1.5vw;
     flex: 0 1;
 }
 
@@ -97,6 +95,54 @@ main input{
     height: 15%;
 }
 
-footer {
-    height: 10%;
+main span {
+    font-size: 1.5rem;
+}
+
+@media screen and (max-width: 900px) {
+    .atalhoAvaliacao {
+        max-width: 20%;
+    }
+
+    .login {
+        width: 60%;
+    }
+
+    .hintLogin {
+        font-size: 1rem;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .atalhoAvaliacao {
+        max-width: 50%;
+    }
+
+    .login {
+        width: 80%;
+    }
+
+    main span {
+        font-size: 1rem;
+    }
+
+    main input{
+        height: 8%;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .hintLogin {
+        font-size: 0.9rem;
+    }
+}
+
+@media screen and (max-height: 600px) {
+    .header {
+        height: 20%;
+    }
+
+    .main {
+        height: 80%;
+    }
 }

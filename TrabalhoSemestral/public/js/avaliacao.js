@@ -38,6 +38,13 @@ var Avaliacao = {
     /** Comportamento chamado ao clicar no botão "Definir Setor" */
     onClickBotaoDefinirDispositivo: function() {
         let dispositivo = $('#listaDispositivos').val();
+
+        if (dispositivo == 0) {
+            Message.warn('É necessário selecionar um setor para poder prosseguir.');
+            $('#listaDispositivos').focus();
+            return;
+        }
+
         Cookies.set('dispositivo', dispositivo, { expires: 1});
         Avaliacao.carregaPerguntas(dispositivo);
     },
@@ -127,9 +134,8 @@ var Avaliacao = {
         Avaliacao.respostas['setor'] = Cookies.get('setor');
 
         let fnExibirMensagemSucesso = function() {
-            let tituloMensagemSucesso = 'Avaliação de Qualidade Finalizada';
-            let mensagemSucesso = 'O Estabelecimento agradece sua resposta e ela é muito importante para nós, pois nos ajuda a melhorar continuamente nossos serviços.O Estabelecimento agradece sua resposta e ela é muito importante para nós, pois nos ajuda a melhorar continuamente nossos serviços.';
-            Message.success(tituloMensagemSucesso, mensagemSucesso, function() {
+            let mensagemSucesso = 'Avaliação de Qualidade Finalizada! O Estabelecimento agradece sua resposta e ela é muito importante para nós, pois nos ajuda a melhorar continuamente nossos serviços.O Estabelecimento agradece sua resposta e ela é muito importante para nós, pois nos ajuda a melhorar continuamente nossos serviços.';
+            Message.success(mensagemSucesso, function() {
                 Avaliacao.reiniciaQuestionario();
             });
         }

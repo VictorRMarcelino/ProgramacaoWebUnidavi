@@ -107,7 +107,7 @@ var PainelAdministrador = {
      */
     menuSetoresOnClickBotaoExcluirSetor: function(idSetor) {
         let fnAfterClickBotaoDeletar = function() {
-            Message.success('Sucesso!', 'Setor removido com sucesso!', function() {
+            Message.success('Setor removido com sucesso!', function() {
                 PainelAdministrador.menuSetoresCarregaTabelaSetores();
             });
         }
@@ -171,7 +171,7 @@ var PainelAdministrador = {
         let setor = $('#filtrosPerguntaslistaSetores').val();
         
         if (parseInt(setor) == 0) {
-            Message.warn('Alerta', 'Selecione um setor para consultar as perguntas.');
+            Message.warn('Selecione um setor para consultar as perguntas.');
             return;
         }
 
@@ -280,7 +280,7 @@ var PainelAdministrador = {
      */
     menuPerguntasOnClickBotaoDeletar: function(idPergunta) {
         let fnAfterClickBotaoDeletar = function() {
-            Message.success('Sucesso!', 'Pergunta removida com sucesso!', function() {
+            Message.success('Pergunta removida com sucesso!', function() {
                 PainelAdministrador.menuPerguntasOnClickBotaoPesquisar();
             });
         }
@@ -320,12 +320,12 @@ var PainelAdministrador = {
         let nomeSetor = $('#modalSetorNomeSetor').val();
 
         if (nomeSetor == '') {
-            Message.warn('Alerta', 'O nome do setor não pode ficar em branco!');
+            Message.warn('O nome do setor não pode ficar em branco!');
             return;
         }
 
         let fnAfterClickBotaoConfirmar = function() {
-            Message.success('Sucesso!', 'Setor inserido com sucesso!', function() {
+            Message.success('Setor inserido com sucesso!', function() {
                 PainelAdministrador.modalSetorOnClicaoBotaoFechar();
                 PainelAdministrador.menuSetoresCarregaTabelaSetores();
             });
@@ -345,12 +345,12 @@ var PainelAdministrador = {
         let nomeSetor = $('#modalSetorNomeSetor').val();
 
         if (nomeSetor == '') {
-            Message.warn('Alerta', 'O nome do setor não pode ficar em branco!');
+            Message.warn('O nome do setor não pode ficar em branco!');
             return;
         }
 
         fnAfterClickBotaoConfirmar = function() {
-            Message.success('Sucesso!', 'Setor alterado com sucesso!', function() {
+            Message.success('Setor alterado com sucesso!', function() {
                 PainelAdministrador.modalSetorOnClicaoBotaoFechar();
                 PainelAdministrador.menuSetoresCarregaTabelaSetores();
             });
@@ -386,7 +386,7 @@ var PainelAdministrador = {
         let idSetor = $('#modalPerguntaSetor').val();
         let questao = $('#modalPerguntaQuestao').val();
         let fnAfterClickBotaoConfirmar = function() {
-            Message.success('Sucesso!', 'Pergunta inserida com sucesso!', function() {
+            Message.success('Pergunta inserida com sucesso!', function() {
                 PainelAdministrador.modalPerguntaOnClicaoBotaoFechar();
                 PainelAdministrador.menuPerguntasOnClickBotaoPesquisar();
             });
@@ -406,7 +406,7 @@ var PainelAdministrador = {
         let idPergunta = $('#modalPerguntaId').val();
         let questao = $('#modalPerguntaQuestao').val();
         fnAfterClickBotaoConfirmar = function() {
-            Message.success('Sucesso!', 'Pergunta alterada com sucesso!', function() {
+            Message.success('Pergunta alterada com sucesso!', function() {
                 PainelAdministrador.modalPerguntaOnClicaoBotaoFechar();
                 PainelAdministrador.menuPerguntasOnClickBotaoPesquisar();
             });

@@ -1,5 +1,10 @@
 var Message = {
 
+    /**
+     * Exibe uma mensagem
+     * @param {string} text 
+     * @param {function} fnOk 
+     */
     show: function(title, icon, text, fnOk) {
         Swal.fire({
             title: title,
@@ -15,15 +20,29 @@ var Message = {
         })
     },
 
-    error: function(title, text) {
-        Message.show(title, 'error', text);
+    /**
+     * Exibe uma mensagem de erro
+     * @param {string} text 
+     */
+    error: function(text) {
+        Message.show('Erro', 'error', text);
     },
 
-    success: function(title, text, fnOk) {
-        Message.show(title, 'success', text, fnOk);
+    /**
+     * Exibe uma mensagem de sucesso
+     * @param {string} text 
+     * @param {function} fnOk 
+     */
+    success: function(text, fnOk) {
+        Message.show('Sucesso', 'success', text, fnOk);
     },
 
-    warn: function(title, text, fnOk) {
-        Message.show(title, 'warning', text, fnOk);
+    /**
+     * Exibe uma mensagem de alerta
+     * @param {string} text 
+     * @param {function} fnOk 
+     */
+    warn: function(text, fnOk) {
+        Message.show('Alerta', 'warning', text, fnOk);
     }
 }

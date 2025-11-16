@@ -7,7 +7,7 @@ var Login = {
 
     /** Carrega os comportamentos iniciais dos componentes */
     loadScripts: function() {
-        $('#areaAtualizar').on('click', Login.onClickBotaoAvalicao);
+        $('#atalhoAvaliacao').on('click', Login.onClickBotaoAvalicao);
         $('#btnAcessar').on('click', Login.onClickBotaoAcessar);
     },
 
@@ -22,7 +22,7 @@ var Login = {
         let senha = $('#senha').val();
 
         if ((usuario == '') || (senha == '')) {
-            Message.warn('Alerta', 'É necessário preencher o usuário e a senha para poder acessar o sistema!');
+            Message.warn('É necessário preencher o usuário e a senha para poder acessar o sistema!');
             return;
         }
 
@@ -34,7 +34,7 @@ var Login = {
                 return;
             }
 
-            Message.warn('Alerta', 'Usuário ou senha incorretos!');
+            Message.warn('Usuário ou senha incorretos!');
         }
 
         Ajax.loadAjax({
