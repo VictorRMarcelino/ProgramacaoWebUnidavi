@@ -3,9 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/ProgramacaoWebUnidavi/TrabalhoSemestral/public/img/avaliacao.png" type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <link href="/ProgramacaoWebUnidavi/TrabalhoSemestral/public/css/login.css" rel="stylesheet">
     <link href='https://fonts.googleapis.com/css?family=Inter' rel='stylesheet'>
+    <link href="/ProgramacaoWebUnidavi/TrabalhoSemestral/public/css/index.css" rel="stylesheet">
+    <link href="/ProgramacaoWebUnidavi/TrabalhoSemestral/public/css/header.css" rel="stylesheet">
+    <link href="/ProgramacaoWebUnidavi/TrabalhoSemestral/public/css/navbar.css" rel="stylesheet">
+    <link href="/ProgramacaoWebUnidavi/TrabalhoSemestral/public/css/login.css" rel="stylesheet">
     <script src="/ProgramacaoWebUnidavi/TrabalhoSemestral/public/js/jquery.js"></script>
     <script src="/ProgramacaoWebUnidavi/TrabalhoSemestral/public/js/message.js"></script>
     <script src="/ProgramacaoWebUnidavi/TrabalhoSemestral/public/js/ajax.js"></script>
@@ -15,22 +19,23 @@
 </head>
 <body>
     <div class="app">
-        <header>
-            <div class="atalhoAvaliacao" id="atalhoAvaliacao" name="atalhoAvaliacao">
-                <h3 class="atalhoAvaliacaoTitulo">Avaliação</h3>
-                <img class="atalhoAvaliacaoImagem" src="/ProgramacaoWebUnidavi/TrabalhoSemestral/public/img/avaliacao.png" alt="iconeAvaliacao">
-            </div>
+        <header role="heading">
+            <span class="menu" id="menu" name="menu"></span>
         </header>
-        <main>
-            <div class="login">
-                <span class="tituloLogin">Login</span>
-                <span class="hintLogin">Digite seu usuário e senha para acessar:</span>
-                <input class="form-control form-control-lg" type="text" name="usuario" id="usuario" placeholder="Nome de Usuário">
-                <input class="form-control form-control-lg" type="password" name="senha" id="senha" placeholder="Senha">
-                <button name="btnAcessar" id="btnAcessar" class="btn btn-primary">Acessar</button>
+        <nav class="navegacao" id="navegacao" name="navegacao" role="navigation" aria-label="Navegação">
+            <span class="navegacaoItem">Avaliação</span role="navigation" aria-label="Navegação para Página de Avaliação">
+        </nav>
+        <main role="main" role="main">
+            <div class="login" role="form" aria-label="Formulário de Login">
+                <span class="tituloLogin" role="text" aria-label="Título Login">Login</span>
+                <span class="hintLogin" role="text" aria-label="Hint de Login">Digite seu usuário e senha para acessar:</span>
+                <input class="form-control form-control-lg" type="text" name="usuario" id="usuario" placeholder="Nome de Usuário" aria-label="Campo de Usuário">
+                <input class="form-control form-control-lg" type="password" name="senha" id="senha" placeholder="Senha" aria-label="Campo de Senha">
+                <button name="btnAcessar" id="btnAcessar" class="btn btn-primary" role="button" aria-label="Botão para Confirmar o Login">Acessar</button>
             </div>
         </main>
     </div>
+    <script src="/ProgramacaoWebUnidavi/TrabalhoSemestral/public/js/header.js"></script>
     <script src="/ProgramacaoWebUnidavi/TrabalhoSemestral/public/js/login.js"></script>
 </body>
 </html>

@@ -1,0 +1,29 @@
+header {
+    position: relative;
+    width: 100%;
+    height: calc(70px - 0.5vh);
+    border-bottom: 1px solid black;
+}
+
+.menu {
+    position: absolute;
+    width: 10%;
+    height: 100%;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.menu::before {
+    content: "";
+    background-image: url('/ProgramacaoWebUnidavi/TrabalhoSemestral/public/img/menu.png');
+    width: 32px;
+    height: 32px;
+    background-repeat: no-repeat;
+    display: inline-block;
+    margin-right: 5px;
+    vertical-align: middle;
+    background-size: contain;
+    cursor: pointer;
+}

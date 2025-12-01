@@ -1,0 +1,19 @@
+.navegacao {
+    display: none;
+    align-items: center;
+    position: absolute;
+    z-index: 99999;
+    border-right: 1px solid black;
+    height: 100%;
+    width: max-content;
+    padding: 10px;
+    background-color: #87ceeb;
+    left: 0;
+}
+
+.navegacao span {
+    cursor: pointer;
+    display: inline-block;
+    text-decoration: none;
+    color: white;
+}

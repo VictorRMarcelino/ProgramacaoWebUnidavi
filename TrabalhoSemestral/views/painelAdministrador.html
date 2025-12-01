@@ -3,7 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/ProgramacaoWebUnidavi/TrabalhoSemestral/public/img/avaliacao.png" type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link href="/ProgramacaoWebUnidavi/TrabalhoSemestral/public/css/index.css" rel="stylesheet">
+    <link href="/ProgramacaoWebUnidavi/TrabalhoSemestral/public/css/header.css" rel="stylesheet">
+    <link href="/ProgramacaoWebUnidavi/TrabalhoSemestral/public/css/navbar.css" rel="stylesheet">
+    <link href="/ProgramacaoWebUnidavi/TrabalhoSemestral/public/css/modal.css" rel="stylesheet">
     <link href="/ProgramacaoWebUnidavi/TrabalhoSemestral/public/css/painelAdministrador.css" rel="stylesheet">
     <script src="/ProgramacaoWebUnidavi/TrabalhoSemestral/public/js/jquery.js"></script>
     <script src="/ProgramacaoWebUnidavi/TrabalhoSemestral/public/js/message.js"></script>
@@ -14,119 +19,123 @@
 </head>
 <body>
     <div class="app" id="app" name="app">
-        <header>
-            <div class="areaAvaliacao" id="areaAvaliacao" name="areaAvaliacao">
-                <h3 class="tituloAvaliacao">Avaliação</h3>
-                <img class="imgAvaliacao" src="/ProgramacaoWebUnidavi/TrabalhoSemestral/public/img/avaliacao.png" alt="iconeAvaliacao">
-            </div>
+        <header role="heading">
+            <span class="menu" id="menu" name="menu"></span>
         </header>
+        <nav class="navegacao" id="navegacao" name="navegacao" role="navigation" aria-label="Navegação">
+            <span class="navegacaoItem">Avaliação</span role="navigation" aria-label="Navegação para Página de Avaliação">
+        </nav>
         <main>
-            <div class="menu">
-                <span class="menuOption" id="menuOptionSetores" name="menuOptionSetores">Setores</span>
-                <span class="menuOption" id="menuOptionPerguntas" name="menuOptionPerguntas">Perguntas</span>
-                <span class="menuOption" id="menuOptionPerguntas" name="menuOptionPerguntas">Avaliações</span>
-            </div>
-            <div class="menuItens">
-                <div class="setores" id="setores" name="setores">
-                    <div class="menuSetores">
-                        <button class="btn btn-success" id="btnIncluirSetor" name="btnIncluirSetor">Incluir</button>
-                    </div>
-                    <table id="tebelaSetores" name="tebelaSetores">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Nome</th>
-                                <th>Alterar</th>
-                                <th>Excluir</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
-                    <div class="totalizadorSetores">
-                        <span class="totalSetores" id="totalSetores" name="totalSetores"></span>
-                    </div>
+            <section class="dashboard" name="dashboard" id="dashboard">
+                <div class="dashboardMenu">
+                    <span class="dashboardMenuOption" id="dashboardMenuOptionSetores" name="dashboardMenuOptionSetores">Setores</span>
+                    <span class="dashboardMenuOption" id="dashboardMenuOptionPerguntas" name="dashboardMenuPerguntas">Perguntas</span>
+                    <span class="dashboardMenuOption" id="dashboardMenuOptionPerguntas" name="dashboardMenuPerguntas">Avaliações</span>
+                    <span class="dashboardMenuOption" id="dashboardMenuOptionPerguntas" name="dashboardMenuPerguntas">Dispositivos</span>
                 </div>
-                <div class="perguntas" id="perguntas" name="perguntas">
-                    <div class="filtrosPerguntas">
-                        <span>Setor:</span>
-                        <select class="filtrosPerguntaslistaSetores" name="filtrosPerguntaslistaSetores" id="filtrosPerguntaslistaSetores"></select>
-                        <button class="btn btn-primary" id="btnCarregarPerguntas" name="btnCarregarPerguntas">Pesquisar</button>
-                    </div>
-                    <div class="acoesPerguntas">
-                        <button class="btn btn-success" id="btnIncluirPergunta" name="btnIncluirPergunta">Incluir</button>
-                    </div>
-                    <table class="tabelaPerguntas" id="tebelaPerguntas" name="tebelaPerguntas">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Setor</th>
-                                <th>Pergunta</th>
-                                <th>Alterar</th>
-                                <th>Excluir</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
-                    <div class="totalizadorPerguntas">
-                        <span class="totalPerguntas" id="totalPerguntas" name="totalPerguntas"></span>
-                    </div>
-                </div>
-                <div class="avaliacoes" id="avaliacoes" name="avaliacoes">
-                    <div class="filtrosAvaliacoes">
-                        <span>Setor:</span>
-                        <select class="filtrosAvaliacoeslistaSetores" name="filtrosAvaliacoeslistaSetores" id="filtrosAvaliacoeslistaSetores"></select>
-                        <button class="btn btn-primary" id="btnCarregarAvaliacoes" name="btnCarregarAvaliacoes">Pesquisar</button>
-                    </div>
-                    <table class="tabelaAvaliacoes" id="tabelaAvaliacoes" name="tabelaAvaliacoes">
-                        <thead></thead>
-                        <tbody></tbody>
-                    </table>
-                </div>
-                <div class="menuItensAguarde" name="menuItensAguarde" id="menuItensAguarde">
-                    <div class="spinner"></div>
-                    <span>Aguarde...</span>
-                </div>
-            </div>
+                <div class="dashboardMenuItens" id="dashboardMenuItens" name="dashboardMenuItens"></div>
+            </section>
         </main>
-        <footer></footer>
     </div>
-    <div class="areaModal" id="areaModal" name="areaModal">
-        <div class="modalSetor" id="modalSetor" name="modalSetor">
-            <div class="modalSetorHeader">
-                <div>
-                    <span class="modalSetorTitulo" id="modalSetorTitulo" name="modalSetorTitulo"></span>
-                </div>
-                <div class="modalSetorHeaderBotoes">
-                    <button class="btn btn-danger" name="modalSetorBotaoFechar" id="modalSetorBotaoFechar">X</button>
-                </div>
+    <section class="janela" role="dialog" name="modal" id="modal">
+        <div class="modalHeader" name="modalHeader" id="modalHeader">
+            <div>
+                <span class="modalHeaderTitulo" id="modalHeaderTitulo" name="modalHeaderTitulo"></span>
             </div>
-            <div class="modalSetorCampos">
-                <input type="text" class="form-control modalSetorIdSetor" name="modalSetorIdSetor" id="modalSetorIdSetor" readonly>
-                <input type="text" class="form-control modalSetorNomeSetor" name="modalSetorNomeSetor" id="modalSetorNomeSetor" placeholder="Nome do Setor...">
-            </div>
-            <div class="modalSetorFooter">
-                <button class="btn btn-primary" name="modalSetorBotaoConfirmar" id="modalSetorBotaoConfirmar">Confirmar</button>
+            <div class="modalHeaderAcoes">
+                <button class="btn btn-danger" name="modalHeaderAcoes" id="modalHeaderAcoes">X</button>
             </div>
         </div>
-        <div class="modalPergunta" id="modalPergunta" name="modalPergunta">
-            <div class="modalPerguntaHeader">
-                <div>
-                    <span class="modalPerguntaTitulo" id="modalPerguntaTitulo" name="modalPerguntaTitulo"></span>
-                </div>
-                <div class="modalPerguntaHeaderBotoes">
-                    <button class="btn btn-danger" name="modalPerguntaBotaoFechar" id="modalPerguntaBotaoFechar">X</button>
-                </div>
-            </div>
-            <div class="modalPerguntaCampos">
-                <input type="text" class="form-control modalPerguntaId" name="modalPerguntaId" id="modalPerguntaId" readonly>
-                <select class="modalPerguntaSetor" name="modalPerguntaSetor" id="modalPerguntaSetor"></select>
-                <input type="text" class="form-control modalPerguntaQuestao" name="modalPerguntaQuestao" id="modalPerguntaQuestao" placeholder="Informe a pergunta...">
-            </div>
-            <div class="modalPerguntaFooter">
-                <button class="btn btn-primary" name="modalPerguntaBotaoConfirmar" id="modalPerguntaBotaoConfirmar">Confirmar</button>
-            </div>
+        <div class="modalContent" name="modalContent" id="modalContent"></div>
+        <div class="modalFooter" name="modalFooter" id="modalFooter">
+            <button class="btn btn-primary" name="modalFooterBotaoConfirmar" id="modalFooterBotaoConfirmar">Confirmar</button>
+        </div>
+    </section>
+    <div class="modalContentSetor">
+        <input type="text" class="form-control modalSetorIdSetor" name="modalSetorIdSetor" id="modalSetorIdSetor" readonly placeholder="Código">
+        <input type="text" class="form-control modalSetorNomeSetor" name="modalSetorNomeSetor" id="modalSetorNomeSetor" placeholder="Nome do Setor...">
+    </div>
+    <div class="modalContentPergunta">
+        <input type="text" class="form-control modalPerguntaId" name="modalPerguntaId" id="modalPerguntaId" readonly>
+        <select class="modalPerguntaSetor" name="modalPerguntaSetor" id="modalPerguntaSetor"></select>
+        <input type="text" class="form-control modalPerguntaQuestao" name="modalPerguntaQuestao" id="modalPerguntaQuestao" placeholder="Informe a pergunta...">
+    </div>
+    <div class="setores" id="setores" name="setores">
+        <div class="menuSetores">
+            <button class="btn btn-success" id="btnIncluirSetor" name="btnIncluirSetor">Incluir</button>
+        </div>
+        <div class="consulta">
+            <table id="tebelaSetores" name="tebelaSetores">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nome</th>
+                        <th>Alterar</th>
+                        <th>Excluir</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+        <div class="totalizadorConsulta">
+            <span class="totalSetores" id="totalSetores" name="totalSetores"></span>
         </div>
     </div>
+    <div class="perguntas" id="perguntas" name="perguntas">
+        <div class="filtrosPerguntas">
+            <span>Setor:</span>
+            <select class="filtrosPerguntaslistaSetores" name="filtrosPerguntaslistaSetores" id="filtrosPerguntaslistaSetores"></select>
+            <button class="btn btn-primary" id="btnCarregarPerguntas" name="btnCarregarPerguntas">Pesquisar</button>
+        </div>
+        <div class="acoesPerguntas">
+            <button class="btn btn-success" id="btnIncluirPergunta" name="btnIncluirPergunta">Incluir</button>
+        </div>
+        <div class="consulta">
+            <table class="tabelaPerguntas" id="tebelaPerguntas" name="tebelaPerguntas">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Pergunta</th>
+                        <th>Alterar</th>
+                        <th>Excluir</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+        <div class="totalizadorConsulta">
+            <span class="totalPerguntas" id="totalPerguntas" name="totalPerguntas"></span>
+        </div>
+    </div>
+    <div class="avaliacoes" id="avaliacoes" name="avaliacoes">
+        <div class="filtrosAvaliacoes">
+            <span>Setor:</span>
+            <select class="filtrosAvaliacoesListaSetores" name="filtrosAvaliacoesListaSetores" id="filtrosAvaliacoesListaSetores"></select>
+            <button class="btn btn-primary" id="btnCarregarAvaliacoes" name="btnCarregarAvaliacoes">Pesquisar</button>
+        </div>
+        <table class="tabelaAvaliacoes" id="tabelaAvaliacoes" name="tabelaAvaliacoes">
+            <thead></thead>
+            <tbody></tbody>
+        </table>
+    </div>
+    <div class="dispositivos" id="dispositivos" name="dispositivos">
+        <div class="menudispositivos">
+            <button class="btn btn-success" id="btnIncluirDipositivo" name="btnIncluirDispositivo">Incluir</button>
+        </div>
+        <table id="tebelaDispositivos" name="tebelaDispositivos">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+        <div class="totalizadorDispositivos">
+            <span class="totalDispositivos" id="totalDispositivos" name="totalDispositivos"></span>
+        </div>
+    </div>
+    <script src="/ProgramacaoWebUnidavi/TrabalhoSemestral/public/js/header.js"></script>
     <script src="/ProgramacaoWebUnidavi/TrabalhoSemestral/public/js/painelAdministrador.js"></script>
 </body>
 </html>

@@ -7,19 +7,31 @@ var PainelAdministrador = {
 
     /** Carrega os comportamentos iniciais dos componentes */
     loadScripts: function() {
-        $('#areaAvaliacao').on('click', PainelAdministrador.onClickBotaoAvalicao);
-        $('#menuOptionSetores').on('click', PainelAdministrador.onClickOpcaoMenuSetores);
-        $('#btnIncluirSetor').on('click', PainelAdministrador.menuSetoresOnClickBotaoIncluirSetor);
-        $('#modalSetorBotaoFechar').on('click', PainelAdministrador.modalSetorOnClicaoBotaoFechar);
-        $('#menuOptionPerguntas').on('click', PainelAdministrador.onClickOpcaoMenuPerguntas);
-        $('#btnCarregarPerguntas').on('click', PainelAdministrador.menuPerguntasOnClickBotaoPesquisar);
-        $('#btnIncluirPergunta').on('click', PainelAdministrador.menuPerguntasOnClickBotaoIncluirPergunta);
-        $('#modalPerguntaBotaoFechar').on('click', PainelAdministrador.modalPerguntaOnClicaoBotaoFechar);
+        $('#navegacaoItemAvaliacao').on('click', PainelAdministrador.onClickBotaoAvalicao);
+        $('#dashboardMenuOptionSetores').on('click', PainelAdministrador.onClickOpcaoMenuSetores);
+        $('#dashboardMenuOptionPerguntas').on('click', PainelAdministrador.onClickOpcaoMenuPerguntas);
     },
 
     /** Comportamento chamado ao clicar no atalho para a página de avaliação */
     onClickBotaoAvalicao: function() {
         $(location).attr('href', 'http://localhost/ProgramacaoWebUnidavi/TrabalhoSemestral/public/avaliacao');
+    },
+
+    /**
+     * ================================================================================================================================ 
+     * =========================================================== DASHBOARD ========================================================== 
+     * ================================================================================================================================ 
+     */
+
+    /** Limpa o conteúdo atual do dashboard */
+    limpaDashboardMenuItens: function() {
+        $('#dashboardMenuItens').empty();  
+    },
+
+    /** Exibe o bloqueio de aguarda na área do dashboard */
+    exibeBloqueioAguardeDashboardMenuItens: function() {
+        let conteudoDashboardAguarde = $('#aguarde').html();
+        $('#dashboardMenuItens').html(conteudoDashboardAguarde);
     },
 
     /**
@@ -30,8 +42,7 @@ var PainelAdministrador = {
 
     /** Comportamento chamado ao clicar no item "Setores" do menu */
     onClickOpcaoMenuSetores: function() {
-        PainelAdministrador.menuSetoresLimpaMenu();
-        PainelAdministrador.menuPerguntasLimparMenu();
+        PainelAdministrador.limpaDashboardMenuItens();
         PainelAdministrador.menuSetoresCarregaTabelaSetores();
     },
 
@@ -60,14 +71,14 @@ var PainelAdministrador = {
                 });
             }
 
-            $('#totalSetores')[0].innerHTML = 'Total: ' + setores.length; 
-            $('#menuItensAguarde').css('display', 'none'); 
-            $('#setores').css('display', 'flex'); 
+            $('#totalSetores')[0].innerHTML = 'Total: ' + setores.length;
+            PainelAdministrador.limpaDashboardMenuItens();
+            let conteudoDashboardSetores = $('#setores').html();
+            $('#dashboardMenuItens').html(conteudoDashboardSetores);
+            PainelAdministrador.menuSetoresLoadComportamentos();
         }
 
-        $('#setores').css('display', 'none'); 
-        $('#perguntas').css('display', 'none'); 
-        $('#menuItensAguarde').css('display', 'flex'); 
+        PainelAdministrador.exibeBloqueioAguardeDashboardMenuItens();
         Ajax.loadAjax({
             url: 'http://localhost/ProgramacaoWebUnidavi/TrabalhoSemestral/public/painelAdministrador/setores',
             method: 'get',
@@ -76,14 +87,19 @@ var PainelAdministrador = {
         });
     },
 
+    /** Carrega os comportamentos da aba de setores */
+    menuSetoresLoadComportamentos: function() {
+        $('#btnIncluirSetor').on('click', PainelAdministrador.menuSetoresOnClickBotaoIncluirSetor);
+    },
+
     /** Comportamento chamado ao clicar no botão para incluir um novo setor */
     menuSetoresOnClickBotaoIncluirSetor: function(registro) {
-        $('#modalSetorTitulo')[0].innerHTML = 'Incluir Setor';
+        $('#modalHeaderTitulo')[0].innerHTML = 'Incluir Setor';
         $('#app').css('opacity', '0.1');
-        $('#modalSetorBotaoConfirmar').off('click');
-        $('#modalSetorBotaoConfirmar').on('click', PainelAdministrador.modalSetorOnClickBotaoConfirmarInclusao);
-        $('#areaModal').css('display', 'flex');
-        $('#modalSetor').css('display', 'flex');
+        $('#modalContent').html($('.modalContentSetor').html());
+        $('#modalFooterBotaoConfirmar').off('click');
+        $('#modalFooterBotaoConfirmar').on('click', PainelAdministrador.modalSetorOnClickBotaoConfirmarInclusao);
+        $('#modal').css('display', 'flex');
     },
 
     /** 
@@ -91,14 +107,14 @@ var PainelAdministrador = {
      * @param {object} registro 
      */
     menuSetoresOnClickBotaoAlterarSetor: function(registro) {
+        $('#modalHeaderTitulo')[0].innerHTML = 'Alterar Setor';
+        $('#app').css('opacity', '0.1');
+        $('#modalContent').html($('.modalContentSetor').html());
+        $('#modalFooterBotaoConfirmar').off('click');
+        $('#modalFooterBotaoConfirmar').on('click', PainelAdministrador.modalSetorOnClickBotaoConfirmarAlteracao);
         $('#modalSetorIdSetor')[0].value = registro['id'];
         $('#modalSetorNomeSetor')[0].value = registro['nome'];
-        $('#modalSetorTitulo')[0].innerHTML = 'Alterar Setor';
-        $('#app').css('opacity', '0.1');
-        $('#modalSetorBotaoConfirmar').off('click');
-        $('#modalSetorBotaoConfirmar').on('click', PainelAdministrador.modalSetorOnClickBotaoConfirmarAlteracao);
-        $('#areaModal').css('display', 'flex');
-        $('#modalSetor').css('display', 'flex');
+        $('#modal').css('display', 'flex');
     },
 
     /** 
@@ -134,8 +150,7 @@ var PainelAdministrador = {
 
     /** Comportamento chamado ao clicar no item "Perguntas" do menu */
     onClickOpcaoMenuPerguntas: function() {
-        PainelAdministrador.menuSetoresLimpaMenu();
-        PainelAdministrador.menuPerguntasLimparMenu();
+        PainelAdministrador.limpaDashboardMenuItens();
         PainelAdministrador.menuPerguntasCarregaMenuPerguntas();
     },
     
@@ -150,20 +165,25 @@ var PainelAdministrador = {
                 $('#filtrosPerguntaslistaSetores').append(novaOpcaoSetor);
             }
 
-            $('#menuItensAguarde').css('display', 'none'); 
-            $('#perguntas').css('display', 'flex'); 
-            $('#setores').css('display', 'none'); 
+            PainelAdministrador.limpaDashboardMenuItens();
+            let conteudoDashboardPerguntas = $('#perguntas').html();
+            $('#dashboardMenuItens').html(conteudoDashboardPerguntas);
+            PainelAdministrador.menuPerguntasLoadComportamentos();
         }
 
-        $('#setores').css('display', 'none'); 
-        $('#perguntas').css('display', 'none');
-        $('#menuItensAguarde').css('display', 'flex');
+        PainelAdministrador.exibeBloqueioAguardeDashboardMenuItens();
         Ajax.loadAjax({
             url: 'http://localhost/ProgramacaoWebUnidavi/TrabalhoSemestral/public/painelAdministrador/setores',
             method: 'get',
             async: false,
             fnSucess: fnCarregaFiltroSetores
         });
+    },
+
+    /** Carrega os comportamentos da aba de perguntas */
+    menuPerguntasLoadComportamentos: function() {
+        $('#btnCarregarPerguntas').on('click', PainelAdministrador.menuPerguntasOnClickBotaoPesquisar);
+        $('#btnIncluirPergunta').on('click', PainelAdministrador.menuPerguntasOnClickBotaoIncluirPergunta);
     },
 
     /** Comportamento chamado ao clicar no botão para pesquisar as perguntas de um setor */
@@ -184,7 +204,6 @@ var PainelAdministrador = {
                 let novaLinhaSetor = `
                     <tr>
                         <td>${perguntas[i]['id']}</td>
-                        <td>${perguntas[i]['id_setor']}</td>
                         <td>${perguntas[i]['pergunta']}</td>
                         <td><button class="btn btn-warning btn-sm" name="tabelaPerguntaBotaoAlterar${perguntas[i]['id']}" id="tabelaPerguntaBotaoAlterar${perguntas[i]['id']}">Alterar</button></td>
                         <td><button class="btn btn-danger btn-sm" name="tabelaPerguntaBotaoExcluir${perguntas[i]['id']}" id="tabelaPerguntaBotaoExcluir${perguntas[i]['id']}">Excluir</button></td>
@@ -227,7 +246,6 @@ var PainelAdministrador = {
             $('#app').css('opacity', '0.1');
             $('#modalPerguntaBotaoConfirmar').off('click');
             $('#modalPerguntaBotaoConfirmar').on('click', PainelAdministrador.modalPerguntaOnClickBotaoConfirmarInclusao);
-            $('#areaModal').css('display', 'flex'); 
             $('#modalPergunta').css('display', 'flex'); 
         }
 
@@ -262,7 +280,6 @@ var PainelAdministrador = {
             $('#modalPerguntaBotaoConfirmar').off('click');
             $('#modalPerguntaBotaoConfirmar').on('click', PainelAdministrador.modalPerguntaOnClickBotaoConfirmarInclusao);
             $('#app').css('opacity', '0.1');
-            $('#areaModal').css('display', 'flex'); 
             $('#modalPergunta').css('display', 'flex'); 
         }
 
@@ -302,6 +319,61 @@ var PainelAdministrador = {
 
     /**
      * ================================================================================================================================ 
+     * ========================================================= DISPOSITIVOS  ======================================================== 
+     * ================================================================================================================================ 
+     */
+
+    /** Comportamento chamado ao clicar no item "Perguntas" do menu */
+    onClickOpcaoMenuDispositivos: function() {
+        PainelAdministrador.menuSetoresLimpaMenu();
+        PainelAdministrador.menuPerguntasLimparMenu();
+        PainelAdministrador.menuPerguntasCarregaMenuDispositivos();
+    },
+
+    /** Realiza o carregamento inicial do menu dos dispositivos */
+    menuPerguntasCarregaMenuDispositivos: function() {
+        let fnCarregaFiltroSetores = function(response) {
+            let setores = Object.values(JSON.parse(response));
+            $('#filtrosAvaliacoeslistaSetores').append('<option value="0">Selecione...</option>');
+
+            for (let i = 0; i < setores.length; i++) {
+                let novaOpcaoSetor = `<option value="${setores[i]['id']}">${setores[i]['nome']}</option>`;
+                $('#filtrosAvaliacoesListaSetores').append(novaOpcaoSetor);
+            }
+
+            $('#aguarde').css('display', 'none'); 
+            $('#dispositivos').css('display', 'flex'); 
+        }
+
+        $('#aguarde').css('display', 'flex');
+        Ajax.loadAjax({
+            url: 'http://localhost/ProgramacaoWebUnidavi/TrabalhoSemestral/public/painelAdministrador/setores',
+            method: 'get',
+            async: false,
+            fnSucess: fnCarregaFiltroSetores
+        });
+    },
+
+    menuDispositivosLimparMenu: function() {
+        $('#totalDispositivos')[0].innerHTML = '';
+        $('#tebelaDispositivos > tbody').empty();
+        $('#tebelaDispositivos').css('display', 'none');
+    },
+
+    /**
+     * ================================================================================================================================ 
+     * ============================================================= MODAL ============================================================ 
+     * ================================================================================================================================ 
+     */
+
+    /** Comportamento chamado ao fechar o modal */
+    onCloseModal: function() {
+        $('#app').css('opacity', '1');
+        $('#modalContent').empty();
+    },
+
+    /**
+     * ================================================================================================================================ 
      * ========================================================== MODAL SETOR ========================================================= 
      * ================================================================================================================================ 
      */
@@ -309,7 +381,6 @@ var PainelAdministrador = {
     /** Comportamento chamado ao clicar no botão para fechar o modal do setor */
     modalSetorOnClicaoBotaoFechar: function() {
         $('#app').css('opacity', '1');
-        $('#areaModal').css('display', 'none'); 
         $('#modalSetor').css('display', 'none'); 
         $('#modalSetorIdSetor')[0].value = '';
         $('#modalSetorNomeSetor')[0].value = '';
@@ -370,24 +441,13 @@ var PainelAdministrador = {
      * ================================================================================================================================ 
      */
 
-    /** Comportamento chamado ao apertar para fechar o modal de pergunta */
-    modalPerguntaOnClicaoBotaoFechar: function() {
-        $('#app').css('opacity', '1');
-        $('#areaModal').css('display', 'none'); 
-        $('#modalPergunta').css('display', 'none');
-        $('#modalPerguntaId')[0].value = '';
-        $('#modalPerguntaSetor')[0].value = '';
-        $('#modalPerguntaQuestao')[0].value = '';
-        $('#modalPerguntaTitulo')[0].value = ''; 
-    },
-
     /** Comportamento chamado ao confirmar a inclusão da pergunta */
     modalPerguntaOnClickBotaoConfirmarInclusao: function() {
         let idSetor = $('#modalPerguntaSetor').val();
         let questao = $('#modalPerguntaQuestao').val();
         let fnAfterClickBotaoConfirmar = function() {
             Message.success('Pergunta inserida com sucesso!', function() {
-                PainelAdministrador.modalPerguntaOnClicaoBotaoFechar();
+                PainelAdministrador.onCloseModal();
                 PainelAdministrador.menuPerguntasOnClickBotaoPesquisar();
             });
         }
@@ -407,7 +467,7 @@ var PainelAdministrador = {
         let questao = $('#modalPerguntaQuestao').val();
         fnAfterClickBotaoConfirmar = function() {
             Message.success('Pergunta alterada com sucesso!', function() {
-                PainelAdministrador.modalPerguntaOnClicaoBotaoFechar();
+                PainelAdministrador.onCloseModal();
                 PainelAdministrador.menuPerguntasOnClickBotaoPesquisar();
             });
         }

@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link href="/ProgramacaoWebUnidavi/TrabalhoSemestral/public/css/index.css" rel="stylesheet">
+    <link href="/ProgramacaoWebUnidavi/TrabalhoSemestral/public/css/header.css" rel="stylesheet">
+    <link href="/ProgramacaoWebUnidavi/TrabalhoSemestral/public/css/navbar.css" rel="stylesheet">
     <link href="/ProgramacaoWebUnidavi/TrabalhoSemestral/public/css/avaliacao.css" rel="stylesheet">
     <link href='https://fonts.googleapis.com/css?family=Inter' rel='stylesheet'>
     <script src="/ProgramacaoWebUnidavi/TrabalhoSemestral/public/js/jquery.js"></script>
@@ -16,12 +19,12 @@
 </head>
 <body>
     <div class="app">
-        <header>
-            <div class="areaPainelAdm" name="areaPainelAdm" id="areaPainelAdm">
-                <h3 class="tituloPainelAdm">Painel do Administrador</h3>
-                <img class="imgPainelAdm" src="/ProgramacaoWebUnidavi/TrabalhoSemestral/public/img/engrenagem.png" alt="iconePainelAdm">
-            </div>
+        <header role="heading">
+            <span class="menu" id="menu" name="menu"></span>
         </header>
+        <nav class="navegacao" id="navegacao" name="navegacao" role="navigation" aria-label="Navegação">
+            <span class="navegacaoItem">Painel do Administrador</span role="navigation" aria-label="Navegação para Página de Avaliação">
+        </nav>
         <main>
             <div class="definirDispositivo" id="definirDispositivo" name="definirDispositivo">
                 <span class="definirDispositivoTitulo">Dispositivo:</span>
@@ -61,7 +64,7 @@
             <h4>Sua avaliação espontânea é anônima, nenhuma informação pessoal é solicitada ou armazenada.</h4>
         </footer>
     </div>
-
+    <script src="/ProgramacaoWebUnidavi/TrabalhoSemestral/public/js/header.js"></script>
     <script src="/ProgramacaoWebUnidavi/TrabalhoSemestral/public/js/avaliacao.js"></script>
 </body>
 </html>
