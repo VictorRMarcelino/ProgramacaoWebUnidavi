@@ -1,5 +1,5 @@
 .navegacao {
-    display: none;
+    display: flex;
     align-items: center;
     position: absolute;
     z-index: 99999;
@@ -9,6 +9,14 @@
     padding: 10px;
     background-color: #87ceeb;
     left: 0;
+    transform: translateX(-100%);
+    opacity: 0;
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.navegacaoVisivel {
+    transform: translateX(0);
+    opacity: 1;
 }
 
 .navegacao span {

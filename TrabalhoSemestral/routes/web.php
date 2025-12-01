@@ -11,6 +11,8 @@ $router->post('/avaliacao/salvar', '\src\controller\ControllerAvaliacao@salvarAv
 $router->get('/painelAdministrador', '\src\controller\ControllerPainelAdministrador@getView');
 $router->get('/painelAdministrador/setores', '\src\controller\ControllerPainelAdministrador@getSetores');
 $router->get('/painelAdministrador/perguntas', '\src\controller\ControllerPainelAdministrador@getPerguntasByIdSetor');
+$router->get('/painelAdministrador/dispositivos', '\src\controller\ControllerPainelAdministrador@getDispositivos');
+$router->get('/painelAdministrador/avaliacoes', '\src\controller\ControllerPainelAdministrador@getAvaliacoes');
 $router->get('/login/verificar', '\src\controller\ControllerLogin@login');
 $router->post('/painelAdministrador/setor/incluir', '\src\controller\ControllerPainelAdministrador@inserirSetor');
 $router->put('/painelAdministrador/setor/alterar', '\src\controller\ControllerPainelAdministrador@alterarSetor');

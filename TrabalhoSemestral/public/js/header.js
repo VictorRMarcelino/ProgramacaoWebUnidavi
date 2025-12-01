@@ -12,10 +12,12 @@ var Header = {
 
     /** Comportamento executado ao clicar no menu do header */
     onClickMenu: function() {
-        if ($('#navegacao').css('display') == 'none') {
-            $('#navegacao').css('display', 'flex');
+        let classesNavegacao = $('#navegacao')[0].classList;
+
+        if (!classesNavegacao.contains('navegacaoVisivel')) {
+            $('#navegacao')[0].classList.add('navegacaoVisivel');
         } else {
-            $('#navegacao').css('display', 'none');
+            $('#navegacao')[0].classList.remove('navegacaoVisivel');
         }
     }
 }

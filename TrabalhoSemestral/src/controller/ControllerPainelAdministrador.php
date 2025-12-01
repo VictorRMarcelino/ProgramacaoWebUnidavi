@@ -19,6 +19,12 @@ class ControllerPainelAdministrador extends Controller {
     }
 
     /**
+     * ================================================================================================================================ 
+     * ============================================================= SETOR ============================================================ 
+     * ================================================================================================================================ 
+     */
+
+    /**
      * Retorna todos os setores
      * @return Response
      */
@@ -34,24 +40,6 @@ class ControllerPainelAdministrador extends Controller {
         }
 
         return new Response(json_encode($setores));
-    }
-
-    /**
-     * Retorna as perguntas vinculadas com um setor
-     * @return Response
-     */
-    public function getPerguntasByIdSetor() {
-        $idSetor = $_GET['idSetor'];
-        $perguntas = [];
-        $result = Query::select('pergunta', ['*'], ['id_setor = $1'], [$idSetor], ['id asc']);
-
-        if ($result) {
-            while ($pergunta = pg_fetch_assoc($result)) {
-                $perguntas[] = $pergunta;
-            }
-        }
-
-        return new Response(json_encode($perguntas));
     }
 
     /**
@@ -88,6 +76,30 @@ class ControllerPainelAdministrador extends Controller {
         }
 
         Query::delete('setor', ["id = $1"], [$idSetor]);
+    }
+
+    /**
+     * ================================================================================================================================ 
+     * =========================================================== PERGUNTAS ==========================================================
+     * ================================================================================================================================ 
+     */
+
+    /**
+     * Retorna as perguntas vinculadas com um setor
+     * @return Response
+     */
+    public function getPerguntasByIdSetor() {
+        $idSetor = $_GET['idSetor'];
+        $perguntas = [];
+        $result = Query::select('pergunta', ['*'], ['id_setor = $1'], [$idSetor], ['id asc']);
+
+        if ($result) {
+            while ($pergunta = pg_fetch_assoc($result)) {
+                $perguntas[] = $pergunta;
+            }
+        }
+
+        return new Response(json_encode($perguntas));
     }
 
     /**

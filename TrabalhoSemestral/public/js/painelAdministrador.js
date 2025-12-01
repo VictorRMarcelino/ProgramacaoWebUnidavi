@@ -34,6 +34,19 @@ var PainelAdministrador = {
         $('#dashboardMenuItens').html(conteudoDashboardAguarde);
     },
 
+    /** Atualiza as classes do CSS ao selecionar uma opção do dashboard */
+    alteraClasseDashboardMenuOptionSelecionado: function(idOpcaoSelecionada) {
+        $('.dashboardMenuOption').each(function(index, opcaoMenuDashboard) {
+            let classesOpcaoMenuDashboard = opcaoMenuDashboard.classList;
+
+            if (classesOpcaoMenuDashboard.contains('dashboardMenuOptionSelecionado')) {
+                opcaoMenuDashboard.classList.remove('dashboardMenuOptionSelecionado');
+            }
+        });
+
+        $('#' + idOpcaoSelecionada)[0].classList.add('dashboardMenuOptionSelecionado');
+    },
+
     /**
      * ================================================================================================================================ 
      * ============================================================ SETORES =========================================================== 
@@ -42,6 +55,7 @@ var PainelAdministrador = {
 
     /** Comportamento chamado ao clicar no item "Setores" do menu */
     onClickOpcaoMenuSetores: function() {
+        PainelAdministrador.alteraClasseDashboardMenuOptionSelecionado('dashboardMenuOptionSetores');
         PainelAdministrador.limpaDashboardMenuItens();
         PainelAdministrador.menuSetoresCarregaTabelaSetores();
     },
@@ -49,6 +63,7 @@ var PainelAdministrador = {
     /** Realiza o carregamento da tabela de setores */
     menuSetoresCarregaTabelaSetores: function() {
         PainelAdministrador.menuSetoresLimpaMenu();
+        $('#tebelaSetores > tbody').empty();
         let fnCarregaTabelaSetores = function(response) {
             let setores = Object.values(JSON.parse(response));
 
@@ -150,6 +165,7 @@ var PainelAdministrador = {
 
     /** Comportamento chamado ao clicar no item "Perguntas" do menu */
     onClickOpcaoMenuPerguntas: function() {
+        PainelAdministrador.alteraClasseDashboardMenuOptionSelecionado('dashboardMenuOptionPerguntas');
         PainelAdministrador.limpaDashboardMenuItens();
         PainelAdministrador.menuPerguntasCarregaMenuPerguntas();
     },
@@ -325,39 +341,70 @@ var PainelAdministrador = {
 
     /** Comportamento chamado ao clicar no item "Perguntas" do menu */
     onClickOpcaoMenuDispositivos: function() {
-        PainelAdministrador.menuSetoresLimpaMenu();
-        PainelAdministrador.menuPerguntasLimparMenu();
+        PainelAdministrador.alteraClasseDashboardMenuOptionSelecionado('dashboardMenuOptionAvaliacoes');
+        PainelAdministrador.limpaDashboardMenuItens();
         PainelAdministrador.menuPerguntasCarregaMenuDispositivos();
     },
 
     /** Realiza o carregamento inicial do menu dos dispositivos */
     menuPerguntasCarregaMenuDispositivos: function() {
+        $('#totalDispositivos > tbody').empty();
         let fnCarregaFiltroSetores = function(response) {
-            let setores = Object.values(JSON.parse(response));
-            $('#filtrosAvaliacoeslistaSetores').append('<option value="0">Selecione...</option>');
+            let dispositivos = Object.values(JSON.parse(response));
 
-            for (let i = 0; i < setores.length; i++) {
-                let novaOpcaoSetor = `<option value="${setores[i]['id']}">${setores[i]['nome']}</option>`;
-                $('#filtrosAvaliacoesListaSetores').append(novaOpcaoSetor);
+            for (let i = 0; i < dispositivos.length; i++) {
+                let novaLinhaDispositivo = `
+                    <tr>
+                        <td>${dispositivos[i]['id']}</td>
+                        <td>${dispositivos[i]['nome']}</td>
+                        <td>${dispositivos[i]['setor']}</td>
+                        <td><button class="btn btn-warning btn-sm" name="tabelaDispositivoBotaoAlterar${dispositivos[i]['id']}" id="tabelaDispositivoBotaoAlterar${dispositivos[i]['id']}">Alterar</button></td>
+                        <td><button class="btn btn-danger btn-sm" name="tabelaDispositivoBotaoExcluir${dispositivos[i]['id']}" id="tabelaDispositivoBotaoExcluir${dispositivos[i]['id']}">Excluir</button></td>
+                    </tr>
+                `;
+
+                $('#totalDispositivos > tbody').append(novaLinhaDispositivo);
+                $(`#tabelaPerguntaBotaoAlterar${perguntas[i]['id']}`).on('click', function() {
+                    PainelAdministrador.menuPerguntasOnClickBotaoAlterarPergunta.apply(PainelAdministrador, [dispositivos[i]]);
+                });
+                $(`#tabelaPerguntaBotaoExcluir${perguntas[i]['id']}`).on('click', function() {
+                    PainelAdministrador.menuDispositivosOnClickBotaoDeletar.apply(PainelAdministrador, [dispositivos[i]['id']]);
+                });
             }
 
-            $('#aguarde').css('display', 'none'); 
-            $('#dispositivos').css('display', 'flex'); 
+            $('#totalDispositivos')[0].innerHTML = 'Total: ' + perguntas.length; 
+            PainelAdministrador.limpaDashboardMenuItens();
+            let conteudoDashboardDispositivos = $('#dispositivos').html();
+            $('#dashboardMenuItens').html(conteudoDashboardDispositivos);
+            PainelAdministrador.menuPerguntasLoadComportamentos();
         }
 
-        $('#aguarde').css('display', 'flex');
+        PainelAdministrador.exibeBloqueioAguardeDashboardMenuItens();
         Ajax.loadAjax({
-            url: 'http://localhost/ProgramacaoWebUnidavi/TrabalhoSemestral/public/painelAdministrador/setores',
+            url: 'http://localhost/ProgramacaoWebUnidavi/TrabalhoSemestral/public/painelAdministrador/dispositivos',
             method: 'get',
             async: false,
             fnSucess: fnCarregaFiltroSetores
         });
     },
 
-    menuDispositivosLimparMenu: function() {
-        $('#totalDispositivos')[0].innerHTML = '';
-        $('#tebelaDispositivos > tbody').empty();
-        $('#tebelaDispositivos').css('display', 'none');
+    /**
+     * Comportamento chamado ao clicar no botão para deletar uma pergunta
+     * @param {int} idPergunta 
+     */
+    menuDispositivosOnClickBotaoDeletar: function(idPergunta) {
+        let fnAfterClickBotaoDeletar = function() {
+            Message.success('Pergunta removida com sucesso!', function() {
+                PainelAdministrador.menuPerguntasOnClickBotaoPesquisar();
+            });
+        }
+
+        Ajax.loadAjax({
+            url: 'http://localhost/ProgramacaoWebUnidavi/TrabalhoSemestral/public/painelAdministrador/pergunta/deletar',
+            method: 'delete',
+            data: {idPergunta: idPergunta},
+            fnSucess: fnAfterClickBotaoDeletar
+        });
     },
 
     /**
