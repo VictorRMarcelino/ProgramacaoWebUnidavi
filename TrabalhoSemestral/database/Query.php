@@ -52,6 +52,27 @@ class Query {
     }
 
     /**
+     * Executa um select no banco de dados
+     * @param string $tabela
+     * @param array $colunas
+     * @param array $condicoes
+     * @param array $valores
+     * @param array $orderBy
+     * @throws \Exception
+     */
+    public static function selectManual(string $sql, array $valoresCondicoes = []) {
+        $connection = Conexao::getConnection();
+
+        $result = pg_query_params($connection, $sql, $valoresCondicoes);
+    
+        if (!$result) {
+            throw new \Exception(pg_last_error($connection));
+        }
+
+        return $result;
+    }
+
+    /**
      * Executa um insert com uma query prepared
      * @param string $tabela
      * @param array $colunas

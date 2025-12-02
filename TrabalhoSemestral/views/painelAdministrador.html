@@ -29,9 +29,9 @@
             <section class="dashboard" name="dashboard" id="dashboard">
                 <div class="dashboardMenu">
                     <span class="dashboardMenuOption" id="dashboardMenuOptionSetores" name="dashboardMenuOptionSetores">Setores</span>
+                    <span class="dashboardMenuOption" id="dashboardMenuOptionDispositivos" name="dashboardMenuOptionDispositivos">Dispositivos</span>
                     <span class="dashboardMenuOption" id="dashboardMenuOptionPerguntas" name="dashboardMenuPerguntas">Perguntas</span>
                     <span class="dashboardMenuOption" id="dashboardMenuOptionAvaliacoes" name="dashboardMenuOptionAvaliacoes">Avaliações</span>
-                    <span class="dashboardMenuOption" id="dashboardMenuOptionDispositivos" name="dashboardMenuOptionDispositivos">Dispositivos</span>
                 </div>
                 <div class="dashboardMenuItens" id="dashboardMenuItens" name="dashboardMenuItens"></div>
             </section>
@@ -43,7 +43,7 @@
                 <span class="modalHeaderTitulo" id="modalHeaderTitulo" name="modalHeaderTitulo"></span>
             </div>
             <div class="modalHeaderAcoes">
-                <button class="btn btn-danger" name="modalHeaderAcoes" id="modalHeaderAcoes">X</button>
+                <button class="btn btn-danger" name="modalHeaderAcoesFechar" id="modalHeaderAcoesFechar">X</button>
             </div>
         </div>
         <div class="modalContent" name="modalContent" id="modalContent"></div>
@@ -56,16 +56,21 @@
         <input type="text" class="form-control modalSetorNomeSetor" name="modalSetorNomeSetor" id="modalSetorNomeSetor" placeholder="Nome do Setor...">
     </div>
     <div class="modalContentPergunta">
-        <input type="text" class="form-control modalPerguntaId" name="modalPerguntaId" id="modalPerguntaId" readonly>
+        <input type="text" class="form-control modalPerguntaId" name="modalPerguntaId" id="modalPerguntaId" readonly placeholder="Código">
         <select class="modalPerguntaSetor" name="modalPerguntaSetor" id="modalPerguntaSetor"></select>
-        <input type="text" class="form-control modalPerguntaQuestao" name="modalPerguntaQuestao" id="modalPerguntaQuestao" placeholder="Informe a pergunta...">
+        <textarea type="text" class="form-control modalPerguntaQuestao" name="modalPerguntaQuestao" id="modalPerguntaQuestao" placeholder="Informe a pergunta..."></textarea>
+    </div>
+    <div class="modalContentDispositivo">
+        <input type="text" class="form-control modalDispositivoId" name="modalDispositivoId" id="modalDispositivoId" readonly>
+        <select class="modalDispositivoSetor" name="modalDispositivoSetor" id="modalDispositivoSetor"></select>
+        <input type="text" class="form-control modalDispositivoNome" name="modalDispositivoNome" id="modalDispositivoNome" placeholder="Informe o nome do dispositivo...">
     </div>
     <div class="setores" id="setores" name="setores">
         <div class="menuSetores">
             <button class="btn btn-success" id="btnIncluirSetor" name="btnIncluirSetor">Incluir</button>
         </div>
         <div class="consulta">
-            <table id="tebelaSetores" name="tebelaSetores">
+            <table id="tabelaSetores" name="tabelaSetores">
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -91,7 +96,7 @@
             <button class="btn btn-success" id="btnIncluirPergunta" name="btnIncluirPergunta">Incluir</button>
         </div>
         <div class="consulta">
-            <table class="tabelaPerguntas" id="tebelaPerguntas" name="tebelaPerguntas">
+            <table class="tabelaPerguntas" id="tabelaPerguntas" name="tabelaPerguntas">
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -113,28 +118,35 @@
             <select class="filtrosAvaliacoesListaSetores" name="filtrosAvaliacoesListaSetores" id="filtrosAvaliacoesListaSetores"></select>
             <button class="btn btn-primary" id="btnCarregarAvaliacoes" name="btnCarregarAvaliacoes">Pesquisar</button>
         </div>
-        <table class="tabelaAvaliacoes" id="tabelaAvaliacoes" name="tabelaAvaliacoes">
-            <thead></thead>
-            <tbody></tbody>
-        </table>
+        <div class="consulta">
+            <table class="tabelaAvaliacoes" id="tabelaAvaliacoes" name="tabelaAvaliacoes">
+                <thead></thead>
+                <tbody></tbody>
+            </table>
+        </div>
+        <div class="totalizadorConsulta">
+            <span class="totalAvaliacoes" id="totalAvaliacoes" name="totalAvaliacoes"></span>
+        </div>
     </div>
     <div class="dispositivos" id="dispositivos" name="dispositivos">
-        <div class="menudispositivos">
+        <div class="menuDispositivos">
             <button class="btn btn-success" id="btnIncluirDipositivo" name="btnIncluirDispositivo">Incluir</button>
         </div>
-        <table id="tebelaDispositivos" name="tebelaDispositivos">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nome</th>
-                    <th>Setor</th>
-                    <th>Alterar</th>
-                    <th>Excluir</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
-        <div class="totalizadorDispositivos">
+        <div class="consulta">
+            <table id="tabelaDispositivos" name="tabelaDispositivos">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nome</th>
+                        <th>Setor</th>
+                        <th>Alterar</th>
+                        <th>Excluir</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+        <div class="totalizadorConsulta">
             <span class="totalDispositivos" id="totalDispositivos" name="totalDispositivos"></span>
         </div>
     </div>

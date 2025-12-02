@@ -29,7 +29,6 @@ class ControllerPainelAdministrador extends Controller {
      * @return Response
      */
     public function getSetores() {
-        $sql = 'SELECT * FROM setor';
         $setores = [];
         $result = Query::select('setor', ['*']);
 
@@ -123,7 +122,7 @@ class ControllerPainelAdministrador extends Controller {
     public function inserirPergunta() {
         $idSetor = $_POST['idSetor'];
         $pergunta = $_POST['pergunta'];
-        Query::insertQueryPrepared('pergunta', ['id_setor', 'pergunta'], [$idSetor, $pergunta]);
+        Query::insertQueryPrepared('pergunta', ['id_setor', 'pergunta', 'ativa'], [$idSetor, $pergunta, 1]);
     }
 
     /** Realiza o update de uma pergunta */
@@ -153,6 +152,104 @@ class ControllerPainelAdministrador extends Controller {
      */
     private function validaAvaliacaoRespondeuPergunta(int $idPergunta) {
         $result = Query::select('respostas', ['1'], ['id_pergunta = $1'], [$idPergunta]);
+
+        if ($result) {
+            if (pg_fetch_assoc($result)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * ================================================================================================================================ 
+     * ========================================================== AVALIAÇÕES ==========================================================
+     * ================================================================================================================================ 
+     */
+    
+    /**
+     * Retorna as perguntas vinculadas com um setor
+     * @return Response
+     */
+    public function getAvaliacoesByIdSetor() {
+        $idSetor = $_GET['idSetor'];
+        $perguntas = [];
+        $result = Query::selectManual('pergunta', ['*'], ['id_setor = $1'], [$idSetor], ['id asc']);
+
+        if ($result) {
+            while ($pergunta = pg_fetch_assoc($result)) {
+                $perguntas[] = $pergunta;
+            }
+        }
+
+        return new Response(json_encode($perguntas));
+    }
+
+    /**
+     * ================================================================================================================================ 
+     * ========================================================== DISPOSITIVOS ========================================================
+     * ================================================================================================================================ 
+     */
+
+    /**
+     * Retorna todos os dispositivos cadastrados no sistema
+     * @return void
+     */
+    public function getDispositivos() {
+        $dispositivos = [];
+        $sql = 'SELECT dispositivo.id
+                     , dispositivo.nome
+                     , setor.id as idSetor
+                     , setor.nome as setor
+                  FROM dispositivo
+                  JOIN setor
+                    ON setor.id = dispositivo.id_setor';
+        $result = Query::selectManual($sql);
+
+        if ($result) {
+            while ($dispositivo = pg_fetch_assoc($result)) {
+                $dispositivos[] = $dispositivo;
+            }
+        }
+
+        return new Response(json_encode($dispositivos));
+    }
+
+    /** Insere uma nova pergunta */
+    public function inserirDispositivo() {
+        $idSetor = $_POST['idSetor'];
+        $nomeDispositivo = $_POST['nomeDispositivo'];
+        Query::insertQueryPrepared('dispositivo', ['id_setor', 'nome', 'ativa'], [$idSetor, $nomeDispositivo, 1]);
+    }
+
+    /** Realiza o update de uma pergunta */
+    public function alterarDispositivo() {
+        parse_str(file_get_contents("php://input"), $_PUT);
+        $idDispositivo = $_PUT['idDispositivo'];
+        $nomeDispositivo = $_PUT['nomeDispositivo'];
+        Query::update('dispositivo', ["nome = $1"], ["id = $2"], [$nomeDispositivo, $idDispositivo]);
+    }
+
+    /** Realiza a exclusão de uma pergunta */
+    public function excluirDispositivo() {
+        parse_str(file_get_contents("php://input"), $_DELETE);
+        $idDispositivo = $_DELETE['idDispositivo'];
+
+        if ($this->validaDispositivoRespondeuPergunta($idDispositivo)) {
+            throw new Exception('Não é possível remover este dispositivo pois o mesmo já foi utilizado para responder uma ou mais avaliações.');
+        }
+
+        Query::delete('dispositivo', ["id = $1"], [$idDispositivo]);
+    }
+
+    /**
+     * Verifica se o dispositivo já foi utilizado para responder uma pergunta
+     * @param int $idDispositivo
+     * @return bool
+     */
+    private function validaDispositivoRespondeuPergunta(int $idDispositivo) {
+        $result = Query::select('avaliacao', ['1'], ['id_dispositivo = $1'], [$idDispositivo]);
 
         if ($result) {
             if (pg_fetch_assoc($result)) {
