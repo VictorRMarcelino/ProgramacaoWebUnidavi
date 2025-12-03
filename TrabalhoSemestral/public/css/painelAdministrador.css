@@ -203,3 +203,7 @@ main {
     overflow: auto;
     font-size: 0.9rem;
 }
+
+.modalContentDispositivo {
+    display: none;
+}

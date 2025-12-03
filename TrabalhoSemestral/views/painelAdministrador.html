@@ -11,6 +11,7 @@
     <link href="/ProgramacaoWebUnidavi/TrabalhoSemestral/public/css/modal.css" rel="stylesheet">
     <link href="/ProgramacaoWebUnidavi/TrabalhoSemestral/public/css/painelAdministrador.css" rel="stylesheet">
     <script src="/ProgramacaoWebUnidavi/TrabalhoSemestral/public/js/jquery.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
     <script src="/ProgramacaoWebUnidavi/TrabalhoSemestral/public/js/message.min.js"></script>
     <script src="/ProgramacaoWebUnidavi/TrabalhoSemestral/public/js/ajax.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
@@ -24,6 +25,8 @@
         </header>
         <nav class="navegacao" id="navegacao" name="navegacao" role="navigation" aria-label="Navegação">
             <span class="navegacaoItem" id="navegacaoItemAvaliacao" name="navegacaoItemAvaliacao">Avaliação</span role="navigation" aria-label="Navegação para Página de Avaliação">
+            <span class="navegacaoItem" id="navegacaoItemResetarEscolhaDispositivo" name="navegacaoItemResetarEscolhaDispositivo">Resetar Escolha Dispositivo</span role="button" aria-label="Reseta a Escolha do Dispositivo Para a Avaliação">
+            <span class="navegacaoItem" id="navegacaoItemDeslogar" name="navegacaoItemDeslogar">Deslogar</span role="navigation" aria-label="Desloga do Painel do Administrador">
         </nav>
         <main>
             <section class="dashboard" name="dashboard" id="dashboard">
@@ -89,6 +92,7 @@
                     <tr>
                         <th>ID</th>
                         <th>Pergunta</th>
+                        <th>Ativo</th>
                         <th>Alterar</th>
                         <th>Excluir</th>
                     </tr>
@@ -126,6 +130,7 @@
                     <tr>
                         <th>ID</th>
                         <th>Nome</th>
+                        <th>Ativo</th>
                         <th>Setor</th>
                         <th>Alterar</th>
                         <th>Excluir</th>
@@ -145,14 +150,22 @@
     <div class="modalContentPergunta" id="modalContentPergunta" name="modalContentPergunta">
         <input type="text" class="form-control modalPerguntaId" name="estruturamodalPerguntaId" id="estruturamodalPerguntaId" readonly placeholder="Código">
         <select class="modalPerguntaSetor" name="estruturamodalPerguntaSetor" id="estruturamodalPerguntaSetor"></select>
+        <select class="modalDispositivoAtivo" name="estruturamodalPerguntaAtivo" id="estruturamodalPerguntaAtivo">
+            <option value="0">Não</option>
+            <option value="1">Sim</option>
+        </select>
         <textarea type="text" class="form-control modalPerguntaQuestao" name="estruturamodalPerguntaQuestao" id="estruturamodalPerguntaQuestao" placeholder="Informe a pergunta..."></textarea>
     </div>
     <div class="modalContentDispositivo" id="modalContentDispositivo" name="modalContentDispositivo">
         <input type="text" class="form-control modalDispositivoId" name="estruturamodalDispositivoId" id="estruturamodalDispositivoId" readonly>
         <select class="modalDispositivoSetor" name="estruturamodalDispositivoSetor" id="estruturamodalDispositivoSetor"></select>
+        <select class="modalDispositivoAtivo" name="estruturamodalDispositivoAtivo" id="estruturamodalDispositivoAtivo">
+            <option value="0">Não</option>
+            <option value="1">Sim</option>
+        </select>
         <input type="text" class="form-control modalDispositivoNome" name="estruturamodalDispositivoNome" id="estruturamodalDispositivoNome" placeholder="Informe o nome do dispositivo...">
     </div>
     <script src="/ProgramacaoWebUnidavi/TrabalhoSemestral/public/js/header.min.js"></script>
-    <script src="/ProgramacaoWebUnidavi/TrabalhoSemestral/public/js/painelAdministrador.js"></script>
+    <script src="/ProgramacaoWebUnidavi/TrabalhoSemestral/public/js/painelAdministrador.min.js"></script>
 </body>
 </html>

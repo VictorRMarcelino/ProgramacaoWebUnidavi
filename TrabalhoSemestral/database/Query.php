@@ -53,11 +53,8 @@ class Query {
 
     /**
      * Executa um select no banco de dados
-     * @param string $tabela
-     * @param array $colunas
-     * @param array $condicoes
-     * @param array $valores
-     * @param array $orderBy
+     * @param string $sql
+     * @param array $valoresCondicoes
      * @throws \Exception
      */
     public static function selectManual(string $sql, array $valoresCondicoes = []) {

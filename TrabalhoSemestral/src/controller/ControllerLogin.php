@@ -14,6 +14,11 @@ use src\core\Sessao;
  */
 class ControllerLogin extends Controller {
 
+    /** Retorna a view de avaliação */
+    public function getView() {
+        $this->view('login.html');
+    }
+
     /** Realiza o login no sistema de administrador */
     public function login() {
         $logado = false;
@@ -32,5 +37,10 @@ class ControllerLogin extends Controller {
         }
 
         echo json_encode(['logado' => $logado]);
+    }
+
+    /** Desloga um usuário do sistema */
+    public function deslogar() {
+        Sessao::finalizaSessao();
     }
 }

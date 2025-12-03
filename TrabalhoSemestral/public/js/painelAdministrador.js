@@ -8,6 +8,8 @@ var PainelAdministrador = {
     /** Carrega os comportamentos iniciais dos componentes */
     loadScripts: function() {
         $('#navegacaoItemAvaliacao').on('click', PainelAdministrador.onClickBotaoAvalicao);
+        $('#navegacaoItemResetarEscolhaDispositivo').on('click', PainelAdministrador.onClickBotaoResetarDispositivo);
+        $('#navegacaoItemDeslogar').on('click', PainelAdministrador.onClickBotaoDeslogar);
         $('#dashboardMenuOptionSetores').on('click', PainelAdministrador.onClickOpcaoMenuSetores);
         $('#dashboardMenuOptionPerguntas').on('click', PainelAdministrador.onClickOpcaoMenuPerguntas);
         $('#dashboardMenuOptionAvaliacoes').on('click', PainelAdministrador.onClickOpcaoMenuAvaliacoes);
@@ -18,6 +20,34 @@ var PainelAdministrador = {
     /** Comportamento chamado ao clicar no atalho para a página de avaliação */
     onClickBotaoAvalicao: function() {
         $(location).attr('href', 'http://localhost/ProgramacaoWebUnidavi/TrabalhoSemestral/public/avaliacao');
+    },
+
+    /** Comportamento chamado ao clicar no atalho para a página de avaliação */
+    onClickBotaoResetarDispositivo: function() {
+        Message.confirm('Você tem certeza que deseja resetar a escolha do dispositivo?', function() {
+            if (Cookies.get('dispositivo') != undefined) {
+                Cookies.remove('dispositivo');
+                Message.success('Escolha do dispositivo resetada com sucesso!');
+            } else {
+                Message.warn('Nenhum dispositivo definido!');
+            }
+        });
+    },
+
+    /** Comportamento chamado ao clicar no atalho para a página de avaliação */
+    onClickBotaoDeslogar: function() {
+        Message.confirm('Você tem certeza que deseja deslogar do Painel de Administrador?', function() {
+            Ajax.loadAjax({
+                url: 'http://localhost/ProgramacaoWebUnidavi/TrabalhoSemestral/public/login/deslogar',
+                method: 'get',
+                async: false,
+                fnSucess: function() {
+                    Message.success('Deslogado com sucesso!', function() {
+                        $(location).attr('href', 'http://localhost/ProgramacaoWebUnidavi/TrabalhoSemestral/public/login');
+                    });
+                }
+            });
+        });
     },
 
     /** 
@@ -215,10 +245,12 @@ var PainelAdministrador = {
             let perguntas = JSON.parse(response);
             
             for (let i = 0; i < perguntas.length; i++) {
+                let isAtivo = (parseInt(perguntas[i]['ativa']) == 1) ? 'Sim' : 'Não';
                 let novaLinhaPergunta = `
                     <tr>
                         <td>${perguntas[i]['id']}</td>
                         <td>${perguntas[i]['pergunta']}</td>
+                        <td>${isAtivo}</td>
                         <td><button class="btn btn-warning btn-sm" name="tabelaPerguntaBotaoAlterar${perguntas[i]['id']}" id="tabelaPerguntaBotaoAlterar${perguntas[i]['id']}">Alterar</button></td>
                         <td><button class="btn btn-danger btn-sm" name="tabelaPerguntaBotaoExcluir${perguntas[i]['id']}" id="tabelaPerguntaBotaoExcluir${perguntas[i]['id']}">Excluir</button></td>
                     </tr>
@@ -293,6 +325,7 @@ var PainelAdministrador = {
 
             $('#modalPerguntaId')[0].value = registro['id'];
             $('#modalPerguntaSetor')[0].value = registro['id_setor'];
+            $('#modalPerguntaAtivo').val(registro['ativa']);
             $('#modalPerguntaQuestao')[0].value = registro['pergunta'];
             $('#modalHeaderTitulo')[0].innerHTML = 'Alterar Pergunta';
             $('#modal').css('display', 'flex');
@@ -388,11 +421,14 @@ var PainelAdministrador = {
             let retorno = JSON.parse(response);
             let perguntas = retorno['perguntas'];
             let avaliacoes = retorno['avaliacoes'];
+            let mediaPergunta = {};
             let colunas = '<tr>';
             colunas += '<td>Avaliação</td>';
             
             for (let i = 0; i < perguntas.length; i++) {
-                colunas += `<td>P${perguntas[i]['id']}</td>`;
+                let idPergunta = perguntas[i]['id'];
+                colunas += `<td>P${idPergunta}</td>`;
+                mediaPergunta[idPergunta] = {media: 0, quantidadeAvaliacoes: 0};
             }
 
             colunas += '<td>Média Avaliação</td>';
@@ -403,7 +439,14 @@ var PainelAdministrador = {
                 let novaLinhaAvaliacao = `<tr><td>${avaliacoes[i]['avaliacao']}</td>`;
 
                 for (let j = 0; j < perguntas.length; j++) {
-                    novaLinhaAvaliacao += `<td>${avaliacoes[i]['p' + perguntas[j]['id']]}</td>`;
+                    let idPergunta = perguntas[j]['id'];
+                    let notaResposta = avaliacoes[i]['p' + idPergunta];
+                    novaLinhaAvaliacao += `<td>${notaResposta}</td>`;
+
+                    if (notaResposta != 'N/R') {
+                        mediaPergunta[idPergunta].media += parseInt(notaResposta);
+                        mediaPergunta[idPergunta].quantidadeAvaliacoes++;
+                    }
                 }
 
                 novaLinhaAvaliacao += `<td>${avaliacoes[i]['mediaavaliacao']}</td></tr>`;
@@ -411,7 +454,14 @@ var PainelAdministrador = {
                 $('#tabelaAvaliacoes > tbody').append(novaLinhaAvaliacao);
             }
 
-            let linhaMediaRespostas = '<tr><td>Média Respostas</td></tr>'
+            let linhaMediaRespostas = '<tr><td>Média Respostas</td>'
+
+            for (let i = 0; i < perguntas.length; i++) {
+                let idPergunta = perguntas[i]['id'];
+                linhaMediaRespostas += '<td>' + Math.floor((mediaPergunta[idPergunta].media / mediaPergunta[idPergunta].quantidadeAvaliacoes)) + '</td>';
+            }
+
+            linhaMediaRespostas += '</tr>';
             $('#tabelaAvaliacoes > tbody').append(linhaMediaRespostas);
 
             $('#totalAvaliacoes')[0].innerHTML = 'Total: ' + avaliacoes.length;
@@ -458,6 +508,7 @@ var PainelAdministrador = {
                     <tr>
                         <td>${dispositivos[i]['id']}</td>
                         <td>${dispositivos[i]['nome']}</td>
+                        <td>${dispositivos[i]['ativo']}</td>
                         <td>${dispositivos[i]['setor']}</td>
                         <td><button class="btn btn-warning btn-sm" name="tabelaDispositivoBotaoAlterar${dispositivos[i]['id']}" id="tabelaDispositivoBotaoAlterar${dispositivos[i]['id']}">Alterar</button></td>
                         <td><button class="btn btn-danger btn-sm" name="tabelaDispositivoBotaoExcluir${dispositivos[i]['id']}" id="tabelaDispositivoBotaoExcluir${dispositivos[i]['id']}">Excluir</button></td>
@@ -539,6 +590,7 @@ var PainelAdministrador = {
 
             $('#modalDispositivoId')[0].value = registro['id'];
             $('#modalDispositivoSetor')[0].value = registro['idsetor'];
+            $('#modalDispositivoAtivo').val(registro['ativa']);
             $('#modalDispositivoNome')[0].value = registro['nome'];
             $('#modal').css('display', 'flex');
         }
@@ -656,6 +708,7 @@ var PainelAdministrador = {
     modalPerguntaOnClickBotaoConfirmarInclusao: function() {
         let idSetor = $('#modalPerguntaSetor').val();
         let questao = $('#modalPerguntaQuestao').val();
+        let ativa = $('#modalPerguntaAtivo').val();
 
         if (questao == '') {
             Message.warn('O texto da pergunta não pode ficar em branco!');
@@ -677,7 +730,7 @@ var PainelAdministrador = {
         Ajax.loadAjax({
             url: 'http://localhost/ProgramacaoWebUnidavi/TrabalhoSemestral/public/painelAdministrador/pergunta/incluir',
             method: 'post',
-            data: {idSetor: idSetor, pergunta: questao},
+            data: {idSetor: idSetor, pergunta: questao, ativa: ativa},
             async: false,
             fnSucess: fnAfterClickBotaoConfirmar
         });
@@ -687,6 +740,7 @@ var PainelAdministrador = {
     modalPerguntaOnClickBotaoConfirmarAlteracao: function() {
         let idPergunta = $('#modalPerguntaId').val();
         let questao = $('#modalPerguntaQuestao').val();
+        let ativa = $('#modalPerguntaAtivo').val();
 
         if (questao == '') {
             Message.warn('O texto da pergunta não pode ficar em branco!');
@@ -703,7 +757,7 @@ var PainelAdministrador = {
         Ajax.loadAjax({
             url: 'http://localhost/ProgramacaoWebUnidavi/TrabalhoSemestral/public/painelAdministrador/pergunta/alterar',
             method: 'put',
-            data: {idPergunta: idPergunta, pergunta: questao},
+            data: {idPergunta: idPergunta, pergunta: questao, ativa: ativa},
             fnSucess: fnAfterClickBotaoConfirmar
         });
     },
@@ -717,6 +771,7 @@ var PainelAdministrador = {
     /** Comportamento chamado ao clicar no botão de confirmar inclusão de um dispositivo */
     modalDispositivoOnClickBotaoConfirmarInclusao: function() {
         let idSetor = $('#modalDispositivoSetor').val();
+        let ativo = $('#modalDispositivoAtivo').val();
         let nomeDispositivo = $('#modalDispositivoNome').val();
 
         if (nomeDispositivo == '') {
@@ -739,7 +794,7 @@ var PainelAdministrador = {
         Ajax.loadAjax({
             url: 'http://localhost/ProgramacaoWebUnidavi/TrabalhoSemestral/public/painelAdministrador/dispositivo/incluir',
             method: 'post',
-            data: {idSetor: idSetor, nomeDispositivo: nomeDispositivo},
+            data: {idSetor: idSetor, nomeDispositivo: nomeDispositivo, ativo: ativo},
             fnSucess: fnAfterClickBotaoConfirmar
         });
     },
@@ -747,6 +802,7 @@ var PainelAdministrador = {
     /** Comportamento chamado ao clicar no botão de confirmar alteração de um setor */
     modalDispositivoOnClickBotaoConfirmarAlteracao: function() {
         let idDispositivo = $('#modalDispositivoId').val();
+        let ativo = $('#modalDispositivoAtivo').val();
         let nomeDispositivo = $('#modalDispositivoNome').val();
 
         if (nomeDispositivo == '') {
@@ -764,7 +820,7 @@ var PainelAdministrador = {
         Ajax.loadAjax({
             url: 'http://localhost/ProgramacaoWebUnidavi/TrabalhoSemestral/public/painelAdministrador/dispositivo/alterar',
             method: 'put',
-            data: {idDispositivo: idDispositivo, nomeDispositivo: nomeDispositivo},
+            data: {idDispositivo: idDispositivo, nomeDispositivo: nomeDispositivo, ativo: ativo},
             fnSucess: fnAfterClickBotaoConfirmar
         });
     },

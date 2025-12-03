@@ -30,7 +30,7 @@ class ControllerPainelAdministrador extends Controller {
      */
     public function getSetores() {
         $setores = [];
-        $result = Query::select('setor', ['*']);
+        $result = Query::select('setor', ['*'], [], [], ['id asc']);
 
         if ($result) {
             while ($setor = pg_fetch_assoc($result)) {
@@ -122,7 +122,8 @@ class ControllerPainelAdministrador extends Controller {
     public function inserirPergunta() {
         $idSetor = $_POST['idSetor'];
         $pergunta = $_POST['pergunta'];
-        Query::insertQueryPrepared('pergunta', ['id_setor', 'pergunta', 'ativa'], [$idSetor, $pergunta, 1]);
+        $ativa = $_POST['ativa'];
+        Query::insertQueryPrepared('pergunta', ['id_setor', 'pergunta', 'ativa'], [$idSetor, $pergunta, $ativa]);
     }
 
     /** Realiza o update de uma pergunta */
@@ -130,7 +131,8 @@ class ControllerPainelAdministrador extends Controller {
         parse_str(file_get_contents("php://input"), $_PUT);
         $idPergunta = $_PUT['idPergunta'];
         $questao = $_PUT['pergunta'];
-        Query::update('pergunta', ["pergunta = $1"], ["id = $2"], [$questao, $idPergunta]);
+        $ativa = $_PUT['ativa'];
+        Query::update('pergunta', ["pergunta = $1, ativa = $2"], ["id = $3"], [$questao, $ativa, $idPergunta]);
     }
 
     /** Realiza a exclusão de uma pergunta */
@@ -235,11 +237,14 @@ class ControllerPainelAdministrador extends Controller {
         $dispositivos = [];
         $sql = 'SELECT dispositivo.id
                      , dispositivo.nome
+                     , case when dispositivo.ativa = 1 then \'Sim\' ELSE \'Não\' END as ativo
+                     , dispositivo.ativa
                      , setor.id as idSetor
                      , setor.nome as setor
                   FROM dispositivo
                   JOIN setor
-                    ON setor.id = dispositivo.id_setor';
+                    ON setor.id = dispositivo.id_setor
+                 ORDER BY dispositivo.id asc';
         $result = Query::selectManual($sql);
 
         if ($result) {
@@ -255,7 +260,8 @@ class ControllerPainelAdministrador extends Controller {
     public function inserirDispositivo() {
         $idSetor = $_POST['idSetor'];
         $nomeDispositivo = $_POST['nomeDispositivo'];
-        Query::insertQueryPrepared('dispositivo', ['id_setor', 'nome', 'ativa'], [$idSetor, $nomeDispositivo, 1]);
+        $ativo = $_POST['ativo'];
+        Query::insertQueryPrepared('dispositivo', ['id_setor', 'nome', 'ativa'], [$idSetor, $nomeDispositivo, $ativo]);
     }
 
     /** Realiza o update de uma pergunta */
@@ -263,7 +269,8 @@ class ControllerPainelAdministrador extends Controller {
         parse_str(file_get_contents("php://input"), $_PUT);
         $idDispositivo = $_PUT['idDispositivo'];
         $nomeDispositivo = $_PUT['nomeDispositivo'];
-        Query::update('dispositivo', ["nome = $1"], ["id = $2"], [$nomeDispositivo, $idDispositivo]);
+        $ativo = $_PUT['ativo'];
+        Query::update('dispositivo', ["nome = $1, ativa = $2"], ["id = $3"], [$nomeDispositivo, $ativo, $idDispositivo]);
     }
 
     /** Realiza a exclusão de uma pergunta */

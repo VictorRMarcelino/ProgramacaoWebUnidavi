@@ -1,11 +1,11 @@
 var Ajax = {
 
     loadAjax: function(options) {
-        let setings = $.extend({
+        let settings = $.extend({
             async: false
         }, options);
 
-        $.ajax(setings).then(function(response) {
+        $.ajax(settings).then(function(response) {
             setTimeout(function() {
                 if (response != undefined && response != '') {
                     let resposta = JSON.parse(response);
@@ -16,7 +16,7 @@ var Ajax = {
                     }
                 }
     
-                setings.fnSucess.apply(this, [response]);
+                settings.fnSucess.apply(this, [response]);
             }, 1000)
         });
     }

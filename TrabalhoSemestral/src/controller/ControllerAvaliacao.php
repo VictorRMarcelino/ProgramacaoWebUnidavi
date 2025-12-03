@@ -4,6 +4,8 @@ namespace src\controller;
 
 use database\Query;
 use Illuminate\Http\Request;
+use src\enum\EnumDispositivo;
+use src\enum\EnumPergunta;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -26,7 +28,7 @@ class ControllerAvaliacao extends Controller {
      */
     public function getDispositivos() {
         $dispositivos = [];
-        $result = Query::select('dispositivo', ['*']);
+        $result = Query::select('dispositivo', ['*'], ['ativa = $1'], [EnumDispositivo::ATIVO_SIM]);
 
         if ($result) {
             while ($dispositivo = pg_fetch_assoc($result)) {
@@ -71,7 +73,7 @@ class ControllerAvaliacao extends Controller {
             $setor = $dispositivoBanco['id_setor'];
         }
 
-        $result = Query::select('pergunta', ['*'], ['id_setor = $1'], [$setor]);
+        $result = Query::select('pergunta', ['*'], ['id_setor = $1', 'ativa = $2'], [$setor, EnumPergunta::ATIVO_SIM]);
 
         if ($result) {
             while ($pergunta = pg_fetch_assoc($result)) {

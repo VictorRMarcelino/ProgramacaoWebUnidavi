@@ -1,6 +1,9 @@
 .navegacao {
     display: flex;
     align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    row-gap: 1rem;
     position: absolute;
     z-index: 99999;
     border-right: 1px solid black;

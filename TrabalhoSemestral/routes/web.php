@@ -8,7 +8,9 @@ $router->get('/avaliacao/dispositivos', '\src\controller\ControllerAvaliacao@get
 $router->get('/avaliacao/setores', '\src\controller\ControllerAvaliacao@getSetores');
 $router->get('/avaliacao/perguntas', '\src\controller\ControllerAvaliacao@getPerguntas');
 $router->post('/avaliacao/salvar', '\src\controller\ControllerAvaliacao@salvarAvaliacao');
+$router->get('/login', '\src\controller\ControllerLogin@getView');
 $router->get('/login/verificar', '\src\controller\ControllerLogin@login');
+$router->get('/login/deslogar', '\src\controller\ControllerLogin@deslogar');
 $router->get('/painelAdministrador', '\src\controller\ControllerPainelAdministrador@getView');
 $router->get('/painelAdministrador/setores', '\src\controller\ControllerPainelAdministrador@getSetores');
 $router->get('/painelAdministrador/perguntas', '\src\controller\ControllerPainelAdministrador@getPerguntasByIdSetor');

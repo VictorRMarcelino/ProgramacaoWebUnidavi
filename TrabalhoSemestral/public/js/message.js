@@ -2,21 +2,21 @@ var Message = {
 
     /**
      * Exibe uma mensagem
-     * @param {string} text 
-     * @param {function} fnOk 
+     * @param {object} options
      */
-    show: function(title, icon, text, fnOk) {
-        Swal.fire({
-            title: title,
-            icon: icon,
-            text: text,
+    show: function(options) {
+        let settings = $.extend({
+            title: 'Título',
+            icon: 'info',
+            text: 'Mensagem Base',
             target: document.body,
-        }).then((result) => {
-            if (fnOk == undefined) {
+        }, options);
+
+        Swal.fire(settings).then((result) => {
+            if (result.isConfirmed && options.fnOk != undefined) {
+                options.fnOk.apply(this, [result]);
                 return;
             }
-            
-            fnOk.apply(this, [result]);
         })
     },
 
@@ -25,7 +25,11 @@ var Message = {
      * @param {string} text 
      */
     error: function(text) {
-        Message.show('Erro', 'error', text);
+        Message.show({
+            title: 'Erro',
+            icon: 'error',
+            text: text,
+        });
     },
 
     /**
@@ -34,7 +38,12 @@ var Message = {
      * @param {function} fnOk 
      */
     success: function(text, fnOk) {
-        Message.show('Sucesso', 'success', text, fnOk);
+        Message.show({
+            title: 'Sucesso',
+            icon: 'success',
+            text: text,
+            fnOk: fnOk
+        });
     },
 
     /**
@@ -43,6 +52,27 @@ var Message = {
      * @param {function} fnOk 
      */
     warn: function(text, fnOk) {
-        Message.show('Alerta', 'warning', text, fnOk);
+        Message.show({
+            title: 'Alerta',
+            icon: 'warning',
+            text: text,
+            fnOk: fnOk
+        });
+    },
+
+    /**
+     * Exibe uma mensagem de alerta
+     * @param {string} text 
+     * @param {function} fnOk 
+     */
+    confirm: function(text, fnOk) {
+        Message.show({
+            title: 'Pergunta',
+            icon: 'question',
+            text: text,
+            fnOk: fnOk,
+            showCancelButton: true,
+            showCloseButton: true
+        });
     }
 }
