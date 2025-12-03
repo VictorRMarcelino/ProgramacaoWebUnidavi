@@ -11,8 +11,8 @@
     <link href="/ProgramacaoWebUnidavi/TrabalhoSemestral/public/css/modal.css" rel="stylesheet">
     <link href="/ProgramacaoWebUnidavi/TrabalhoSemestral/public/css/painelAdministrador.css" rel="stylesheet">
     <script src="/ProgramacaoWebUnidavi/TrabalhoSemestral/public/js/jquery.js"></script>
-    <script src="/ProgramacaoWebUnidavi/TrabalhoSemestral/public/js/message.js"></script>
-    <script src="/ProgramacaoWebUnidavi/TrabalhoSemestral/public/js/ajax.js"></script>
+    <script src="/ProgramacaoWebUnidavi/TrabalhoSemestral/public/js/message.min.js"></script>
+    <script src="/ProgramacaoWebUnidavi/TrabalhoSemestral/public/js/ajax.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>Voting</title>
@@ -23,7 +23,7 @@
             <span class="menu" id="menu" name="menu"></span>
         </header>
         <nav class="navegacao" id="navegacao" name="navegacao" role="navigation" aria-label="Navegação">
-            <span class="navegacaoItem">Avaliação</span role="navigation" aria-label="Navegação para Página de Avaliação">
+            <span class="navegacaoItem" id="navegacaoItemAvaliacao" name="navegacaoItemAvaliacao">Avaliação</span role="navigation" aria-label="Navegação para Página de Avaliação">
         </nav>
         <main>
             <section class="dashboard" name="dashboard" id="dashboard">
@@ -51,26 +51,14 @@
             <button class="btn btn-primary" name="modalFooterBotaoConfirmar" id="modalFooterBotaoConfirmar">Confirmar</button>
         </div>
     </section>
-    <div class="modalContentSetor">
-        <input type="text" class="form-control modalSetorIdSetor" name="modalSetorIdSetor" id="modalSetorIdSetor" readonly placeholder="Código">
-        <input type="text" class="form-control modalSetorNomeSetor" name="modalSetorNomeSetor" id="modalSetorNomeSetor" placeholder="Nome do Setor...">
-    </div>
-    <div class="modalContentPergunta">
-        <input type="text" class="form-control modalPerguntaId" name="modalPerguntaId" id="modalPerguntaId" readonly placeholder="Código">
-        <select class="modalPerguntaSetor" name="modalPerguntaSetor" id="modalPerguntaSetor"></select>
-        <textarea type="text" class="form-control modalPerguntaQuestao" name="modalPerguntaQuestao" id="modalPerguntaQuestao" placeholder="Informe a pergunta..."></textarea>
-    </div>
-    <div class="modalContentDispositivo">
-        <input type="text" class="form-control modalDispositivoId" name="modalDispositivoId" id="modalDispositivoId" readonly>
-        <select class="modalDispositivoSetor" name="modalDispositivoSetor" id="modalDispositivoSetor"></select>
-        <input type="text" class="form-control modalDispositivoNome" name="modalDispositivoNome" id="modalDispositivoNome" placeholder="Informe o nome do dispositivo...">
-    </div>
+
+    <!-- estrutura -->
     <div class="setores" id="setores" name="setores">
         <div class="menuSetores">
-            <button class="btn btn-success" id="btnIncluirSetor" name="btnIncluirSetor">Incluir</button>
+            <button class="btn btn-success" id="estruturabtnIncluirSetor" name="estruturabtnIncluirSetor">Incluir</button>
         </div>
         <div class="consulta">
-            <table id="tabelaSetores" name="tabelaSetores">
+            <table id="estruturatabelaSetores" name="estruturatabelaSetores">
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -83,20 +71,20 @@
             </table>
         </div>
         <div class="totalizadorConsulta">
-            <span class="totalSetores" id="totalSetores" name="totalSetores"></span>
+            <span class="totalSetores" id="estruturatotalSetores" name="estruturatotalSetores"></span>
         </div>
     </div>
     <div class="perguntas" id="perguntas" name="perguntas">
         <div class="filtrosPerguntas">
             <span>Setor:</span>
-            <select class="filtrosPerguntaslistaSetores" name="filtrosPerguntaslistaSetores" id="filtrosPerguntaslistaSetores"></select>
-            <button class="btn btn-primary" id="btnCarregarPerguntas" name="btnCarregarPerguntas">Pesquisar</button>
+            <select class="filtrosPerguntaslistaSetores" name="estruturafiltrosPerguntaslistaSetores" id="estruturafiltrosPerguntaslistaSetores"></select>
+            <button class="btn btn-primary" id="estruturabtnCarregarPerguntas" name="estruturabtnCarregarPerguntas">Pesquisar</button>
         </div>
         <div class="acoesPerguntas">
-            <button class="btn btn-success" id="btnIncluirPergunta" name="btnIncluirPergunta">Incluir</button>
+            <button class="btn btn-success" id="estruturabtnIncluirPergunta" name="estruturabtnIncluirPergunta">Incluir</button>
         </div>
         <div class="consulta">
-            <table class="tabelaPerguntas" id="tabelaPerguntas" name="tabelaPerguntas">
+            <table class="tabelaPerguntas" id="estruturatabelaPerguntas" name="estruturatabelaPerguntas">
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -109,31 +97,31 @@
             </table>
         </div>
         <div class="totalizadorConsulta">
-            <span class="totalPerguntas" id="totalPerguntas" name="totalPerguntas"></span>
+            <span class="totalPerguntas" id="estruturatotalPerguntas" name="estruturatotalPerguntas"></span>
         </div>
     </div>
     <div class="avaliacoes" id="avaliacoes" name="avaliacoes">
         <div class="filtrosAvaliacoes">
             <span>Setor:</span>
-            <select class="filtrosAvaliacoesListaSetores" name="filtrosAvaliacoesListaSetores" id="filtrosAvaliacoesListaSetores"></select>
-            <button class="btn btn-primary" id="btnCarregarAvaliacoes" name="btnCarregarAvaliacoes">Pesquisar</button>
+            <select class="filtrosAvaliacoesListaSetores" name="estruturafiltrosAvaliacoesListaSetores" id="estruturafiltrosAvaliacoesListaSetores"></select>
+            <button class="btn btn-primary" id="estruturabtnCarregarAvaliacoes" name="estruturabtnCarregarAvaliacoes">Pesquisar</button>
         </div>
         <div class="consulta">
-            <table class="tabelaAvaliacoes" id="tabelaAvaliacoes" name="tabelaAvaliacoes">
+            <table class="tabelaAvaliacoes" id="estruturatabelaAvaliacoes" name="estruturatabelaAvaliacoes">
                 <thead></thead>
                 <tbody></tbody>
             </table>
         </div>
         <div class="totalizadorConsulta">
-            <span class="totalAvaliacoes" id="totalAvaliacoes" name="totalAvaliacoes"></span>
+            <span class="totalAvaliacoes" id="estruturatotalAvaliacoes" name="estruturatotalAvaliacoes"></span>
         </div>
     </div>
     <div class="dispositivos" id="dispositivos" name="dispositivos">
         <div class="menuDispositivos">
-            <button class="btn btn-success" id="btnIncluirDipositivo" name="btnIncluirDispositivo">Incluir</button>
+            <button class="btn btn-success" id="estruturabtnIncluirDipositivo" name="estruturabtnIncluirDispositivo">Incluir</button>
         </div>
         <div class="consulta">
-            <table id="tabelaDispositivos" name="tabelaDispositivos">
+            <table id="estruturatabelaDispositivos" name="estruturatabelaDispositivos">
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -147,10 +135,24 @@
             </table>
         </div>
         <div class="totalizadorConsulta">
-            <span class="totalDispositivos" id="totalDispositivos" name="totalDispositivos"></span>
+            <span class="totalDispositivos" id="estruturatotalDispositivos" name="estruturatotalDispositivos"></span>
         </div>
     </div>
-    <script src="/ProgramacaoWebUnidavi/TrabalhoSemestral/public/js/header.js"></script>
+    <div class="modalContentSetor" id="modalContentSetor" name="modalContentSetor">
+        <input type="text" class="form-control modalSetorIdSetor" name="estruturamodalSetorIdSetor" id="estruturamodalSetorIdSetor" readonly placeholder="Código">
+        <input type="text" class="form-control modalSetorNomeSetor" name="estruturamodalSetorNomeSetor" id="estruturamodalSetorNomeSetor" placeholder="Nome do Setor...">
+    </div>
+    <div class="modalContentPergunta" id="modalContentPergunta" name="modalContentPergunta">
+        <input type="text" class="form-control modalPerguntaId" name="estruturamodalPerguntaId" id="estruturamodalPerguntaId" readonly placeholder="Código">
+        <select class="modalPerguntaSetor" name="estruturamodalPerguntaSetor" id="estruturamodalPerguntaSetor"></select>
+        <textarea type="text" class="form-control modalPerguntaQuestao" name="estruturamodalPerguntaQuestao" id="estruturamodalPerguntaQuestao" placeholder="Informe a pergunta..."></textarea>
+    </div>
+    <div class="modalContentDispositivo" id="modalContentDispositivo" name="modalContentDispositivo">
+        <input type="text" class="form-control modalDispositivoId" name="estruturamodalDispositivoId" id="estruturamodalDispositivoId" readonly>
+        <select class="modalDispositivoSetor" name="estruturamodalDispositivoSetor" id="estruturamodalDispositivoSetor"></select>
+        <input type="text" class="form-control modalDispositivoNome" name="estruturamodalDispositivoNome" id="estruturamodalDispositivoNome" placeholder="Informe o nome do dispositivo...">
+    </div>
+    <script src="/ProgramacaoWebUnidavi/TrabalhoSemestral/public/js/header.min.js"></script>
     <script src="/ProgramacaoWebUnidavi/TrabalhoSemestral/public/js/painelAdministrador.js"></script>
 </body>
 </html>

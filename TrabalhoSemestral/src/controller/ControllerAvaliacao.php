@@ -61,8 +61,16 @@ class ControllerAvaliacao extends Controller {
      * @return Response
      */
     public function getPerguntas() {
-        $setor = $_GET['setor'];
+        $dispositivo = $_GET['dispositivo'];
         $perguntas = [];
+
+        $result = Query::select('dispositivo', ['id_setor'], ['id = $1'], [$dispositivo]);
+
+        if ($result) {
+            $dispositivoBanco = pg_fetch_assoc($result);
+            $setor = $dispositivoBanco['id_setor'];
+        }
+
         $result = Query::select('pergunta', ['*'], ['id_setor = $1'], [$setor]);
 
         if ($result) {
@@ -83,9 +91,17 @@ class ControllerAvaliacao extends Controller {
         Query::begin();
         $dataAtual = date('d-m-Y');
         $respostas = $_POST;
-        $setor = array_pop($respostas);
+        $dispositivo = array_pop($respostas);
+
+        $result = Query::select('dispositivo', ['id_setor'], ['id = $1'], [$dispositivo]);
+
+        if ($result) {
+            $dispositivoBanco = pg_fetch_assoc($result);
+            $setor = $dispositivoBanco['id_setor'];
+        }
+
         $feedback = array_pop($respostas);
-        $idAvaliacao = Query::insertQueryPreparedReturningColumn('avaliacao', ['feedback', 'datahora', 'id_setor', 'id_dispositivo'], [$feedback, $dataAtual, $setor, 1], 'ID');
+        $idAvaliacao = Query::insertQueryPreparedReturningColumn('avaliacao', ['feedback', 'datahora', 'id_setor', 'id_dispositivo'], [$feedback, $dataAtual, $setor, $dispositivo], 'ID');
         
         foreach ($respostas as $numeroPergunta => $resposta) {
             Query::insertQueryPrepared('respostas', ['id_avaliacao', 'id_pergunta', 'resposta'], [$idAvaliacao, $numeroPergunta, $resposta]);

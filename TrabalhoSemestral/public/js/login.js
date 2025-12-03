@@ -7,7 +7,7 @@ var Login = {
 
     /** Carrega os comportamentos iniciais dos componentes */
     loadScripts: function() {
-        $('#atalhoAvaliacao').on('click', Login.onClickBotaoAvalicao);
+        $('#navegacaoItemAvaliacao').on('click', Login.onClickBotaoAvalicao);
         $('#btnAcessar').on('click', Login.onClickBotaoAcessar);
     },
 

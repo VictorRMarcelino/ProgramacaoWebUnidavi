@@ -22,7 +22,7 @@ var Avaliacao = {
         $('#btnStartQuiz').on('click', Avaliacao.onClickStartQuiz);
         $('.button').on('click', Avaliacao.onClickButtonAnswer);
         $('#btnFinalizarAvaliacao').on('click', Avaliacao.salvaQuestionario);
-        $('#areaPainelAdm').on('click', Avaliacao.onClickBotaoPainelAdministrador);
+        $('#navegacaoItemPainelAdm').on('click', Avaliacao.onClickBotaoPainelAdministrador);
     },
 
     onClickBotaoPainelAdministrador: function() {
@@ -31,23 +31,9 @@ var Avaliacao = {
 
     /**
      * ================================================================================================================================ 
-     * =====================================================  DEFINIÇÃO DO SETOR ====================================================== 
+     * ===================================================  DEFINIÇÃO DO DISPOSITIVO ==\================================================
      * ================================================================================================================================ 
      */
-
-    /** Comportamento chamado ao clicar no botão "Definir Setor" */
-    onClickBotaoDefinirDispositivo: function() {
-        let dispositivo = $('#listaDispositivos').val();
-
-        if (dispositivo == 0) {
-            Message.warn('É necessário selecionar um setor para poder prosseguir.');
-            $('#listaDispositivos').focus();
-            return;
-        }
-
-        Cookies.set('dispositivo', dispositivo, { expires: 1});
-        Avaliacao.carregaPerguntas(dispositivo);
-    },
 
     /** Realiza o carregamento dos setores disponíveis */
     carregaDispositivos: function() {
@@ -71,20 +57,34 @@ var Avaliacao = {
         });
     },
 
+    /** Comportamento chamado ao clicar no botão "Definir Dispositivo" */
+    onClickBotaoDefinirDispositivo: function() {
+        let dispositivo = $('#listaDispositivos').val();
+
+        if (dispositivo == 0) {
+            Message.warn('É necessário selecionar um dispositivo para poder prosseguir.');
+            $('#listaDispositivos').focus();
+            return;
+        }
+
+        Cookies.set('dispositivo', dispositivo, { expires: 7});
+        Avaliacao.carregaPerguntas(dispositivo);
+    },
+
     /** Carrega as perguntas do formulário */
-    carregaPerguntas: function(setor) {
+    carregaPerguntas: function(dispositivo) {
         let fnSalvarPerguntas = function(response) {
             let perguntas = JSON.parse(response);
             Avaliacao.questoes = perguntas;
             Avaliacao.perguntaAtual = parseInt(Object.keys(perguntas)[0]);
-            $('#definirSetor').css('display', 'none');
+            $('#definirDispositivo').css('display', 'none');
             $('#startQuiz').css('display', 'flex');
         }
 
         Ajax.loadAjax({
             url: 'http://localhost/ProgramacaoWebUnidavi/TrabalhoSemestral/public/avaliacao/perguntas',
             method: 'get',
-            data: {setor: setor},
+            data: {dispositivo: dispositivo},
             fnSucess: fnSalvarPerguntas
         });
     },
@@ -131,7 +131,7 @@ var Avaliacao = {
     /** Salva a avaliação */
     salvaQuestionario: function() {
         Avaliacao.respostas['feedback'] = $('#textoFeedback')[0].value;
-        Avaliacao.respostas['setor'] = Cookies.get('setor');
+        Avaliacao.respostas['dispositivo'] = Cookies.get('dispositivo');
 
         let fnExibirMensagemSucesso = function() {
             let mensagemSucesso = 'Avaliação de Qualidade Finalizada! O Estabelecimento agradece sua resposta e ela é muito importante para nós, pois nos ajuda a melhorar continuamente nossos serviços.O Estabelecimento agradece sua resposta e ela é muito importante para nós, pois nos ajuda a melhorar continuamente nossos serviços.';

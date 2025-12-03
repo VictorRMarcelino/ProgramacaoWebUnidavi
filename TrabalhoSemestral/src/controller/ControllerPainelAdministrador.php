@@ -175,7 +175,7 @@ class ControllerPainelAdministrador extends Controller {
     public function getAvaliacoesByIdSetor() {
         $idSetor = $_GET['idSetor'];
         $perguntas = [];
-        $result = Query::selectManual('pergunta', ['*'], ['id_setor = $1'], [$idSetor], ['id asc']);
+        $result = Query::select('pergunta', ['id'], ['id_setor = $1'], [$idSetor], ['id asc']);
 
         if ($result) {
             while ($pergunta = pg_fetch_assoc($result)) {
@@ -183,7 +183,42 @@ class ControllerPainelAdministrador extends Controller {
             }
         }
 
-        return new Response(json_encode($perguntas));
+        $colunasRespostas = [];
+
+        foreach ($perguntas as $pergunta) {
+            $colunasRespostas[] = 'MAX(CASE WHEN respostas.id_pergunta = ' . $pergunta['id'] . ' THEN respostas.resposta END) AS P' . $pergunta['id'];
+        }
+
+        $sqlRespostaAvaliacao = 'SELECT avaliacao.id AS avaliacao
+                                      , AVG(respostas.resposta) mediaAvaliacao
+                                      , ' . implode(', ', $colunasRespostas)
+                               . ' FROM respostas
+                                   JOIN avaliacao ON avaliacao.id = respostas.id_avaliacao
+                                  WHERE avaliacao.id_setor = $1
+                                  GROUP BY avaliacao.id
+                                  ORDER BY avaliacao.id';
+
+        $result = Query::selectManual($sqlRespostaAvaliacao, [$idSetor]);
+        $respostaAvaliacao = [];
+
+        if ($result) {
+            while ($avaliacao = pg_fetch_assoc($result)) {
+                $avaliacao['mediaavaliacao'] = floor($avaliacao['mediaavaliacao']);
+
+                foreach ($avaliacao as $index => $valor) {
+
+                    if (preg_match('/^p[0-9]{1,}/', $index) && is_null($valor)) {
+                        $avaliacao[$index] = 'N/R';
+                    }
+                }
+
+                $respostaAvaliacao[] = $avaliacao;
+            }
+        }
+
+        $retorno = ['perguntas' => $perguntas, 'avaliacoes' => $respostaAvaliacao];
+
+        return new Response(json_encode($retorno));
     }
 
     /**
