@@ -67,7 +67,7 @@ var Avaliacao = {
             return;
         }
 
-        Cookies.set('dispositivo', dispositivo, { expires: 7});
+        Cookies.set('dispositivo', dispositivo);
         Avaliacao.carregaPerguntas(dispositivo);
     },
 

@@ -3,6 +3,7 @@
 namespace src\controller;
 
 use database\Query;
+use Exception;
 use Illuminate\Http\Request;
 use src\enum\EnumDispositivo;
 use src\enum\EnumPergunta;
@@ -103,6 +104,11 @@ class ControllerAvaliacao extends Controller {
         }
 
         $feedback = htmlspecialchars(array_pop($respostas), ENT_QUOTES, 'UTF-8');
+
+        if (strlen($feedback) > 100) {
+            throw new Exception('O feedback não pode ter mais do que 100 caracteres.');
+        }
+
         $idAvaliacao = Query::insertQueryPreparedReturningColumn('avaliacao', ['feedback', 'datahora', 'id_setor', 'id_dispositivo'], [$feedback, $dataAtual, $setor, $dispositivo], 'ID');
         
         foreach ($respostas as $numeroPergunta => $resposta) {

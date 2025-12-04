@@ -434,7 +434,6 @@ var PainelAdministrador = {
             colunas += '<td>Média Avaliação</td>';
             $('#tabelaAvaliacoes > thead').append(colunas);
 
-
             for (let i = 0; i < avaliacoes.length; i++) {
                 let novaLinhaAvaliacao = `<tr><td>${avaliacoes[i]['avaliacao']}</td>`;
 
@@ -454,15 +453,17 @@ var PainelAdministrador = {
                 $('#tabelaAvaliacoes > tbody').append(novaLinhaAvaliacao);
             }
 
-            let linhaMediaRespostas = '<tr><td>Média Respostas</td>'
-
-            for (let i = 0; i < perguntas.length; i++) {
-                let idPergunta = perguntas[i]['id'];
-                linhaMediaRespostas += '<td>' + Math.floor((mediaPergunta[idPergunta].media / mediaPergunta[idPergunta].quantidadeAvaliacoes)) + '</td>';
+            if (avaliacoes.length) {
+                let linhaMediaRespostas = '<tr><td>Média Respostas</td>'
+                
+                for (let i = 0; i < perguntas.length; i++) {
+                    let idPergunta = perguntas[i]['id'];
+                    linhaMediaRespostas += '<td>' + Math.floor((mediaPergunta[idPergunta].media / mediaPergunta[idPergunta].quantidadeAvaliacoes)) + '</td>';
+                }
+    
+                linhaMediaRespostas += '</tr>';
+                $('#tabelaAvaliacoes > tbody').append(linhaMediaRespostas);
             }
-
-            linhaMediaRespostas += '</tr>';
-            $('#tabelaAvaliacoes > tbody').append(linhaMediaRespostas);
 
             $('#totalAvaliacoes')[0].innerHTML = 'Total: ' + avaliacoes.length;
             $('#tabelaAvaliacoes').css('display', 'table');
