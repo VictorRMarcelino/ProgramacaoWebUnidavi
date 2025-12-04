@@ -28,7 +28,7 @@ class ControllerAvaliacao extends Controller {
      */
     public function getDispositivos() {
         $dispositivos = [];
-        $result = Query::select('dispositivo', ['*'], ['ativa = $1'], [EnumDispositivo::ATIVO_SIM]);
+        $result = Query::select('dispositivo', ['*'], ['ativa = $1'], [EnumDispositivo::ATIVO_SIM], ['id asc']);
 
         if ($result) {
             while ($dispositivo = pg_fetch_assoc($result)) {
@@ -102,7 +102,7 @@ class ControllerAvaliacao extends Controller {
             $setor = $dispositivoBanco['id_setor'];
         }
 
-        $feedback = array_pop($respostas);
+        $feedback = htmlspecialchars(array_pop($respostas), ENT_QUOTES, 'UTF-8');
         $idAvaliacao = Query::insertQueryPreparedReturningColumn('avaliacao', ['feedback', 'datahora', 'id_setor', 'id_dispositivo'], [$feedback, $dataAtual, $setor, $dispositivo], 'ID');
         
         foreach ($respostas as $numeroPergunta => $resposta) {

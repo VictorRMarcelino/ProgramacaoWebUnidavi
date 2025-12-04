@@ -22,8 +22,8 @@ class ControllerLogin extends Controller {
     /** Realiza o login no sistema de administrador */
     public function login() {
         $logado = false;
-        $usuario = $_GET['usuario'];
-        $senha = $_GET['senha'];
+        $usuario = filter_var($_GET['usuario'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $senha = filter_var($_GET['senha'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
         $result = Query::select('administrador', ['usuario', 'senha'], ['usuario = $1'], [filter_var($usuario, FILTER_SANITIZE_STRING)]);
 
