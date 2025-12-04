@@ -24,17 +24,17 @@
             <span class="menu" id="menu" name="menu"></span>
         </header>
         <nav class="navegacao" id="navegacao" name="navegacao" role="navigation" aria-label="Navegação">
-            <span class="navegacaoItem" id="navegacaoItemAvaliacao" name="navegacaoItemAvaliacao">Avaliação</span role="navigation" aria-label="Navegação para Página de Avaliação">
-            <span class="navegacaoItem" id="navegacaoItemResetarEscolhaDispositivo" name="navegacaoItemResetarEscolhaDispositivo">Resetar Escolha Dispositivo</span role="button" aria-label="Reseta a Escolha do Dispositivo Para a Avaliação">
-            <span class="navegacaoItem" id="navegacaoItemDeslogar" name="navegacaoItemDeslogar">Deslogar</span role="navigation" aria-label="Desloga do Painel do Administrador">
+            <span class="navegacaoItem" id="navegacaoItemAvaliacao" name="navegacaoItemAvaliacao" role="navigation" aria-label="Navegação para Página de Avaliação">Avaliação</span>
+            <span class="navegacaoItem" id="navegacaoItemResetarEscolhaDispositivo" name="navegacaoItemResetarEscolhaDispositivo" role="button" aria-label="Reseta a Escolha do Dispositivo Para a Avaliação">Resetar Escolha Dispositivo</span>
+            <span class="navegacaoItem" id="navegacaoItemDeslogar" name="navegacaoItemDeslogar" role="navigation" aria-label="Desloga do Painel do Administrador">Deslogar</span>
         </nav>
         <main>
             <section class="dashboard" name="dashboard" id="dashboard">
                 <div class="dashboardMenu">
-                    <span class="dashboardMenuOption" id="dashboardMenuOptionSetores" name="dashboardMenuOptionSetores">Setores</span>
-                    <span class="dashboardMenuOption" id="dashboardMenuOptionDispositivos" name="dashboardMenuOptionDispositivos">Dispositivos</span>
-                    <span class="dashboardMenuOption" id="dashboardMenuOptionPerguntas" name="dashboardMenuPerguntas">Perguntas</span>
-                    <span class="dashboardMenuOption" id="dashboardMenuOptionAvaliacoes" name="dashboardMenuOptionAvaliacoes">Avaliações</span>
+                    <span class="dashboardMenuOption" id="dashboardMenuOptionSetores" name="dashboardMenuOptionSetores" aria-label="Menu Setores" role="button">Setores</span>
+                    <span class="dashboardMenuOption" id="dashboardMenuOptionDispositivos" name="dashboardMenuOptionDispositivos" aria-label="Menu Dispositivos" role="button">Dispositivos</span>
+                    <span class="dashboardMenuOption" id="dashboardMenuOptionPerguntas" name="dashboardMenuPerguntas" aria-label="Menu Perguntas" role="button">Perguntas</span>
+                    <span class="dashboardMenuOption" id="dashboardMenuOptionAvaliacoes" name="dashboardMenuOptionAvaliacoes" aria-label="Menu Avaliações" role="button">Avaliações</span>
                 </div>
                 <div class="dashboardMenuItens" id="dashboardMenuItens" name="dashboardMenuItens"></div>
             </section>
@@ -46,28 +46,28 @@
                 <span class="modalHeaderTitulo" id="modalHeaderTitulo" name="modalHeaderTitulo"></span>
             </div>
             <div class="modalHeaderAcoes">
-                <button class="btn btn-danger" name="modalHeaderAcoesFechar" id="modalHeaderAcoesFechar">X</button>
+                <button class="btn btn-danger" name="modalHeaderAcoesFechar" id="modalHeaderAcoesFechar" role="button" aria-label="Fechar Janela">X</button>
             </div>
         </div>
         <div class="modalContent" name="modalContent" id="modalContent"></div>
         <div class="modalFooter" name="modalFooter" id="modalFooter">
-            <button class="btn btn-primary" name="modalFooterBotaoConfirmar" id="modalFooterBotaoConfirmar">Confirmar</button>
+            <button class="btn btn-primary" name="modalFooterBotaoConfirmar" id="modalFooterBotaoConfirmar" role="button" aria-label="Confirmar Janela">Confirmar</button>
         </div>
     </section>
 
     <!-- estrutura -->
     <div class="setores" id="setores" name="setores">
         <div class="menuSetores">
-            <button class="btn btn-success" id="estruturabtnIncluirSetor" name="estruturabtnIncluirSetor">Incluir</button>
+            <button class="btn btn-success" id="estruturabtnIncluirSetor" name="estruturabtnIncluirSetor" role="button" aria-label="Incluir Setor">Incluir</button>
         </div>
-        <div class="consulta">
-            <table id="estruturatabelaSetores" name="estruturatabelaSetores">
+        <div class="consulta" aria-label="Consulta de Setores">
+            <table id="estruturatabelaSetores" name="estruturatabelaSetores" role="table">
                 <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>Nome</th>
-                        <th>Alterar</th>
-                        <th>Excluir</th>
+                        <th scope="col">ID</th>
+                        <th scope="col">Nome</th>
+                        <th scope="col">Alterar</th>
+                        <th scope="col">Excluir</th>
                     </tr>
                 </thead>
                 <tbody></tbody>
@@ -81,20 +81,20 @@
         <div class="filtrosPerguntas">
             <span>Setor:</span>
             <select class="filtrosPerguntaslistaSetores" name="estruturafiltrosPerguntaslistaSetores" id="estruturafiltrosPerguntaslistaSetores"></select>
-            <button class="btn btn-primary" id="estruturabtnCarregarPerguntas" name="estruturabtnCarregarPerguntas">Pesquisar</button>
+            <button class="btn btn-primary" id="estruturabtnCarregarPerguntas" name="estruturabtnCarregarPerguntas" role="button" aria-label="Pesquisar Perguntas">Pesquisar</button>
         </div>
         <div class="acoesPerguntas">
-            <button class="btn btn-success" id="estruturabtnIncluirPergunta" name="estruturabtnIncluirPergunta">Incluir</button>
+            <button class="btn btn-success" id="estruturabtnIncluirPergunta" name="estruturabtnIncluirPergunta" role="button" aria-label="Incluir Pergunta">Incluir</button>
         </div>
-        <div class="consulta">
-            <table class="tabelaPerguntas" id="estruturatabelaPerguntas" name="estruturatabelaPerguntas">
+        <div class="consulta" aria-label="Consulta de Perguntas">
+            <table class="tabelaPerguntas" id="estruturatabelaPerguntas" name="estruturatabelaPerguntas" role="table">
                 <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>Pergunta</th>
-                        <th>Ativo</th>
-                        <th>Alterar</th>
-                        <th>Excluir</th>
+                        <th scope="col">ID</th>
+                        <th scope="col">Pergunta</th>
+                        <th scope="col">Ativo</th>
+                        <th scope="col">Alterar</th>
+                        <th scope="col">Excluir</th>
                     </tr>
                 </thead>
                 <tbody></tbody>
@@ -110,8 +110,8 @@
             <select class="filtrosAvaliacoesListaSetores" name="estruturafiltrosAvaliacoesListaSetores" id="estruturafiltrosAvaliacoesListaSetores"></select>
             <button class="btn btn-primary" id="estruturabtnCarregarAvaliacoes" name="estruturabtnCarregarAvaliacoes">Pesquisar</button>
         </div>
-        <div class="consulta">
-            <table class="tabelaAvaliacoes" id="estruturatabelaAvaliacoes" name="estruturatabelaAvaliacoes">
+        <div class="consulta" aria-label="Consulta de Avaliações">
+            <table class="tabelaAvaliacoes" id="estruturatabelaAvaliacoes" name="estruturatabelaAvaliacoes" role="table">
                 <thead></thead>
                 <tbody></tbody>
             </table>
@@ -124,16 +124,16 @@
         <div class="menuDispositivos">
             <button class="btn btn-success" id="estruturabtnIncluirDipositivo" name="estruturabtnIncluirDispositivo">Incluir</button>
         </div>
-        <div class="consulta">
-            <table id="estruturatabelaDispositivos" name="estruturatabelaDispositivos">
+        <div class="consulta" aria-label="Consulta de Dispositivos">
+            <table id="estruturatabelaDispositivos" name="estruturatabelaDispositivos" role="table">
                 <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>Nome</th>
-                        <th>Ativo</th>
-                        <th>Setor</th>
-                        <th>Alterar</th>
-                        <th>Excluir</th>
+                        <th scope="col">ID</th>
+                        <th scope="col">Nome</th>
+                        <th scope="col">Ativo</th>
+                        <th scope="col">Setor</th>
+                        <th scope="col">Alterar</th>
+                        <th scope="col">Excluir</th>
                     </tr>
                 </thead>
                 <tbody></tbody>
@@ -144,26 +144,26 @@
         </div>
     </div>
     <div class="modalContentSetor" id="modalContentSetor" name="modalContentSetor">
-        <input type="text" class="form-control modalSetorIdSetor" name="estruturamodalSetorIdSetor" id="estruturamodalSetorIdSetor" readonly placeholder="Código">
-        <input type="text" class="form-control modalSetorNomeSetor" name="estruturamodalSetorNomeSetor" id="estruturamodalSetorNomeSetor" placeholder="Nome do Setor...">
+        <input type="text" class="form-control modalSetorIdSetor" name="estruturamodalSetorIdSetor" id="estruturamodalSetorIdSetor" readonly placeholder="Código" role="text">
+        <input type="text" class="form-control modalSetorNomeSetor" name="estruturamodalSetorNomeSetor" id="estruturamodalSetorNomeSetor" placeholder="Nome do Setor..." role="text">
     </div>
     <div class="modalContentPergunta" id="modalContentPergunta" name="modalContentPergunta">
-        <input type="text" class="form-control modalPerguntaId" name="estruturamodalPerguntaId" id="estruturamodalPerguntaId" readonly placeholder="Código">
+        <input type="text" class="form-control modalPerguntaId" name="estruturamodalPerguntaId" id="estruturamodalPerguntaId" readonly placeholder="Código" role="text">
         <select class="modalPerguntaSetor" name="estruturamodalPerguntaSetor" id="estruturamodalPerguntaSetor"></select>
         <select class="modalDispositivoAtivo" name="estruturamodalPerguntaAtivo" id="estruturamodalPerguntaAtivo">
-            <option value="0">Não</option>
-            <option value="1">Sim</option>
+            <option value="0" role="option">Não</option>
+            <option value="1" role="option">Sim</option>
         </select>
-        <textarea type="text" class="form-control modalPerguntaQuestao" name="estruturamodalPerguntaQuestao" id="estruturamodalPerguntaQuestao" placeholder="Informe a pergunta..."></textarea>
+        <textarea type="text" class="form-control modalPerguntaQuestao" name="estruturamodalPerguntaQuestao" id="estruturamodalPerguntaQuestao" placeholder="Informe a pergunta..." role="textbox"></textarea>
     </div>
     <div class="modalContentDispositivo" id="modalContentDispositivo" name="modalContentDispositivo">
-        <input type="text" class="form-control modalDispositivoId" name="estruturamodalDispositivoId" id="estruturamodalDispositivoId" readonly>
-        <select class="modalDispositivoSetor" name="estruturamodalDispositivoSetor" id="estruturamodalDispositivoSetor"></select>
-        <select class="modalDispositivoAtivo" name="estruturamodalDispositivoAtivo" id="estruturamodalDispositivoAtivo">
-            <option value="0">Não</option>
-            <option value="1">Sim</option>
+        <input type="text" class="form-control modalDispositivoId" name="estruturamodalDispositivoId" id="estruturamodalDispositivoId" readonly role="text" aria-label="Código do Dispositivo">
+        <select class="modalDispositivoSetor" name="estruturamodalDispositivoSetor" id="estruturamodalDispositivoSetor" aria-label="Setor do Dispositivo"></select>
+        <select class="modalDispositivoAtivo" name="estruturamodalDispositivoAtivo" id="estruturamodalDispositivoAtivo" aria-label="Status do Dispositivo">
+            <option value="0" role="option">Não</option>
+            <option value="1" role="option">Sim</option>
         </select>
-        <input type="text" class="form-control modalDispositivoNome" name="estruturamodalDispositivoNome" id="estruturamodalDispositivoNome" placeholder="Informe o nome do dispositivo...">
+        <input type="text" class="form-control modalDispositivoNome" name="estruturamodalDispositivoNome" id="estruturamodalDispositivoNome" placeholder="Informe o nome do dispositivo..." role="text">
     </div>
     <script src="/ProgramacaoWebUnidavi/TrabalhoSemestral/public/js/header.min.js"></script>
     <script src="/ProgramacaoWebUnidavi/TrabalhoSemestral/public/js/painelAdministrador.min.js"></script>

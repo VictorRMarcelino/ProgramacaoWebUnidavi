@@ -24,13 +24,13 @@
             <span class="menu" id="menu" name="menu"></span>
         </header>
         <nav class="navegacao" id="navegacao" name="navegacao" role="navigation" aria-label="Navegação">
-            <span class="navegacaoItem" id="navegacaoItemPainelAdm" name="navegacaoItemPainelAdm">Painel do Administrador</span role="navigation" aria-label="Navegação para Página de Avaliação">
+            <span class="navegacaoItem" id="navegacaoItemPainelAdm" name="navegacaoItemPainelAdm" role="navigation" aria-label="Navegação para Página de Avaliação">Painel do Administrador</span>
         </nav>
         <main>
             <div class="definirDispositivo" id="definirDispositivo" name="definirDispositivo">
                 <span class="definirDispositivoTitulo" role="heading">Dispositivo:</span>
-                <select class="form-select" name="listaDispositivos" id="listaDispositivos"></select>
-                <button class="btn btn-primary" id="btnDefinirDispositivo" name="btnDefinirDispositivo">Definir Dispositivo</button>
+                <select class="form-select" name="listaDispositivos" id="listaDispositivos" aria-label="Lista de Dispositivos Disponíveis"></select>
+                <button class="btn btn-primary" id="btnDefinirDispositivo" name="btnDefinirDispositivo" aria-label="Definir Dispositivo da Avaliação">Definir Dispositivo</button>
             </div>
             <div class="startQuiz" id="startQuiz" nam="startQuiz">
                 <h4 role="heading">Avaliação de Serviço</h4>
@@ -41,23 +41,23 @@
                     <h2 class="textQuestion" id="question" name="question" role="heading"></h2>
                 </div>
                 <div class="buttons">
-                    <button class="button btn0" value="0" role="button">0</button>
-                    <button class="button btn1" value="1" role="button">1</button>
-                    <button class="button btn2" value="2" role="button">2</button>
-                    <button class="button btn3" value="3" role="button">3</button>
-                    <button class="button btn4" value="4" role="button">4</button>
-                    <button class="button btn5" value="5" role="button">5</button>
-                    <button class="button btn6" value="6" role="button">6</button>
-                    <button class="button btn7" value="7" role="button">7</button>
-                    <button class="button btn8" value="8" role="button">8</button>
-                    <button class="button btn9" value="9" role="button">9</button>
-                    <button class="button btn10" value="10" role="button">10</button>
+                    <button class="button btn0" value="0" role="button" aria-label="Nota 0">0</button>
+                    <button class="button btn1" value="1" role="button" aria-label="Nota 1">1</button>
+                    <button class="button btn2" value="2" role="button" aria-label="Nota 2">2</button>
+                    <button class="button btn3" value="3" role="button" aria-label="Nota 3">3</button>
+                    <button class="button btn4" value="4" role="button" aria-label="Nota 4">4</button>
+                    <button class="button btn5" value="5" role="button" aria-label="Nota 5">5</button>
+                    <button class="button btn6" value="6" role="button" aria-label="Nota 6">6</button>
+                    <button class="button btn7" value="7" role="button" aria-label="Nota 7">7</button>
+                    <button class="button btn8" value="8" role="button" aria-label="Nota 8">8</button>
+                    <button class="button btn9" value="9" role="button" aria-label="Nota 9">9</button>
+                    <button class="button btn10" value="10" role="button" aria-label="Nota 10">10</button>
                 </div>
             </div>
             <div class="feedback" id="feedback" nam="feedback">
                 <h2 class="feedbackTitulo" role="heading">Avaliação Concluída</h2>
                 <h2 class="feedbackTitulo" role="heading">Pode nos contar como foi sua experiência? Seu feedback nos ajuda a melhorar continuamente nossos padrões de qualidade. (Opcional)</h2>
-                <textarea class="textoFeedback" name="textoFeedback" id="textoFeedback" maxlength="160" placeholder="Deixe seu feedback em até 160 caracteres" role="textbox"></textarea>
+                <textarea class="textoFeedback" name="textoFeedback" id="textoFeedback" maxlength="160" placeholder="Deixe seu feedback em até 160 caracteres" role="textbox" aria-label="Texto do Feedback"></textarea>
                 <input name="btnFinalizarAvaliacao" id="btnFinalizarAvaliacao" type="submit" value="Finalizar Avaliação" class="btn btn-primary" role="button">
             </div>
         </main>
